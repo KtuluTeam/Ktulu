@@ -14,22 +14,22 @@ initialFactionSizesState = {
 initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore' },
-    { role: 'sheriff' },
-    { role: 'pastor' },
-    { role: 'goodGunslinger' },
-    { role: 'insuranceAgent' }
+    { role: 'whore', faction: 'citizens' },
+    { role: 'sheriff', faction: 'citizens' },
+    { role: 'pastor', faction: 'citizens' },
+    { role: 'goodGunslinger', faction: 'citizens' },
+    { role: 'insuranceAgent', faction: 'citizens' }
   ],
   bandits: [
-    { role: 'evilGunslinger' },
-    { role: 'rook' },
-    { role: 'thief' },
-    { role: 'banditLeader' }
+    { role: 'evilGunslinger', faction: 'bandit' },
+    { role: 'rook', faction: 'bandit' },
+    { role: 'thief', faction: 'bandit' },
+    { role: 'banditLeader', faction: 'bandit' }
   ],
   indians: [
-    { role: 'solitaryCoyote' },
-    { role: 'warrior' },
-    { role: 'shaman' }
+    { role: 'solitaryCoyote', faction: 'indians' },
+    { role: 'warrior', faction: 'indians' },
+    { role: 'shaman', faction: 'indians' }
   ]
 }
 
@@ -110,13 +110,18 @@ showCard = (state, action) => {
         index: state.index + 1,
         step: 'HIDDEN_CARD'
       }
+    case 'NAME_INPUT':
+      return {
+        ...state,
+        cards: state.cards.slice(0, state.index).concat([{
+          ...state.cards[state.index],
+          name: action.name
+        }]).concat(state.cards.slice(state.index + 1, state.number))
+      }
     default:
       return state
   }
 }
-
-
-
 
 export const setup = (state, action) => {
   switch (state.step) {

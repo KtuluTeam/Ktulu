@@ -11,7 +11,8 @@ mapStateToProps = ({index, number, cards}) => {
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: () => { dispatch({ type: 'SUBMIT' }) }
+    onSubmit: () => { dispatch({ type: 'SUBMIT' }) },
+    onChangeName: (name) => { dispatch({ type: 'NAME_INPUT', name: name}) }
   }
 }
 
