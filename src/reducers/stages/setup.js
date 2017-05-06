@@ -22,7 +22,7 @@ initialFactionCardsState = {
   ],
   bandits: [
     { role: 'evilGunslinger', faction: 'bandits' },
-    { role: 'rook', faction: 'bandits' },
+    { role: 'avenger', faction: 'bandits' },
     { role: 'thief', faction: 'bandits' },
     { role: 'banditLeader', faction: 'bandits' }
   ],
@@ -32,6 +32,7 @@ initialFactionCardsState = {
     { role: 'shaman', faction: 'indians' }
   ]
 }
+
 
 numberPlayers = (state, action) => {
   switch (action.type) {
@@ -91,8 +92,10 @@ hiddenCard = (state, action) => {
       if (state.index === state.number){
         return {
           ...state,
+          stage: 'NIGHT',
           step: 'START_OF_NIGHT',
-          statueHolder: state.cards[0]
+          statueHolder: state.cards[0],
+          day: 0
         }
       }
       else{
@@ -119,7 +122,8 @@ showCard = (state, action) => {
         ...state,
         cards: state.cards.slice(0, state.index).concat([{
           ...state.cards[state.index],
-          name: action.name
+          name: action.name,
+          alive: true
         }]).concat(state.cards.slice(state.index + 1, state.number))
       }
     default:
@@ -128,30 +132,6 @@ showCard = (state, action) => {
 }
 
 
-startOfNight = (state, action) => {
-  switch (action.type) {
-    case 'MENU':
-      return {
-        ...state,
-        step: 'MENU',
-        last: state.step,
-      }
-    default:
-      return state
-  }
-}
-
-menu = (state, action) => {
-  switch (action.type) {
-    case 'RETURN':
-      return {
-        ...state,
-        step: state.last
-      }
-    default:
-      return state
-  }
-}
 
 
 export const setup = (state, action) => {
@@ -166,10 +146,6 @@ export const setup = (state, action) => {
       return hiddenCard(state, action)
     case 'SHOW_CARD':
       return showCard(state, action)
-    case 'START_OF_NIGHT':
-      return startOfNight(state, action)
-    case 'MENU':
-      return menu(state, action)
     default:
       return state
   }
