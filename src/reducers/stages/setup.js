@@ -70,9 +70,9 @@ initialHiddenCardState = (state) => {
   console.log(cards)
   return {
     ...state,
-    //index: 0,
+    index: 0,
     step: 'HIDDEN_CARD',
-    index: cards
+    cards: cards
   }
 }
 
@@ -88,13 +88,34 @@ factionCards = (state, action) => {
 hiddenCard = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
-      return {
-        ...state
+      if (state.index === state.number){
+        return state
+      }
+      else{
+        return {
+          ...state,
+          step: 'SHOW_CARD'
+        }
       }
     default:
       return state
   }
 }
+
+showCard = (state, action) => {
+  switch (action.type) {
+    case 'SUBMIT':
+      return {
+        ...state,
+        index: state.index + 1,
+        step: 'HIDDEN_CARD'
+      }
+    default:
+      return state
+  }
+}
+
+
 
 
 export const setup = (state, action) => {
@@ -107,6 +128,8 @@ export const setup = (state, action) => {
       return factionCards(state, action)
     case 'HIDDEN_CARD':
       return hiddenCard(state, action)
+    case 'SHOW_CARD':
+      return showCard(state, action)
     default:
       return state
   }
