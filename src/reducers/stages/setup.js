@@ -21,10 +21,10 @@ initialFactionCardsState = {
     { role: 'insuranceAgent', faction: 'citizens' }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandit' },
-    { role: 'rook', faction: 'bandit' },
-    { role: 'thief', faction: 'bandit' },
-    { role: 'banditLeader', faction: 'bandit' }
+    { role: 'evilGunslinger', faction: 'bandits' },
+    { role: 'rook', faction: 'bandits' },
+    { role: 'thief', faction: 'bandits' },
+    { role: 'banditLeader', faction: 'bandits' }
   ],
   indians: [
     { role: 'solitaryCoyote', faction: 'indians' },
@@ -89,7 +89,11 @@ hiddenCard = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       if (state.index === state.number){
-        return state
+        return {
+          ...state,
+          step: 'START_OF_NIGHT',
+          statueHolder: state.cards[0]
+        }
       }
       else{
         return {
@@ -123,6 +127,33 @@ showCard = (state, action) => {
   }
 }
 
+
+startOfNight = (state, action) => {
+  switch (action.type) {
+    case 'MENU':
+      return {
+        ...state,
+        step: 'MENU',
+        last: state.step,
+      }
+    default:
+      return state
+  }
+}
+
+menu = (state, action) => {
+  switch (action.type) {
+    case 'RETURN':
+      return {
+        ...state,
+        step: state.last
+      }
+    default:
+      return state
+  }
+}
+
+
 export const setup = (state, action) => {
   switch (state.step) {
     case 'NUMBER_PLAYERS':
@@ -135,6 +166,10 @@ export const setup = (state, action) => {
       return hiddenCard(state, action)
     case 'SHOW_CARD':
       return showCard(state, action)
+    case 'START_OF_NIGHT':
+      return startOfNight(state, action)
+    case 'MENU':
+      return menu(state, action)
     default:
       return state
   }
