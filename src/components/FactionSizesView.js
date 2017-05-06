@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Text,
   View,
+  Button
 } from 'react-native'
 
 export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
@@ -16,6 +17,8 @@ export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
       <Text>
         Indian: {indians}
       </Text>
+
+      <Button title="Zatwierdź" onPress={onSubmit} />
     </View>
   )
 }
