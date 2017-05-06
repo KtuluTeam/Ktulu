@@ -5,8 +5,8 @@ banditFactory = (name) => {
 }
 
 evilGunslinger = banditFactory("Zły Rewolwerowiec")
-rook = banditFactory("Szuler")
+avenger = banditFactory("Mściciel")
 thief = banditFactory("Złodziej")
 banditLeader = banditFactory("Herszt")
 
-export { evilGunslinger, rook, thief, banditLeader }
+export { evilGunslinger, avenger, thief, banditLeader }

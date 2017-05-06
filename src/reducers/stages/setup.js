@@ -14,22 +14,22 @@ initialFactionSizesState = {
 initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore', faction: 'citizens' },
-    { role: 'sheriff', faction: 'citizens' },
-    { role: 'pastor', faction: 'citizens' },
-    { role: 'goodGunslinger', faction: 'citizens' },
-    { role: 'insuranceAgent', faction: 'citizens' }
+    { role: 'whore', faction: 'citizens', alive: true },
+    { role: 'sheriff', faction: 'citizens' , alive: true },
+    { role: 'pastor', faction: 'citizens' , alive: true },
+    { role: 'goodGunslinger', faction: 'citizens' , alive: true },
+    { role: 'insuranceAgent', faction: 'citizens' , alive: true }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandits' },
-    { role: 'avenger', faction: 'bandits' },
-    { role: 'thief', faction: 'bandits' },
-    { role: 'banditLeader', faction: 'bandits' }
+    { role: 'evilGunslinger', faction: 'bandits' , alive: true },
+    { role: 'avenger', faction: 'bandits' , alive: true },
+    { role: 'thief', faction: 'bandits' , alive: true },
+    { role: 'banditLeader', faction: 'bandits', alive: true  }
   ],
   indians: [
-    { role: 'solitaryCoyote', faction: 'indians' },
-    { role: 'warrior', faction: 'indians' },
-    { role: 'shaman', faction: 'indians' }
+    { role: 'solitaryCoyote', faction: 'indians' , alive: true },
+    { role: 'warrior', faction: 'indians', alive: true  },
+    { role: 'shaman', faction: 'indians', alive: true  }
   ]
 }
 
@@ -94,7 +94,8 @@ hiddenCard = (state, action) => {
           ...state,
           stage: 'NIGHT',
           step: 'START_OF_NIGHT',
-          statueHolder: state.cards[0],
+          statueHolder: null,
+          tableIndex: -1,
           day: 0
         }
       }
@@ -114,7 +115,8 @@ showCard = (state, action) => {
     case 'SUBMIT':
       return {
         ...state,
-        index: state.index + 1,
+        //index: state.index + 1,
+        index: 12,
         step: 'HIDDEN_CARD'
       }
     case 'NAME_INPUT':
@@ -130,8 +132,6 @@ showCard = (state, action) => {
       return state
   }
 }
-
-
 
 
 export const setup = (state, action) => {

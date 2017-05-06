@@ -21,7 +21,7 @@ areWakeable = (alive, state) => {
   return true;
 }
 
-whoreReqs = (alive, state) => {
+let whoreReqs = (alive, state) => {
   return areWakeable(alive, state) && (state.day === 0);
 }
 
@@ -77,49 +77,63 @@ indiansReqs = (alive, state) => {
   return indiansWakeable(state) > 0;
 }
 
-nextNight = (table_index, state) => {
+nextNight = (state) => {
+  let tableIndex = state.tableIndex;
   let order = [
-    {node: 'WHORE', alive: ['whore'], reqs: whoreReqs},
-    {node: 'SHERIFF', alive: ['sheriff'], reqs: areWakeable},
-    {node: 'PASTOR', alive: ['pastor'], reqs: areWakeable},
-    {node: 'BANDITS', alive: [], reqs: banditsReqs},
-    {node: 'AVENGER', alive: ['avenger'], reqs: areWakeable},
-    {node: 'THIEF', alive: ['thief'], reqs: areWakeable},
-    {node: 'INDIANS', alive: [], reqs: indiansReqs},
-    {node: 'START_OF_DAY', alive: [], reqs: areWakeable}
+    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs},
+    {step: 'SHERIFF', alive: ['sheriff'], reqs: areWakeable},
+    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable},
+    {step: 'BANDITS', alive: [], reqs: banditsReqs},
+    {step: 'AVENGER', alive: ['avenger'], reqs: areWakeable},
+    {step: 'THIEF', alive: ['thief'], reqs: areWakeable},
+    {step: 'INDIANS', alive: [], reqs: indiansReqs},
+    {step: 'START_OF_DAY', alive: [], reqs: areWakeable}
   ]
-  while(TRUE){
-    table_index = table_index + 1;
-    if(order[table_index].reqs(order[table_index].alive, state)){
-      return order[table_index].node;
+  while(true){
+    tableIndex = tableIndex + 1;
+    console.log('index', tableIndex);
+    if(order[tableIndex].reqs(order[tableIndex].alive, state)){
+      return {
+        step: order[tableIndex].step,
+        tableIndex: tableIndex,
+        stepIndex: -1,
+        substep: 'INITIAL'
+      };
     }
   }
 }
 
+let getMenu = (state) => {
+  return {
+    ...state,
+    step: 'MENU',
+    last_step: state.step,
+    last_substep: state.substep
+  }
+}
 
-startOfNight = (state, action) => {
+let startOfNight = (state, action) => {
+  let next = nextNight(state);
   switch (action.type) {
     case 'START':
-      return{
-        ...state
-      }
-    case 'MENU':
       return {
         ...state,
-        step: 'MENU',
-        last: state.step,
+        ...next
       }
+    case 'MENU':
+      return getMenu(state)
     default:
       return state
   }
 }
 
-menu = (state, action) => {
+let menu = (state, action) => {
   switch (action.type) {
     case 'RETURN':
       return {
         ...state,
-        step: state.last
+        step: state.last_step,
+        substep: state.last_substep
       }
     default:
       return state
@@ -127,17 +141,56 @@ menu = (state, action) => {
 }
 
 
+let orderWhore = (state) => {
+  let order = [
+    {substep: 'INSTRUCTION', text: 'Obudź dziwkę'},
+    {substep: 'CHOICE', from: state.cards},
+    {substep: 'INSTRUCTION', text: 'Obudź:' + state.whoreChecks},
+    {substep: 'DISPLAY_CARD', who: state.whoreChecks},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
 
-export const setup = (state, action) => {
+let nextSubstep = (state, order) => {
+  let stepIndex = state.stepIndex + 1;
+  if (stepIndex === order.length){
+    return {
+      ...state,
+      ...nextNight(state)
+    }
+  }
+  return {
+    ...state,
+    ...order[stepIndex],
+    stepIndex: stepIndex
+  };
+}
+
+let whore = (state, action) => {
+  let order = orderWhore(state)
+  next = nextSubstep(state, order);
+  switch (action.type) {
+    case 'MENU':
+      return getMenu(state);
+    case 'NEXT':
+      return next
+    default:
+      return state;
+  }
+}
+
+
+export const night = (state, action) => {
   switch (state.step) {
     case 'START_OF_NIGHT':
       return startOfNight(state, action)
     case 'MENU':
       return menu(state, action)
-    case 'NIGHT_CHARACTER':
-      return nightCharacter(state, action)
     case 'START_OF_DAY':
       return startOfDay(state, action)
+    case 'WHORE':
+      return whore(state, action)
     default:
       return state
   }

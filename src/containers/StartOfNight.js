@@ -9,7 +9,7 @@ mapStateToProps = ({statueHolder}) => {
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: () => { dispatch({ type: 'SUBMIT' }) },
+    onSubmit: () => { dispatch({ type: 'START' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }
   }
 }

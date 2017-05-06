@@ -7,11 +7,15 @@ import {
 import * as cards from '../cards'
 
 export const StatueHolder = ({statueHolder}) => {
+  let pos = ''
+  if (statueHolder !== null){
+    pos = '[' + cards[statueHolder.faction][statueHolder.role].name + ',' + statueHolder.name + ']';
+  }
   console.log('statueholder', statueHolder)
   return (
     <View>
       <Text>
-        Posążek: [{cards[statueHolder.faction][statueHolder.role].name}, {statueHolder.name}]
+        Posążek: {pos}
       </Text>
   </View>
   )

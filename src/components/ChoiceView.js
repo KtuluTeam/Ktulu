@@ -6,15 +6,16 @@ import {
 } from 'react-native'
 import { Top } from './index'
 
-export const StartOfNightView = ({statueHolder, onSubmit, onMenu}) => {
-  console.log("rendering StartOfNightView")
+export const ChoiceView = ({from, onMenu, statueHolder, onSubmit}) => {
+  console.log("rendering ChoiceView")
     console.log(statueHolder)
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
-    <Button title="Rozpocznij grę" onPress={onSubmit} />
+    <Text> choice </Text>
+    <Button title="OK"  onPress={onSubmit} />
     </View>
   );
 }
 
-export default StartOfNightView
+export default ChoiceView
