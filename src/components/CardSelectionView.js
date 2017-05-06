@@ -1,7 +1,8 @@
 import React from 'react'
 import {
   Text,
-  View
+  View,
+  Button
 } from 'react-native'
 import * as cards from '../cards'
 
@@ -31,16 +32,20 @@ FactionCards = ({faction, displayFaction, cardsSelection}) => {
 }
 
 export const CardSelectionView = ({citizens, bandits,
-  indians}) => {
+  indians, onSubmit}) => {
   return (
     <View>
       <FactionCards faction="citizens" displayFaction="Miastowi"
         cardsSelection={citizens} />
+        <Text>______________
+        </Text>
       <FactionCards faction="bandits" displayFaction="Bandyci"
         cardsSelection={bandits} />
+        <Text>______________
+        </Text>
       <FactionCards faction="indians" displayFaction="Indianie"
         cardsSelection={indians} />
+        <Button title="Zatwierdź" onPress={onSubmit} />
     </View>
   )
 }
-
