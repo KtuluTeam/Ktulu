@@ -8,7 +8,9 @@ mapStateToProps = ({number}) => {
 }
 
 mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    onSubmit: () => { dispatch({ type: 'SUBMIT' }) }
+  }
 }
 
 export const NumberPlayers = connect(mapStateToProps,

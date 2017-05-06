@@ -16,10 +16,24 @@ numberPlayers = (state, action) => {
   }
 }
 
+factionSizes = (state, action) => {
+  switch (action.type) {
+    case 'SUBMIT':
+      return {
+        ...state,
+        ...initialFactionCardsState
+      }
+    default:
+      return state
+  }
+}
+
 export const setup = (state, action) => {
   switch (state.step) {
     case 'NUMBER_PLAYERS':
       return numberPlayers(state, action)
+    case 'FACTION_SIZES':
+      return factionSizes(state, action)
     default:
       return state
   }
