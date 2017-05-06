@@ -57,9 +57,45 @@ factionSizes = (state, action) => {
   }
 }
 
-factionCards = (state, action) => {
-  return state
+shuffle = (a) => {
+  for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+  return a
 }
+
+initialHiddenCardState = (state) => {
+  let cards = shuffle(state.citizens.concat(state.bandits).concat(state.indians))
+  console.log(cards)
+  return {
+    ...state,
+    //index: 0,
+    step: 'HIDDEN_CARD',
+    index: cards
+  }
+}
+
+factionCards = (state, action) => {
+  switch (action.type) {
+    case 'SUBMIT':
+      return initialHiddenCardState(state)
+    default:
+      return state
+  }
+}
+
+hiddenCard = (state, action) => {
+  switch (action.type) {
+    case 'SUBMIT':
+      return {
+        ...state
+      }
+    default:
+      return state
+  }
+}
+
 
 export const setup = (state, action) => {
   switch (state.step) {
@@ -69,6 +105,8 @@ export const setup = (state, action) => {
       return factionSizes(state, action)
     case 'FACTION_CARDS':
       return factionCards(state, action)
+    case 'HIDDEN_CARD':
+      return hiddenCard(state, action)
     default:
       return state
   }

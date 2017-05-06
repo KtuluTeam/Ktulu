@@ -6,7 +6,7 @@ mapStateToProps = ({citizens, bandits, indians}) => {
 }
 
 mapDispatchToProps = (dispatch) => {
-  return {}
+  return { onSubmit: () => { dispatch({ type: 'SUBMIT' }) }}
 }
 
 export const CardSelection = connect(mapStateToProps,
