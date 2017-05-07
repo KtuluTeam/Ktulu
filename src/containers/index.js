@@ -11,8 +11,7 @@ import { Choice } from './Choice'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />)},
-  'CHOICE': () => { return (<Choice />)},
-  'INITIAL': () => { return (<Instruction />)} //tu nie chcę nic wyswietlać
+  'CHOICE': () => { return (<Choice />)}
 }
 
 

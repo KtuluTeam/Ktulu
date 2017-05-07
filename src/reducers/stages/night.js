@@ -8,13 +8,13 @@ isAlive = (character, state) => {
   return false;
 }
 
-isWekeable = (character, state) => {
+isWakeable = (character, state) => {
   return isAlive(character, state) && !(state.inPrison === character);
 }
 
 areWakeable = (alive, state) => {
   for (let a of alive){
-    if(!isWekeable(a, state)){
+    if(!isWakeable(a, state)){
       return false;
     }
   }
@@ -80,7 +80,7 @@ indiansReqs = (alive, state) => {
 nextNight = (state) => {
   let tableIndex = state.tableIndex;
   let order = [
-    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs},
+    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
     {step: 'SHERIFF', alive: ['sheriff'], reqs: areWakeable},
     {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable},
     {step: 'BANDITS', alive: [], reqs: banditsReqs},
@@ -93,11 +93,16 @@ nextNight = (state) => {
     tableIndex = tableIndex + 1;
     console.log('index', tableIndex);
     if(order[tableIndex].reqs(order[tableIndex].alive, state)){
+      let s = {
+        ...state,
+        stepIndex: -1
+      }
+      let stepOrder = order[tableIndex].stepOrder(s)
+      next = nextSubstep(s, stepOrder);
       return {
+        ...next,
         step: order[tableIndex].step,
-        tableIndex: tableIndex,
-        stepIndex: -1,
-        substep: 'INITIAL'
+        tableIndex: tableIndex
       };
     }
   }
@@ -112,14 +117,23 @@ let getMenu = (state) => {
   }
 }
 
+let startOfGame = (state, action) => {
+  let next = nextNight(state);
+  switch (action.type) {
+    case 'START':
+      return next
+    case 'MENU':
+      return getMenu(state)
+    default:
+      return state
+  }
+}
+
 let startOfNight = (state, action) => {
   let next = nextNight(state);
   switch (action.type) {
     case 'START':
-      return {
-        ...state,
-        ...next
-      }
+      return next
     case 'MENU':
       return getMenu(state)
     default:
@@ -140,11 +154,35 @@ let menu = (state, action) => {
   }
 }
 
+let isInExcept = (character, except) => {
+  for(let e of except){
+    if(e === character){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+let selectFromWakeableExcept = (except, state) => {
+  console.log('except', except)
+  let selectFrom = []
+  for(let card of state.cards){
+    console.log('card', card)
+    if(isWakeable(card.role, state) && !isInExcept(card.role, except)){
+      console.log('accepted', card)
+      selectFrom.push(card)
+    }
+  }
+  return selectFrom;
+}
 
 let orderWhore = (state) => {
+  let selectFrom = selectFromWakeableExcept(['whore'], state);
+  console.log('select', selectFrom)
   let order = [
     {substep: 'INSTRUCTION', text: 'Obudź dziwkę'},
-    {substep: 'CHOICE', from: state.cards},
+    {substep: 'CHOICE', from: selectFrom},
     {substep: 'INSTRUCTION', text: 'Obudź:' + state.whoreChecks},
     {substep: 'DISPLAY_CARD', who: state.whoreChecks},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
@@ -175,6 +213,12 @@ let whore = (state, action) => {
       return getMenu(state);
     case 'NEXT':
       return next
+    case 'SELECT':
+      return {
+        ...state,
+        whoreChecks: action.choosen,
+        choosen: action.choosen
+      }
     default:
       return state;
   }
