@@ -8,10 +8,16 @@ import { StartOfNight } from './StartOfNight'
 import { Menu } from './Menu'
 import { Instruction } from './Instruction'
 import { Choice } from './Choice'
+import { DisplayCard } from './DisplayCard'
+import { WakeUpByRole } from './WakeUpByRole'
+import { WakeUpByName } from './WakeUpByName'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />)},
-  'CHOICE': () => { return (<Choice />)}
+  'CHOICE': () => { return (<Choice />)},
+  'DISPLAY_CARD': () => { return (<DisplayCard />)},
+  'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />)},
+  'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />)}
 }
 
 

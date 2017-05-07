@@ -14,22 +14,22 @@ initialFactionSizesState = {
 initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore', faction: 'citizens', alive: true },
-    { role: 'sheriff', faction: 'citizens' , alive: true },
-    { role: 'pastor', faction: 'citizens' , alive: true },
-    { role: 'goodGunslinger', faction: 'citizens' , alive: true },
-    { role: 'insuranceAgent', faction: 'citizens' , alive: true }
+    { role: 'whore', faction: 'citizens', alive: true, name:'dziwka_' },
+    { role: 'sheriff', faction: 'citizens', alive: true, name:'szeryf_' },
+    { role: 'pastor', faction: 'citizens' , alive: true, name:'pastor_' },
+    { role: 'goodGunslinger', faction: 'citizens' , alive: true, name:'dobryrev_' },
+    { role: 'insuranceAgent', faction: 'citizens' , alive: true, name:'agent_' }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandits' , alive: true },
-    { role: 'avenger', faction: 'bandits' , alive: true },
-    { role: 'thief', faction: 'bandits' , alive: true },
-    { role: 'banditLeader', faction: 'bandits', alive: true  }
+    { role: 'evilGunslinger', faction: 'bandits' , alive: true, name:'zlyrev_' },
+    { role: 'avenger', faction: 'bandits' , alive: true, name:'msciciel_' },
+    { role: 'thief', faction: 'bandits' , alive: true, name:'zlodziej_' },
+    { role: 'banditLeader', faction: 'bandits', alive: true, name:'herszt_' }
   ],
   indians: [
-    { role: 'solitaryCoyote', faction: 'indians' , alive: true },
-    { role: 'warrior', faction: 'indians', alive: true  },
-    { role: 'shaman', faction: 'indians', alive: true  }
+    { role: 'solitaryCoyote', faction: 'indians' , alive: true, name:'kojot_' },
+    { role: 'warrior', faction: 'indians', alive: true, name:'wojownik_'  },
+    { role: 'shaman', faction: 'indians', alive: true, name:'szaman_'  }
   ]
 }
 

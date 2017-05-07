@@ -177,14 +177,25 @@ let selectFromWakeableExcept = (except, state) => {
   return selectFrom;
 }
 
+let getCardByRole = (cards, role) => {
+  for(let card of cards){
+    if(card.role === role){
+      return card;
+    }
+  }
+}
+
+
 let orderWhore = (state) => {
   let selectFrom = selectFromWakeableExcept(['whore'], state);
+  let whore = getCardByRole(state.cards, 'whore');
+  let whoreChecks = state.whoreChecks;
   console.log('select', selectFrom)
   let order = [
-    {substep: 'INSTRUCTION', text: 'Obudź dziwkę'},
-    {substep: 'CHOICE', from: selectFrom},
-    {substep: 'INSTRUCTION', text: 'Obudź:' + state.whoreChecks},
-    {substep: 'DISPLAY_CARD', who: state.whoreChecks},
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
+    {substep: 'CHOICE', from: selectFrom, text: 'Dziwka wybiera z kim chce spędzić noc'},
+    {substep: 'WAKE_UP_BY_NAME', text: '', who: whoreChecks},
+    {substep: 'DISPLAY_CARD', who: whoreChecks, text: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
   ]
   return order
