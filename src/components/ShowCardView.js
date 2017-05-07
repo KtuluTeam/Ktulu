@@ -20,7 +20,7 @@ export const ShowCardView = ({number, index, cards, onSubmit, onChangeName}) => 
       <TextInput
         value={card.name}
         onChangeText={onChangeName} />
-      <Button title="Zatwierdź i ukryj kartę" onPress={onSubmit} />
+      <Button title="Zatwierdź i ukryj kartę"  onPress={onSubmit} />
     </View>
   );
 }

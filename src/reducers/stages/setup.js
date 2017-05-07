@@ -14,24 +14,25 @@ initialFactionSizesState = {
 initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore', faction: 'citizens' },
-    { role: 'sheriff', faction: 'citizens' },
-    { role: 'pastor', faction: 'citizens' },
-    { role: 'goodGunslinger', faction: 'citizens' },
-    { role: 'insuranceAgent', faction: 'citizens' }
+    { role: 'whore', faction: 'citizens', alive: true },
+    { role: 'sheriff', faction: 'citizens' , alive: true },
+    { role: 'pastor', faction: 'citizens' , alive: true },
+    { role: 'goodGunslinger', faction: 'citizens' , alive: true },
+    { role: 'insuranceAgent', faction: 'citizens' , alive: true }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandits' },
-    { role: 'rook', faction: 'bandits' },
-    { role: 'thief', faction: 'bandits' },
-    { role: 'banditLeader', faction: 'bandits' }
+    { role: 'evilGunslinger', faction: 'bandits' , alive: true },
+    { role: 'avenger', faction: 'bandits' , alive: true },
+    { role: 'thief', faction: 'bandits' , alive: true },
+    { role: 'banditLeader', faction: 'bandits', alive: true  }
   ],
   indians: [
-    { role: 'solitaryCoyote', faction: 'indians' },
-    { role: 'warrior', faction: 'indians' },
-    { role: 'shaman', faction: 'indians' }
+    { role: 'solitaryCoyote', faction: 'indians' , alive: true },
+    { role: 'warrior', faction: 'indians', alive: true  },
+    { role: 'shaman', faction: 'indians', alive: true  }
   ]
 }
+
 
 numberPlayers = (state, action) => {
   switch (action.type) {
@@ -91,8 +92,11 @@ hiddenCard = (state, action) => {
       if (state.index === state.number){
         return {
           ...state,
+          stage: 'NIGHT',
           step: 'START_OF_NIGHT',
-          statueHolder: state.cards[0]
+          statueHolder: null,
+          tableIndex: -1,
+          day: 0
         }
       }
       else{
@@ -111,7 +115,8 @@ showCard = (state, action) => {
     case 'SUBMIT':
       return {
         ...state,
-        index: state.index + 1,
+        //index: state.index + 1,
+        index: 12,
         step: 'HIDDEN_CARD'
       }
     case 'NAME_INPUT':
@@ -119,34 +124,9 @@ showCard = (state, action) => {
         ...state,
         cards: state.cards.slice(0, state.index).concat([{
           ...state.cards[state.index],
-          name: action.name
+          name: action.name,
+          alive: true
         }]).concat(state.cards.slice(state.index + 1, state.number))
-      }
-    default:
-      return state
-  }
-}
-
-
-startOfNight = (state, action) => {
-  switch (action.type) {
-    case 'MENU':
-      return {
-        ...state,
-        step: 'MENU',
-        last: state.step,
-      }
-    default:
-      return state
-  }
-}
-
-menu = (state, action) => {
-  switch (action.type) {
-    case 'RETURN':
-      return {
-        ...state,
-        step: state.last
       }
     default:
       return state
@@ -166,10 +146,6 @@ export const setup = (state, action) => {
       return hiddenCard(state, action)
     case 'SHOW_CARD':
       return showCard(state, action)
-    case 'START_OF_NIGHT':
-      return startOfNight(state, action)
-    case 'MENU':
-      return menu(state, action)
     default:
       return state
   }
