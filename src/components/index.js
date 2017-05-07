@@ -7,11 +7,15 @@ import {
 import * as cards from '../cards'
 
 export const StatueHolder = ({statueHolder}) => {
+  let pos = ''
+  if (statueHolder !== null){
+    pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ',' + statueHolder.name + ']';
+  }
   console.log('statueholder', statueHolder)
   return (
     <View>
       <Text>
-        Posążek: [{cards[statueHolder.faction][statueHolder.role].name}, {statueHolder.name}]
+        {pos}
       </Text>
   </View>
   )
@@ -25,6 +29,12 @@ export const Top = ({statueHolder, onMenu}) => {
     <StatueHolder statueHolder={statueHolder} />
   </View>
   )
+}
+
+export const Images = {
+  'whore': require('./card_images/kartadziwka.jpg'),
+  'sheriff': require('./card_images/kartaszeryf.jpg'),
+  //TODO
 }
 
 
