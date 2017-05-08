@@ -47,9 +47,12 @@ export const viewMap = {
     'SHERIFF' : {
       ...tools,
       hasSubsteps: true
-    }
-    ,
+    },
     'PASTOR' : {
+      ...tools,
+      hasSubsteps: true
+    },
+    'BANDITS' : {
       ...tools,
       hasSubsteps: true
     }

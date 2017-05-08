@@ -75,6 +75,16 @@ citizensWakeable = (state) => {
   return factionMembersWakeable('citizens', state);
 }
 
+getFactionMembers = (faction, state) => {
+  let array = []
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive && state.inPrison !== card.role){
+      array.push(card);
+    }
+  }
+  return array;
+}
+
 banditsReqs = (alive, state) => {
   return banditsWakeable(state) > 0;
 }
@@ -249,16 +259,32 @@ let orderPastor = (state) => {
 }
 
 let orderBandits = (state) => {
-  let selectFrom = selectFromWakeableExcept(['pastor'], state);
-  let pastor = getCardByRole(state.cards, 'pastor');
+  let selectFrom = selectFromWakeableExcept(getFactionMembers('bandits', state), state);
+  let bandits = getFactionMembers('bandits', state);
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+    {substep: 'INSTRUCTION', text: 'Obudź bandytów: "Wstają bandyci"'}
   ]
+  if(state.statueHolder !== null && state.statueHolder.faction !== 'bandits'){
+    order.push({substep: 'SELECTION', from: selectFrom, text: 'Bandyci wybierają kogo chcą przeszukać', choosen: selectFrom[0]});
+  }
+  else{
+    order.push({none: true});
+  }
+  if(state.banditsStole){
+    order.push({substep: 'INSTRUCTION', text: 'Bandyci zdobyli posążek'});
+  }
+  else{
+    order.push({none: true})
+  }
+  if(state.statueHolder === null || state.statueHolder.faction === 'bandits'){
+    order.push({substep: 'SELECTION', from: bandits, text: 'Wybieją kto będzie miał posążek.', choosen: bandits[0]});
+  }
+  else{
+    order.push({none: true})
+  }
+  order.push({substep: 'INSTRUCTION', text: 'Wszyscy idą spać'})
   return order
 }
 
@@ -305,7 +331,12 @@ let orderIndians = (state) => {
 }
 
 let nextSubstep = (state, order) => {
-  let stepIndex = state.stepIndex + 1;
+  console.log('order', order.length, order)
+  let stepIndex = state.stepIndex;
+  do{
+    console.log('index', stepIndex)
+    stepIndex ++;
+  } while(stepIndex < order.length && order[stepIndex].none)
   if (stepIndex === order.length){
     return {
       ...state,
@@ -375,6 +406,25 @@ let pastor = (state, action) => {
   }
 }
 
+let bandits = (state, action) => {
+  let order = orderBandits(state)
+  next = nextSubstep(state, order);
+  switch (action.type) {
+    case 'MENU':
+      return getMenu(state);
+    case 'NEXT':
+      return next
+    case 'SELECT':
+      return {
+        ...state,
+        choosen: action.choosen,
+        statueHolder: action.choosen
+      }
+    default:
+      return state;
+  }
+}
+
 export const night = (state, action) => {
   switch (state.step) {
     case 'START_OF_GAME':
@@ -391,6 +441,8 @@ export const night = (state, action) => {
       return sheriff(state, action)
     case 'PASTOR':
       return pastor(state, action)
+    case 'BANDITS':
+      return bandits(state, action)
     default:
       return state
   }
