@@ -1,3 +1,13 @@
+export const initialNightState = (state) => {
+  return {
+    ...state,
+    stage: 'NIGHT',
+    step: 'START_OF_GAME',
+    statueHolder: null,
+    tableIndex: -1,
+    day: 0
+  }
+}
 
 isAlive = (character, state) => {
   for(let card of state.cards){

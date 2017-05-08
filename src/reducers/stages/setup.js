@@ -1,3 +1,4 @@
+import { initialNightState } from './night'
 export const initialSetupState = {
   stage: 'SETUP',
   step: 'NUMBER_PLAYERS',
@@ -90,14 +91,7 @@ hiddenCard = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       if (state.index === state.number){
-        return {
-          ...state,
-          stage: 'NIGHT',
-          step: 'START_OF_GAME',
-          statueHolder: null,
-          tableIndex: -1,
-          day: 0
-        }
+        return initialNightState(state)
       }
       else{
         return {

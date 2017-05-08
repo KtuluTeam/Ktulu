@@ -15,7 +15,7 @@ export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) 
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
     <Text> {text} </Text>
     <Text> {who.name} </Text>
-    <Text> Frakcja: {who.faction} </Text>
+    <Text> Frakcja: {cards[who.faction].name} </Text>
     <Button title="OK"  onPress={onSubmit} />
     </View>
   );
