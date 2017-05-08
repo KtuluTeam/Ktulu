@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { StartOfNightView } from '../components/StartOfNightView'
+import { StartOfGameView } from '../components/StartOfGameView'
 
 mapStateToProps = ({statueHolder}) => {
   return {
@@ -9,10 +9,10 @@ mapStateToProps = ({statueHolder}) => {
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: () => { dispatch({ type: 'NEXT' }) },
+    onSubmit: () => { dispatch({ type: 'START' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }
   }
 }
 
-export const StartOfNight = connect(mapStateToProps,
-  mapDispatchToProps)(StartOfNightView)
+export const StartOfGame = connect(mapStateToProps,
+  mapDispatchToProps)(StartOfGameView)

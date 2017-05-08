@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
-import { StartOfNightView } from '../components/StartOfNightView'
+import { InstructionView } from '../components/InstructionView'
 
-mapStateToProps = ({statueHolder}) => {
+mapStateToProps = ({text, statueHolder}) => {
   return {
+    text: text,
     statueHolder: statueHolder
   }
 }
@@ -14,5 +15,5 @@ mapDispatchToProps = (dispatch) => {
   }
 }
 
-export const StartOfNight = connect(mapStateToProps,
-  mapDispatchToProps)(StartOfNightView)
+export const Instruction = connect(mapStateToProps,
+  mapDispatchToProps)(InstructionView)

@@ -2,14 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { viewMap } from '../containers'
 
-GameView = ({stage, step}) => {
-  return viewMap[stage][step]()
+let GameView = ({stage, step, substep}) => {
+  console.log('gameview', stage, step, substep)
+  if(viewMap[stage][step].hasSubsteps === undefined){
+    return viewMap[stage][step]()
+  }
+  else{
+    return viewMap[stage][step][substep]()
+  }
 }
 
-mapStateToProps = ({stage, step}) => {
+mapStateToProps = ({stage, step, substep}) => {
   return {
     stage: stage,
-    step: step
+    step: step,
+    substep: substep
   }
 }
 
