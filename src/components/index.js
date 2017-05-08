@@ -31,12 +31,4 @@ export const Top = ({statueHolder, onMenu}) => {
   )
 }
 
-export const Images = {
-  'whore': require('./card_images/kartadziwka.jpg'),
-  'sheriff': require('./card_images/kartaszeryf.jpg'),
-  //TODO
-}
-
-
-
 export default { Top }
