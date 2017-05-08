@@ -1,20 +1,18 @@
 import { connect } from 'react-redux'
 import { ChoiceView } from '../components/ChoiceView'
 
-mapStateToProps = ({from, statueHolder, choosen, text}) => {
+mapStateToProps = ({statueHolder, text}) => {
   return {
-    chooseFrom: from,
     statueHolder: statueHolder,
-    choosen: choosen,
     text: text
   }
 }
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: () => { dispatch({ type: 'NEXT' }) },
+    onNo: () => { dispatch({ type: 'CHOICE', choice: false }) },
     onMenu: () => { dispatch({ type: 'MENU' }) },
-    onSelection: (choosen) => { dispatch({ type: 'SELECT', choosen: choosen}) }
+    onYes: () => { dispatch({ type: 'CHOICE', choice: true }) }
   }
 }
 

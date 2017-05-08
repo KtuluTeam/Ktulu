@@ -93,7 +93,7 @@ hiddenCard = (state, action) => {
         return {
           ...state,
           stage: 'NIGHT',
-          step: 'START_OF_NIGHT',
+          step: 'START_OF_GAME',
           statueHolder: null,
           tableIndex: -1,
           day: 0

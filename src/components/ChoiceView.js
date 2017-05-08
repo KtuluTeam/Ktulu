@@ -7,23 +7,13 @@ import {
 } from 'react-native'
 import { Top } from './index'
 
-export const ChoiceView = ({chooseFrom, onMenu, statueHolder, onSubmit, onSelection, choosen, text}) => {
-  console.log("rendering ChoiceView")
-    console.log(statueHolder)
+export const ChoiceView = ({onMenu, statueHolder, onYes, onNo, text}) => {
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
     <Text> {text} </Text>
-    <Picker
-    selectedValue={choosen}
-    onValueChange={onSelection} mode="dropdown">
-    { chooseFrom.map((choice) => {
-        return (
-            <Picker.Item label={choice.name} value={choice} key={choice.role}/>
-        )
-      }) }
-      </Picker>
-    <Button title="OK"  onPress={onSubmit} />
+    <Button title="TAK"  onPress={onYes} />
+    <Button title="NIE"  onPress={onNO} />
     </View>
   );
 }

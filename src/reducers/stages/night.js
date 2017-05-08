@@ -21,10 +21,6 @@ areWakeable = (alive, state) => {
   return true;
 }
 
-let whoreReqs = (alive, state) => {
-  return areWakeable(alive, state) && (state.day === 0);
-}
-
 factionMembersAlive = (faction, state) => {
   let counter = 0;
   for(let card of state.cards){
@@ -77,11 +73,19 @@ indiansReqs = (alive, state) => {
   return indiansWakeable(state) > 0;
 }
 
+let whoreReqs = (alive, state) => {
+  return areWakeable(alive, state) && (state.day === 0);
+}
+
+let sheriffReqs = (alive, state) => {
+  return isAlive('sheriff', state);
+}
+
 nextNight = (state) => {
   let tableIndex = state.tableIndex;
   let order = [
     {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
-    {step: 'SHERIFF', alive: ['sheriff'], reqs: areWakeable},
+    {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
     {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable},
     {step: 'BANDITS', alive: [], reqs: banditsReqs},
     {step: 'AVENGER', alive: ['avenger'], reqs: areWakeable},
@@ -121,7 +125,10 @@ let startOfGame = (state, action) => {
   let next = nextNight(state);
   switch (action.type) {
     case 'START':
-      return next
+      return {
+        ...next,
+        sheriffArrests: getCardByRole(state.cards, 'sheriff')
+      }
     case 'MENU':
       return getMenu(state)
     default:
@@ -132,7 +139,7 @@ let startOfGame = (state, action) => {
 let startOfNight = (state, action) => {
   let next = nextNight(state);
   switch (action.type) {
-    case 'START':
+    case 'NEXT':
       return next
     case 'MENU':
       return getMenu(state)
@@ -193,13 +200,29 @@ let orderWhore = (state) => {
   console.log('select', selectFrom)
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
-    {substep: 'CHOICE', from: selectFrom, text: 'Dziwka wybiera z kim chce spędzić noc'},
+    {substep: 'SELECTION', from: selectFrom, text: 'Dziwka wybiera z kim chce spędzić noc', whoreChecks: selectFrom[0]},
     {substep: 'WAKE_UP_BY_NAME', text: '', who: whoreChecks},
     {substep: 'DISPLAY_CARD', who: whoreChecks, text: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
   ]
   return order
 }
+
+
+let orderSheriff = (state) => {
+  let selectFrom = selectFromWakeableExcept([], state);
+  let sheriff = getCardByRole(state.cards, 'sheriff');
+  let sheriffArrests = state.sheriffArrests;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: sheriff},
+    {substep: 'SELECTION', from: selectFrom, text: 'Szeryf wybiera kogo chce zaaresztować', sheriffArrests: selectFrom[0]},
+    {substep: 'INSTRUCTION', text: 'Ogłoś: "Tej nocy szeryf aresztuje ' + state.sheriffArrests.name + '"'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
+
 
 let nextSubstep = (state, order) => {
   let stepIndex = state.stepIndex + 1;
@@ -236,8 +259,30 @@ let whore = (state, action) => {
 }
 
 
+let sheriff = (state, action) => {
+  let order = orderSheriff(state)
+  next = nextSubstep(state, order);
+  switch (action.type) {
+    case 'MENU':
+      return getMenu(state);
+    case 'NEXT':
+      return next
+    case 'SELECT':
+      return {
+        ...state,
+        sheriffArrests: action.choosen,
+        choosen: action.choosen
+      }
+    default:
+      return state;
+  }
+}
+
+
 export const night = (state, action) => {
   switch (state.step) {
+    case 'START_OF_GAME':
+      return startOfGame(state, action)
     case 'START_OF_NIGHT':
       return startOfNight(state, action)
     case 'MENU':
@@ -246,6 +291,8 @@ export const night = (state, action) => {
       return startOfDay(state, action)
     case 'WHORE':
       return whore(state, action)
+    case 'SHERIFF':
+      return sheriff(state, action)
     default:
       return state
   }
