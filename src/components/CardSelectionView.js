@@ -8,13 +8,13 @@ import * as cards from '../cards'
 
 console.log("CARDS: ", cards)
 
-FactionCards = ({faction, displayFaction, cardsSelection}) => {
+FactionCards = ({faction, cardsSelection}) => {
   console.log("rendering", faction, cardsSelection)
   console.log("cards:", cards[faction])
   return (
     <View>
       <Text>
-        {displayFaction}:
+        {cards[faction].name}:
       </Text>
       <View>
         { cardsSelection.map((cardSelection) => {
@@ -35,15 +35,15 @@ export const CardSelectionView = ({citizens, bandits,
   indians, onSubmit}) => {
   return (
     <View>
-      <FactionCards faction="citizens" displayFaction="Miastowi"
+      <FactionCards faction="citizens"
         cardsSelection={citizens} />
         <Text>______________
         </Text>
-      <FactionCards faction="bandits" displayFaction="Bandyci"
+      <FactionCards faction="bandits"
         cardsSelection={bandits} />
         <Text>______________
         </Text>
-      <FactionCards faction="indians" displayFaction="Indianie"
+      <FactionCards faction="indians"
         cardsSelection={indians} />
         <Button title="Zatwierdź" onPress={onSubmit} />
     </View>
