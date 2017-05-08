@@ -11,16 +11,20 @@ import { Instruction } from './Instruction'
 import { Selection } from './Selection'
 import { Choice } from './Choice'
 import { DisplayCard } from './DisplayCard'
+import { DisplayFaction } from './DisplayFaction'
 import { WakeUpByRole } from './WakeUpByRole'
 import { WakeUpByName } from './WakeUpByName'
+
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />)},
   'SELECTION': () => { return (<Selection />)},
   'CHOICE': () => { return (<Choice />)},
   'DISPLAY_CARD': () => { return (<DisplayCard />)},
+  'DISPLAY_FACTION': () => { return (<DisplayFaction />)},
   'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />)},
   'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />)}
+
 }
 
 
@@ -41,6 +45,11 @@ export const viewMap = {
       hasSubsteps: true
     },
     'SHERIFF' : {
+      ...tools,
+      hasSubsteps: true
+    }
+    ,
+    'PASTOR' : {
       ...tools,
       hasSubsteps: true
     }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { MenuView } from '../components/MenuView'
 
-mapStateToProps = ({}) => {
+mapStateToProps = () => {
   return {
   }
 }

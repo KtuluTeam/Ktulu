@@ -86,11 +86,11 @@ nextNight = (state) => {
   let order = [
     {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
     {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
-    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable},
-    {step: 'BANDITS', alive: [], reqs: banditsReqs},
-    {step: 'AVENGER', alive: ['avenger'], reqs: areWakeable},
-    {step: 'THIEF', alive: ['thief'], reqs: areWakeable},
-    {step: 'INDIANS', alive: [], reqs: indiansReqs},
+    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
+    {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
+    {step: 'AVENGER', alive: ['avenger'], reqs: areWakeable, stepOrder: orderAvenger},
+    {step: 'THIEF', alive: ['thief'], reqs: areWakeable, stepOrder: orderThief},
+    {step: 'INDIANS', alive: [], reqs: indiansReqs, stepOrder: orderIndians},
     {step: 'START_OF_DAY', alive: [], reqs: areWakeable}
   ]
   while(true){
@@ -127,7 +127,7 @@ let startOfGame = (state, action) => {
     case 'START':
       return {
         ...next,
-        sheriffArrests: getCardByRole(state.cards, 'sheriff')
+        choosen: state.cards[0]
       }
     case 'MENU':
       return getMenu(state)
@@ -196,13 +196,13 @@ let getCardByRole = (cards, role) => {
 let orderWhore = (state) => {
   let selectFrom = selectFromWakeableExcept(['whore'], state);
   let whore = getCardByRole(state.cards, 'whore');
-  let whoreChecks = state.whoreChecks;
+  let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
-    {substep: 'SELECTION', from: selectFrom, text: 'Dziwka wybiera z kim chce spędzić noc', whoreChecks: selectFrom[0]},
-    {substep: 'WAKE_UP_BY_NAME', text: '', who: whoreChecks},
-    {substep: 'DISPLAY_CARD', who: whoreChecks, text: 'Pokaż kartę dziwce'},
+    {substep: 'SELECTION', from: selectFrom, text: 'Dziwka wybiera z kim chce spędzić noc', choosen: selectFrom[0]},
+    {substep: 'WAKE_UP_BY_NAME', text: '', who: choosen},
+    {substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
   ]
   return order
@@ -212,17 +212,87 @@ let orderWhore = (state) => {
 let orderSheriff = (state) => {
   let selectFrom = selectFromWakeableExcept([], state);
   let sheriff = getCardByRole(state.cards, 'sheriff');
-  let sheriffArrests = state.sheriffArrests;
+  let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: sheriff},
-    {substep: 'SELECTION', from: selectFrom, text: 'Szeryf wybiera kogo chce zaaresztować', sheriffArrests: selectFrom[0]},
-    {substep: 'INSTRUCTION', text: 'Ogłoś: "Tej nocy szeryf aresztuje ' + state.sheriffArrests.name + '"'},
+    {substep: 'SELECTION', from: selectFrom, text: 'Szeryf wybiera kogo chce zaaresztować', choosen: selectFrom[0]},
+    {substep: 'INSTRUCTION', text: 'Ogłoś: "Tej nocy szeryf aresztuje ' + choosen.name + '"'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
   ]
   return order
 }
 
+
+let orderPastor = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
+  let choosen = state.choosen;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
+    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
+    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
+
+let orderBandits = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
+  let choosen = state.choosen;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
+    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
+    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
+
+let orderAvenger = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
+  let choosen = state.choosen;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
+    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
+    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
+
+let orderThief = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
+  let choosen = state.choosen;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
+    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
+    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
+
+let orderIndians = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
+  let choosen = state.choosen;
+  console.log('select', selectFrom)
+  let order = [
+    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
+    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
+    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
+  ]
+  return order
+}
 
 let nextSubstep = (state, order) => {
   let stepIndex = state.stepIndex + 1;
@@ -250,7 +320,6 @@ let whore = (state, action) => {
     case 'SELECT':
       return {
         ...state,
-        whoreChecks: action.choosen,
         choosen: action.choosen
       }
     default:
@@ -270,14 +339,31 @@ let sheriff = (state, action) => {
     case 'SELECT':
       return {
         ...state,
-        sheriffArrests: action.choosen,
-        choosen: action.choosen
+        choosen: action.choosen,
+        inPrison: action.choosen
       }
     default:
       return state;
   }
 }
 
+let pastor = (state, action) => {
+  let order = orderPastor(state)
+  next = nextSubstep(state, order);
+  switch (action.type) {
+    case 'MENU':
+      return getMenu(state);
+    case 'NEXT':
+      return next
+    case 'SELECT':
+      return {
+        ...state,
+        choosen: action.choosen
+      }
+    default:
+      return state;
+  }
+}
 
 export const night = (state, action) => {
   switch (state.step) {
@@ -293,6 +379,8 @@ export const night = (state, action) => {
       return whore(state, action)
     case 'SHERIFF':
       return sheriff(state, action)
+    case 'PASTOR':
+      return pastor(state, action)
     default:
       return state
   }
