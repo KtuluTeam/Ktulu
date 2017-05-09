@@ -35,6 +35,7 @@ export const CardSelectionView = ({citizens, bandits,
   indians, onSubmit}) => {
   return (
     <View>
+    <Text>Karty poszczególnych frakcji </Text>
       <FactionCards faction="citizens"
         cardsSelection={citizens} />
         <Text>______________

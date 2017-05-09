@@ -8,6 +8,7 @@ import {
 export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
   return (
     <View>
+    <Text>Liczebność poszczególnych frakcji </Text>
       <Text>
         Miastowych: {citizens}
       </Text>

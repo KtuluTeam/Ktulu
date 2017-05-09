@@ -19,7 +19,12 @@ isAlive = (character, state) => {
 }
 
 isWakeable = (character, state) => {
-  return isAlive(character, state) && !(state.inPrison === character);
+  return isAlive(character, state) && (state.inPrison === undefined || state.inPrison.role !== character);
+}
+
+isCardWakeable = (card, state) => {
+  console.log('isWakeable', card, state.inPrison)
+  return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role);
 }
 
 areWakeable = (alive, state) => {
@@ -78,7 +83,7 @@ citizensWakeable = (state) => {
 getFactionMembers = (faction, state) => {
   let array = []
   for(let card of state.cards){
-    if(card.faction === faction && card.alive && state.inPrison !== card.role){
+    if(card.faction === faction && card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role)){
       array.push(card);
     }
   }
@@ -196,7 +201,7 @@ let selectFromWakeableExcept = (except, state) => {
   let selectFrom = []
   for(let card of state.cards){
     console.log('card', card)
-    if(isWakeable(card.role, state) && !isInExcept(card.role, except)){
+    if(isCardWakeable(card, state) && !isInExcept(card.role, except)){
       console.log('accepted', card)
       selectFrom.push(card)
     }

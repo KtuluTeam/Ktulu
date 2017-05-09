@@ -109,8 +109,8 @@ showCard = (state, action) => {
     case 'SUBMIT':
       return {
         ...state,
-        //index: state.index + 1,
-        index: 12,
+        index: state.index + 1,
+        //index: 12,
         step: 'HIDDEN_CARD'
       }
     case 'NAME_INPUT':
