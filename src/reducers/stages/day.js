@@ -1,41 +1,101 @@
-import { nextDayState } from './day'
-import * as tools from './tools'
+import { nextNightState } from './night'
 
-export const initialNightState = (state) => {
+export const nextDayState = (state) => {
   return {
     ...state,
-    stage: 'NIGHT',
-    step: 'START_OF_GAME',
-    statueHolder: null,
-    tableIndex: -1,
-    day: 0
+    stage: 'DAY',
+    step: 'START_OF_DAY',
+    tableIndex: 0
   }
 }
 
-export const nextNightState = (state) => {
-  return {
-    ...state,
-    stage: 'NIGHT',
-    step: 'START_OF_NIGHT',
-    tableIndex: -1,
-    day: state.day + 1
+isAlive = (character, state) => {
+  for(let card of state.cards){
+    if(card.role === character){
+      return card.alive;
+    }
   }
+  return false;
+}
+
+isWakeable = (character, state) => {
+  return isAlive(character, state) && (state.inPrison === undefined || state.inPrison.role !== character);
+}
+
+isCardWakeable = (card, state) => {
+  console.log('isWakeable', card, state.inPrison)
+  return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role);
+}
+
+areWakeable = (alive, state) => {
+  for (let a of alive){
+    if(!isWakeable(a, state)){
+      return false;
+    }
+  }
+  return true;
+}
+
+factionMembersAlive = (faction, state) => {
+  let counter = 0;
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive){
+      counter++;
+    }
+  }
+  return counter;
+}
+
+factionMembersWakeable = (faction, state) => {
+  let counter = 0;
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive && state.inPrison !== card.role){
+      counter++;
+    }
+  }
+  return counter;
+}
+
+banditsAlive = (state) => {
+  return factionMembersAlive('bandits', state);
+}
+
+indiansAlive = (state) => {
+  return factionMembersAlive('indians', state);
+}
+
+citizensAlive = (state) => {
+  return factionMembersAlive('citizens', state);
+}
+
+banditsWakeable = (state) => {
+  return factionMembersWakeable('bandits', state);
+}
+
+indiansWakeable = (state) => {
+  return factionMembersWakeable('indians', state);
+}
+
+citizensWakeable = (state) => {
+  return factionMembersWakeable('citizens', state);
+}
+
+getFactionMembers = (faction, state) => {
+  let array = []
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role)){
+      array.push(card);
+    }
+  }
+  return array;
 }
 
 banditsReqs = (alive, state) => {
-  return tools.banditsWakeable(state) > 0;
+  return banditsWakeable(state) > 0;
 }
 
 indiansReqs = (alive, state) => {
-  return tools.indiansWakeable(state) > 0;
-}
-
-indiansWithStatueReqs = (alive, state) => {
-  return state.statueHolder.faction === 'indians' && tools.indiansWakeable(state) > 0;
-}
-
-coyoteReqs = (alive, state) => {
-  return tools.isAlive('solitaryCoyote', state) && tools.indiansAlive(state) === 1;
+  return indiansWakeable(state) > 0;
 }
 
 let whoreReqs = (alive, state) => {
@@ -43,16 +103,7 @@ let whoreReqs = (alive, state) => {
 }
 
 let sheriffReqs = (alive, state) => {
-  return tools.isAlive('sheriff', state);
-}
-
-areWakeable = (group, state) => {
-  for (let a of group){
-    if(!isWakeable(a, state)){
-      return false;
-    }
-  }
-  return true;
+  return isAlive('sheriff', state);
 }
 
 nextNight = (state) => {
@@ -65,15 +116,14 @@ nextNight = (state) => {
     {step: 'AVENGER', alive: ['avenger'], reqs: areWakeable, stepOrder: orderAvenger},
     {step: 'THIEF', alive: ['thief'], reqs: areWakeable, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
-    {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman},
+    {step: 'SHAMAN', alive: [], reqs: indiansReqs, stepOrder: orderShaman},
     {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
-    {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
-    {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
-    {step: 'WARRIOR', alive: ['warrior'], reqs: areWakeable, stepOrder: orderWarrior},
-    {step: 'INDIANS_SLEEP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansSleep},
+    {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWithStatue},
+    {step: 'COYOTE', alive: [], reqs: indiansReqs, stepOrder: orderCoyote},
+    {step: 'WARRIOR', alive: [], reqs: indiansReqs, stepOrder: orderWarrior},
+    {step: 'INDIANS_SLEEP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansSLeep},
   ]
-  while(tableIndex < (order.length - 1)){
-  tableIndex = tableIndex + 1;
+  while(tableIndex < order.length){
     console.log('index', tableIndex);
     if(order[tableIndex].reqs(order[tableIndex].alive, state)){
       let s = {
@@ -88,8 +138,18 @@ nextNight = (state) => {
         tableIndex: tableIndex
       };
     }
+    tableIndex = tableIndex + 1;
   }
   return initialDayState;
+}
+
+let getMenu = (state) => {
+  return {
+    ...state,
+    step: 'MENU',
+    last_step: state.step,
+    last_substep: state.substep
+  }
 }
 
 let startOfGame = (state, action) => {
@@ -101,7 +161,7 @@ let startOfGame = (state, action) => {
         choosen: state.cards[0]
       }
     case 'MENU':
-      return tools.getMenu(state)
+      return getMenu(state)
     default:
       return state
   }
@@ -113,15 +173,60 @@ let startOfNight = (state, action) => {
     case 'NEXT':
       return next
     case 'MENU':
-      return tools.getMenu(state)
+      return getMenu(state)
     default:
       return state
   }
 }
 
+let menu = (state, action) => {
+  switch (action.type) {
+    case 'RETURN':
+      return {
+        ...state,
+        step: state.last_step,
+        substep: state.last_substep
+      }
+    default:
+      return state
+  }
+}
+
+let isInExcept = (character, except) => {
+  for(let e of except){
+    if(e === character){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+let selectFromWakeableExcept = (except, state) => {
+  console.log('except', except)
+  let selectFrom = []
+  for(let card of state.cards){
+    console.log('card', card)
+    if(isCardWakeable(card, state) && !isInExcept(card.role, except)){
+      console.log('accepted', card)
+      selectFrom.push(card)
+    }
+  }
+  return selectFrom;
+}
+
+let getCardByRole = (cards, role) => {
+  for(let card of cards){
+    if(card.role === role){
+      return card;
+    }
+  }
+}
+
+
 let orderWhore = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['whore'], state);
-  let whore = tools.getCardByRole(state.cards, 'whore');
+  let selectFrom = selectFromWakeableExcept(['whore'], state);
+  let whore = getCardByRole(state.cards, 'whore');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -136,8 +241,8 @@ let orderWhore = (state) => {
 
 
 let orderSheriff = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept([], state);
-  let sheriff = tools.getCardByRole(state.cards, 'sheriff');
+  let selectFrom = selectFromWakeableExcept([], state);
+  let sheriff = getCardByRole(state.cards, 'sheriff');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -151,8 +256,8 @@ let orderSheriff = (state) => {
 
 
 let orderPastor = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -165,8 +270,8 @@ let orderPastor = (state) => {
 }
 
 let orderBandits = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(getFactionMembers('bandits', state), state);
-  let bandits = tools.getFactionMembers('bandits', state);
+  let selectFrom = selectFromWakeableExcept(getFactionMembers('bandits', state), state);
+  let bandits = getFactionMembers('bandits', state);
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -195,8 +300,8 @@ let orderBandits = (state) => {
 }
 
 let orderAvenger = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -209,8 +314,8 @@ let orderAvenger = (state) => {
 }
 
 let orderThief = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -222,93 +327,9 @@ let orderThief = (state) => {
   return order
 }
 
-let orderIndiansWakeUp = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderShaman = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderIndiansKill = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderIndiansWithStatue = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderCoyote = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderWarrior= (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
-  let choosen = state.choosen;
-  console.log('select', selectFrom)
-  let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'},
-  ]
-  return order
-}
-
-let orderIndiansSleep = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state);
-  let pastor = tools.getCardByRole(state.cards, 'pastor');
+let orderIndians = (state) => {
+  let selectFrom = selectFromWakeableExcept(['pastor'], state);
+  let pastor = getCardByRole(state.cards, 'pastor');
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -345,7 +366,7 @@ let whore = (state, action) => {
   next = nextSubstep(state, order);
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      return getMenu(state);
     case 'NEXT':
       return next
     case 'SUBMIT':
@@ -366,7 +387,7 @@ let sheriff = (state, action) => {
   next = nextSubstep(state, order);
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      return getMenu(state);
     case 'NEXT':
       return next
     case 'SUBMIT':
@@ -389,7 +410,7 @@ let pastor = (state, action) => {
   next = nextSubstep(state, order);
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      return getMenu(state);
     case 'NEXT':
       return next
     case 'SUBMIT':
@@ -409,7 +430,7 @@ let bandits = (state, action) => {
   next = nextSubstep(state, order);
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      return getMenu(state);
     case 'NEXT':
       return next
     case 'SUBMIT':

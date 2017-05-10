@@ -9,7 +9,7 @@ import * as cards from '../cards'
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
   if (statueHolder !== null){
-    pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ',' + statueHolder.name + ']';
+    pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ', ' + statueHolder.name + ']';
   }
   console.log('statueholder', statueHolder)
   return (
