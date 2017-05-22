@@ -6,7 +6,6 @@ citizenFactory = (name, image) => {
 
 name = "Miastowi"
 
-
 sheriff = citizenFactory("Szeryf", require("../../img/kartaszeryf.jpg"))
 goodGunslinger = citizenFactory("Dobry Rewolwerowiec", require("../../img/kartadobryrewolwerowiec.jpg"))
 pastor = citizenFactory("Pastor", require("../../img/kartapastor.jpg"))

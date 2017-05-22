@@ -24,7 +24,6 @@ export const tools = {
   'DISPLAY_FACTION': () => { return (<DisplayFaction />)},
   'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />)},
   'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />)}
-
 }
 
 
@@ -53,6 +52,10 @@ export const viewMap = {
       hasSubsteps: true
     },
     'BANDITS' : {
+      ...tools,
+      hasSubsteps: true
+    },
+    'THIEF' : {
       ...tools,
       hasSubsteps: true
     }

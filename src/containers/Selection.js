@@ -12,7 +12,7 @@ mapStateToProps = ({from, statueHolder, choosen, text}) => {
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onSubmit: () => { dispatch({ type: 'NEXT' }) },
+    onSubmit: () => { dispatch({ type: 'SUBMIT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) },
     onSelection: (choosen) => { dispatch({ type: 'SELECT', choosen: choosen}) }
   }

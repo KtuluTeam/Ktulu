@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
 import { InstructionView } from '../components/InstructionView'
 
-mapStateToProps = ({text, statueHolder}) => {
+mapStateToProps = ({text, statueHolder, instruction}) => {
   return {
     text: text,
-    statueHolder: statueHolder
+    statueHolder: statueHolder,
+    instruction: instruction
   }
 }
 

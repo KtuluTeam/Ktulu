@@ -15,22 +15,22 @@ initialFactionSizesState = {
 initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore', faction: 'citizens', alive: true, name:'dziwka_' },
-    { role: 'sheriff', faction: 'citizens', alive: true, name:'szeryf_' },
-    { role: 'pastor', faction: 'citizens' , alive: true, name:'pastor_' },
-    { role: 'goodGunslinger', faction: 'citizens' , alive: true, name:'dobryrev_' },
-    { role: 'insuranceAgent', faction: 'citizens' , alive: true, name:'agent_' }
+    { role: 'whore', faction: 'citizens', used: 0, alive: true, name:'dziwka_' },
+    { role: 'sheriff', faction: 'citizens', used: 0, alive: true, name:'szeryf_' },
+    { role: 'pastor', faction: 'citizens', used: 0, alive: true, name:'pastor_' },
+    { role: 'goodGunslinger', faction: 'citizens', used: 0 , alive: true, name:'dobryrev_' },
+    { role: 'insuranceAgent', faction: 'citizens', used: 0 , alive: true, name:'agent_' }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandits' , alive: true, name:'zlyrev_' },
-    { role: 'avenger', faction: 'bandits' , alive: true, name:'msciciel_' },
-    { role: 'thief', faction: 'bandits' , alive: true, name:'zlodziej_' },
-    { role: 'banditLeader', faction: 'bandits', alive: true, name:'herszt_' }
+    { role: 'evilGunslinger', faction: 'bandits', used: 0 , alive: true, name:'zlyrev_' },
+    { role: 'avenger', faction: 'bandits', used: 0 , alive: true, name:'msciciel_' },
+    { role: 'thief', faction: 'bandits', used: 0 , alive: true, name:'zlodziej_' },
+    { role: 'banditLeader', faction: 'bandits', used: 0, alive: true, name:'herszt_' }
   ],
   indians: [
-    { role: 'solitaryCoyote', faction: 'indians' , alive: true, name:'kojot_' },
-    { role: 'warrior', faction: 'indians', alive: true, name:'wojownik_'  },
-    { role: 'shaman', faction: 'indians', alive: true, name:'szaman_'  }
+    { role: 'solitaryCoyote', faction: 'indians', used: 0 , alive: true, name:'kojot_' },
+    { role: 'warrior', faction: 'indians', used: 0, alive: true, name:'wojownik_'  },
+    { role: 'shaman', faction: 'indians', used: 0, alive: true, name:'szaman_'  }
   ]
 }
 
@@ -109,8 +109,8 @@ showCard = (state, action) => {
     case 'SUBMIT':
       return {
         ...state,
-        index: state.index + 1,
-        //index: 12,
+        //index: state.index + 1,
+        index: 12,
         step: 'HIDDEN_CARD'
       }
     case 'NAME_INPUT':
@@ -119,7 +119,8 @@ showCard = (state, action) => {
         cards: state.cards.slice(0, state.index).concat([{
           ...state.cards[state.index],
           name: action.name,
-          alive: true
+          alive: true,
+          used: 0
         }]).concat(state.cards.slice(state.index + 1, state.number))
       }
     default:
