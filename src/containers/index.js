@@ -59,5 +59,8 @@ export const viewMap = {
       ...tools,
       hasSubsteps: true
     }
+  },
+  'DAY': {
+    'START_OF_DAY' : () => { return (<StartOfDay />) },
   }
 }
