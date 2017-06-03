@@ -350,8 +350,6 @@ let orderIndiansSleep = (state) => {
     {substep: 'INSTRUCTION', instruction: '', text: 'Indianie idą spać'}
   ]
   return order
-  ]
-  return order
 }
 
 let nextSubstep = (state, order) => {
