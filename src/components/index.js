@@ -11,7 +11,6 @@ export const StatueHolder = ({statueHolder}) => {
   if (statueHolder !== null){
     pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ', ' + statueHolder.name + ']';
   }
-  console.log('statueholder', statueHolder)
   return (
     <View>
       <Text>
@@ -22,7 +21,6 @@ export const StatueHolder = ({statueHolder}) => {
 }
 
 export const Top = ({statueHolder, onMenu}) => {
-  console.log('top', statueHolder)
   return (
     <View>
       <Button title="Menu" onPress={onMenu} />

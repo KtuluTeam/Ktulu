@@ -1,10 +1,12 @@
 let SUCCESS = 1;
 let FAILURE = -1;
 let UNUSED = 0;
+let USED = 1;
 
 export { SUCCESS };
 export { FAILURE };
 export { UNUSED };
+export { USED };
 
 isAlive = (character, state) => {
   for(let card of state.cards){
