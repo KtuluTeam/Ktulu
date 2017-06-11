@@ -1,7 +1,6 @@
 import { nextNightState } from './night'
 import * as tools from './tools'
 import * as cards from '../../cards'
-import * as cards from '../../cards'
 
 let { SUCCESS, FAILURE, UNUSED, USED } = tools
 
@@ -52,7 +51,7 @@ let duel = (state, action) => {
         }
       }
     case 'SELECT':
-      let choosen = action.choice
+      let choosen = action.choosen
       if(state.duelSelection === 1){
         return {
           ...state,
