@@ -1,6 +1,7 @@
 import { nextNightState } from './night'
 import * as tools from './tools'
 import * as cards from '../../cards'
+import * as cards from '../../cards'
 
 let { SUCCESS, FAILURE, UNUSED, USED } = tools
 
@@ -19,6 +20,10 @@ let search = (state, action) => {
   return state
 }
 
+let getDuelWinner = (participant1, participant2, chosenFromTwo, state) => {
+  return [chosenFromTwo]
+}
+
 let duel = (state, action) => {
   switch (action.type) {
     case 'MENU':
@@ -32,8 +37,8 @@ let duel = (state, action) => {
           instruction: 'Wybierz wyzywanego na pojedynek',
           text: '',
           duelSelection: 2,
-          from: tools.selectFromWakeableExcept([participant1], state),
-          choosen: tools.selectFromWakeableExcept([participant1], state)[0]
+          from: tools.selectFromWakeableExcept([state.participant1], state),
+          choosen: tools.selectFromWakeableExcept([state.participant1], state)[0]
         }
       }
       else{
@@ -42,7 +47,7 @@ let duel = (state, action) => {
           step: 'DUEL',
           substep: 'CHOICE_FROM_TWO',
           instruction: 'Przeprowadź dyskusję i głosowanie',
-          text: 'Kto wygrał pojedynek?',
+          text: 'Kto przegrał pojedynek?',
 
         }
       }
@@ -59,6 +64,32 @@ let duel = (state, action) => {
           ...state,
           participant2: choosen
         }
+      }
+    case 'CHOSE_FROM_TWO':
+      let chosenFromTwo = getDuelWinner(state.participant1, state.participant2, action.chosen_from_two, state)
+      let text = ''
+      if(chosenFromTwo.length === 0){
+        text = 'Remis. Nikt nie ginie'
+      }
+      else if (chosenFromTwo.length === 2) {
+        text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+         + ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
+      }
+      else{
+        text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+         + ')'
+      }
+      return {
+        ...state,
+        chosenFromTwo: chosenFromTwo,
+        substep: 'INSTRUCTION',
+        instruction: 'Ogłoś kto ginie',
+        text: text
+      }
+    case 'NEXT':
+      return{
+        ...state,
+        step: 'START_OF_DAY'
       }
   }
 }
