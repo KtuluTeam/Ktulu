@@ -10,9 +10,9 @@ mapStateToProps = ({statueHolder, text}) => {
 
 mapDispatchToProps = (dispatch) => {
   return {
-    onNo: () => { dispatch({ type: 'CHOICE', choice: false }) },
+    onNo: () => { dispatch({ type: 'CHOICE', choice: 0 }) },
     onMenu: () => { dispatch({ type: 'MENU' }) },
-    onYes: () => { dispatch({ type: 'CHOICE', choice: true }) }
+    onYes: () => { dispatch({ type: 'CHOICE', choice: 1 }) }
   }
 }
 

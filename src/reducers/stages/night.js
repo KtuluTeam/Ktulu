@@ -77,7 +77,7 @@ nextNight = (state) => {
   //  {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
     //{step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
     {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
-    {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
+    /*{step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},*/
     {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
     {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman},
@@ -89,7 +89,7 @@ nextNight = (state) => {
   ]
   while(tableIndex < (order.length - 1)){
   tableIndex = tableIndex + 1;
-    console.log('index', tableIndex);
+    console.log('main index', tableIndex);
     if(order[tableIndex].reqs(order[tableIndex].alive, state)){
       let s = {
         ...state,
@@ -126,7 +126,12 @@ let startOfNight = (state, action) => {
   let next = nextNight(state);
   switch (action.type) {
     case 'NEXT':
-      return next
+      return {
+        ...next,
+        bandits: undefined,
+        indians: undefined,
+        citizens: undefined
+      }
     case 'MENU':
       return tools.getMenu(state)
     default:
@@ -239,6 +244,9 @@ let orderAvenger = (state) => {
 let orderThief = (state) => {
   let notBandits = tools.selectFromWakeableExcept(getFactionMembers('bandits', state), state);
   let thief = tools.getCardByRole(state.cards, 'thief');
+  if(thief.used === undefined){
+    thief.used = UNSUSED;
+  }
   let choosen = state.choosen;
   console.log('select', selectFrom)
   let order = [
@@ -278,10 +286,14 @@ let orderIndiansWakeUp = (state) => {
 let orderShaman = (state) => {
   let notIndians = tools.selectFromWakeableExcept(getFactionMembers('indians', state), state);
   let shaman = tools.getCardByRole(state.cards, 'shaman');
+  console.log("shaman used", shaman.used);
+  console.log("shaman useNow", state.useNow);
+  if(shaman.used === undefined){
+    shaman.used = UNSUSED;
+  }
   let choosen = state.choosen;
-  console.log('select', selectFrom)
   let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: shaman}
+    {substep: 'INSTRUCTION', text: 'Działa szaman'}
   ]
   if(shaman.used === UNUSED){
     order.push({substep: 'CHOICE', instruction: 'Zapytaj', text: 'Czy szaman chce użyć swojej umiejętności?'});
@@ -290,20 +302,20 @@ let orderShaman = (state) => {
     order.push({substep: 'INSTRUCTION', instruction: 'Szaman już użył umiejętności. Zasymuluj wybór.',
     text: 'Czy szaman chce użyć swojej umiejętności?'});
   }
-  if(shaman.used === UNUSED && state.useNow){
+  if(shaman.used === UNUSED && state.useNow === 1){
     order.push({substep: 'SELECTION', from: bandits, text: 'Kogo szaman chce sprawdzić?', choosen: notIndians[0]});
   }
   else{
     order.push({substep: 'INSTRUCTION', instruction: 'Szaman już użył umiejętności lub nie chce użyć jej teraz. Zasymuluj wybór osoby.',
     text: 'Kogo szaman chce sprawdzić?'});
   }
-  if(shaman.used === USED && state.useNow){
+  if(shaman.used === USED && state.useNow === 1){
     order.push({substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę szamanowi'},);
   }
   else{
     order.push({none: true});
   }
-  order.push({substep: 'INSTRUCTION', text: 'Szaman idzie spać'})
+  order.push({substep: 'INSTRUCTION', text: 'Szaman użył umiejętności lub nie'})
   return order
 }
 
@@ -380,11 +392,15 @@ let nextSubstep = (state, order) => {
   if (stepIndex === order.length){
     return {
       ...state,
+      instruction: '',
+      text: '',
       ...nextNight(state)
     }
   }
   return {
     ...state,
+    instruction: '',
+    text: '',
     ...order[stepIndex],
     stepIndex: stepIndex
   };
@@ -478,24 +494,22 @@ let bandits = (state, action) => {
 }
 
 let avenger = (state, action) => {
-  let order = orderAvenger(state);
-  let next = nextSubstep(state, order);
+  let s = state;
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      s = tools.getMenu(state);
     case 'NEXT':
-      console.log('aaaaaaa')
-      return next
+      s = s;
     case 'SUBMIT':
-      return {
+      s = {
         ...tools.killByRole(state.choosen.role, next),
         statueHolder: state.choosen
-      }
+      };
     case 'CHOICE':
-      return {
-        ...next,
+      s = {
+        ...s,
         useNow: action.choice
-      }
+      };
     case 'SELECT':
     let used = '';
     let statueHolder = state.statueHolder;
@@ -506,35 +520,37 @@ let avenger = (state, action) => {
       else{
         used = FAILURE;
       }
-      return {
-        ...next,
+      s = {
+        ...s,
         choosen: action.choosen,
         used: used,
         statueHolder: statueHolder
-      }
+      };
     default:
-      return state;
+      s = state;
   }
+  let order = orderAvenger(s);
+  let next = nextSubstep(s, order);
+  return next;
 }
 
 let thief = (state, action) => {
-  let order = orderThief(state)
-  next = nextSubstep(state, order);
+  let s = state;
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      s = tools.getMenu(state);
     case 'NEXT':
-      return next
+      s = next;
     case 'SUBMIT':
-      return {
-        ...next,
+      s = {
+        ...s,
         statueHolder: state.choosen
-      }
+      };
     case 'CHOICE':
-      return {
-        ...next,
+      s = {
+        ...s,
         useNow: action.choice
-      }
+      };
     case 'SELECT':
     let used = '';
     let statueHolder = state.statueHolder;
@@ -545,15 +561,18 @@ let thief = (state, action) => {
       else{
         used = FAILURE;
       }
-      return {
-        ...next,
+      s = {
+        ...s,
         choosen: action.choosen,
         used: used,
         statueHolder: statueHolder
-      }
+      };
     default:
-      return state;
+      s = state;
   }
+  let order = orderThief(s)
+  next = nextSubstep(s, order);
+  return next;
 }
 
 let indiansWakeUp = (state, action) => {
@@ -570,32 +589,39 @@ let indiansWakeUp = (state, action) => {
 }
 
 let shaman = (state, action) => {
-  let order = orderShaman(state)
-  next = nextSubstep(state, order);
+  console.log(action);
+  let s = state;
+  let useNow = action.choice;
+  console.log('usenow', useNow);
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      s = tools.getMenu(state);
     case 'NEXT':
-      return next
+      s = next;
     case 'SUBMIT':
-      return {
-        ...next,
+      s = {
+        ...s,
         statueHolder: state.choosen
-      }
+      };
     case 'CHOICE':
-      return {
-        ...next,
-        useNow: action.choice
-      }
+    console.log('choice');
+      s = {
+        ...s,
+        useNow: useNow
+      };
     case 'SELECT':
-      return {
-        ...state,
-        choosen: action.choosen,
+      s = {
+        ...s,
+        choosen: useNow,
         used: USED
-      }
+      };
     default:
-      return state;
+      s = state;
   }
+  console.log("s", s);
+  let order = orderShaman(s)
+  next = nextSubstep(s, order);
+  return next;
 }
 
 let indiansSleep = (state, action) => {

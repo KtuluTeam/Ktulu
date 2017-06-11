@@ -26,7 +26,6 @@ isWakeable = (character, state) => {
 export { isWakeable }
 
 isCardWakeable = (card, state) => {
-  console.log('isWakeable', card, state.inPrison)
   return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role);
 }
 
@@ -143,12 +142,9 @@ let isInExcept = (character, except) => {
 export { isInExcept }
 
 let selectFromWakeableExcept = (except, state) => {
-  console.log('except', except)
   let selectFrom = []
   for(let card of state.cards){
-    console.log('card', card)
     if(isCardWakeable(card, state) && !isInExcept(card.role, except)){
-      console.log('accepted', card)
       selectFrom.push(card)
     }
   }
