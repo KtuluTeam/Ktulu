@@ -1,32 +1,30 @@
 {
-  "name": "Ktulu",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
-  "dependencies": {
-    "react": "16.0.0-alpha.6",
-    "react-native": "0.43.4",
-    "react-redux": "^5.0.4",
-    "redux": "^3.6.0"
-  },
-  "devDependencies": {
-    "eslint": "3.18.0",
-    "eslint-plugin-react": "6.10.3",
-    "eslint-plugin-promise": "3.5.0",
-    "eslint-plugin-standard": "2.1.1",
-    "eslint-config-standard": "7.1.0",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-config-standard-react": "4.3.0",
-    "babel-eslint": "7.2.0",
-    "babel-jest": "19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.2",
-    "react-test-renderer": "16.0.0-alpha.6"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+	"name": "Ktulu",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"react": "16.0.0-alpha.6",
+		"react-native": "0.43.4"
+	},
+	"devDependencies": {
+		"eslint": "3.18.0",
+		"eslint-plugin-react": "6.10.3",
+		"eslint-plugin-promise": "3.5.0",
+		"eslint-plugin-standard": "2.1.1",
+		"eslint-config-standard": "7.1.0",
+		"eslint-plugin-import": "2.2.0",
+		"eslint-config-standard-react": "4.3.0",
+		"babel-eslint": "7.2.0",
+		"babel-jest": "19.0.0",
+		"babel-preset-react-native": "1.9.1",
+		"jest": "19.0.2",
+		"react-test-renderer": "16.0.0-alpha.6"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
 }
