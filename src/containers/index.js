@@ -14,6 +14,7 @@ import { DisplayCard } from './DisplayCard'
 import { DisplayFaction } from './DisplayFaction'
 import { WakeUpByRole } from './WakeUpByRole'
 import { WakeUpByName } from './WakeUpByName'
+import { StartDay } from './StartDay'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />) },
@@ -91,7 +92,7 @@ export const viewMap = {
     }
   },
   'DAY': {
-     'START_OF_DAY': () => { return (<StartOfDay />) },
+     'START_OF_DAY': () => { return (<StartDay />) },
      'DUEL': {
        ...tools,
        hasSubsteps: true
