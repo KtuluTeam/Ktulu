@@ -2,13 +2,13 @@ import React from 'react'
 import {
   Text,
   View,
-  Button
+  TouchableOpacity,
+  Image
 } from 'react-native'
 import * as cards from '../cards'
 import { styles } from '../styles/styles'
 
 let handbookImg = require('../../img/icons/handbook.png')
-
 
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
