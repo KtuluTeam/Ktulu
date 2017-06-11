@@ -11,14 +11,19 @@ import { styles } from '../styles/styles'
 let handbookImg = require('../../img/icons/handbook.png')
 
 export const StatueHolder = ({statueHolder}) => {
-  let pos = ''
-  if (statueHolder !== null) {
-    pos = 'Posążek posiada ' + cards[statueHolder.faction][statueHolder.role].name + ' o imieniu ' + statueHolder.name
+  if (statueHolder === null) {
+    return (<View />)
   }
   return (
-    <View>
+    <View style={styles.statueHolderView}>
       <Text style={styles.statueHolderText} >
-        {pos}
+        'Posążek posiada:'
+      </Text>
+      <Text style={styles.statueHolderText} >
+        {'Postać: ' + cards[statueHolder.faction][statueHolder.role].name}
+      </Text>
+      <Text style={styles.statueHolderText} >
+        {'Imię: ' + statueHolder.name}
       </Text>
     </View>
   )

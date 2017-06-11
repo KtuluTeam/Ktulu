@@ -9,5 +9,6 @@ export const styles = StyleSheet.create({
   handbookImage: {width: 80, height: 80, left: 10},
   menuOpacity: {width: 100},
   header: {height: 80, flexDirection: 'row'}//, position: 'absolute', top: 0}
-  statueHolderText: {fontSize: 18}
+  statueHolderView: {height: 80, flexDirection: 'col'},
+  statueHolderText: {fontSize: 14}
 })
