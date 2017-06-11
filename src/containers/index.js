@@ -81,6 +81,10 @@ export const viewMap = {
       ...tools,
       hasSubsteps: true
     },
+    'WARRIOR': {
+      ...tools,
+      hasSubsteps: true
+    },
     'INDIANS_SLEEP': {
       ...tools,
       hasSubsteps: true
