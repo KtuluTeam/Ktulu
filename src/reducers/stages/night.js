@@ -84,7 +84,7 @@ let nextNight = (state) => {
     {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
-  /*  {step: 'WARRIOR', alive: ['warrior'], reqs: areWakeable, stepOrder: orderWarrior}, */
+    {step: 'WARRIOR', alive: ['warrior'], reqs: areWakeable, stepOrder: orderWarrior},
     {step: 'INDIANS_SLEEP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansSleep}
   ]
   while (tableIndex < (order.length - 1)) {
@@ -306,13 +306,18 @@ let orderShaman = (state) => {
   return order
 }
 
-let orderIndiansKill = (state) => {
+let orderIndiansKill = (state, gotStatue) => {
   let selectFrom = tools.selectFromWakeableExcept(tools.getFactionMembers('indians', state), state)
   let choosen = state.choosen
   let order = [
     {substep: 'SELECTION', from: selectFrom, text: 'Indianie wybierają kogo chcą zabić', choosen: selectFrom[0]},
     {substep: 'INSTRUCTION', text: 'Ogłoś: "Tej nocy indianie zabijają ' + state.choosen.name + ', jego rola to: ' + cards[state.choosen.faction][state.choosen.role].name + '"'}
   ]
+  if (gotStatue === SUCCESS && state.useNow) {
+    order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś', text: 'Indianie zdobyli posążek'})
+  } else {
+    order.push({none: true})
+  }
   return order
 }
 
@@ -337,15 +342,26 @@ let orderCoyote = (state) => {
 }
 
 let orderWarrior = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state)
-  let pastor = tools.getCardByRole(state.cards, 'pastor')
+  let notIndians = tools.selectFromWakeableExcept(tools.getFactionMembers('indians', state), state)
+  let warrior = tools.getCardByRole(state.cards, 'warrior')
   let choosen = state.choosen
   let order = [
-    {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
-    {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
-    {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
+    {substep: 'CHOICE', instruction: 'Zapytaj', text: 'Czy wojownik chce użyć swojej umiejętności?'}
   ]
+  if (state.useNow) {
+    order.push({substep: 'SELECTION', from: notIndians, text: 'Kogo wojownik chce zabić?', choosen: notIndians[0]})
+    order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś', text: 'Wojownik zabija ' + state.choosen.name + ', jego rola to: ' + cards[state.choosen.faction][state.choosen.role].name})
+  } else {
+    order.push({substep: 'INSTRUCTION',
+      instruction: 'Ogłoś',
+      text: 'Wojownik zrezygnował z użycia swojej umiejętności tej nocy'})
+    order.push({none: true})
+  }
+  if (warrior.used === SUCCESS && state.useNow) {
+    order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś', text: 'Indianie zdobyli posążek'})
+  } else {
+    order.push({none: true})
+  }
   return order
 }
 
@@ -472,9 +488,15 @@ let avenger = (state, action) => {
     case 'NEXT':
       break
     case 'SUBMIT':
+      let used = FAILURE
+      let statueHolder = state.statueHolder
+      if (state.choosen.role === state.statueHolder.role) {
+        used = SUCCESS
+        statueHolder = tools.getCardByRole(state.cards, 'avenger')
+      }
       s = {
         ...tools.killByRole(state.choosen.role, state),
-        statueHolder: tools.getCardByRole(state.cards, 'avenger')
+        statueHolder: statueHolder
       }
       break
     case 'CHOICE':
@@ -484,19 +506,10 @@ let avenger = (state, action) => {
       }
       break
     case 'SELECT':
-      let used = ''
-      let statueHolder = state.statueHolder
-      if (action.choosen.role === state.statueHolder.role) {
-        used = SUCCESS
-        statueHolder = tools.getCardByRole('avenger', state)
-      } else {
-        used = FAILURE
-      }
+
       s = {
         ...s,
-        choosen: action.choosen,
-        used: used,
-        statueHolder: statueHolder
+        choosen: action.choosen
       }
       return s
     default:
@@ -517,7 +530,7 @@ let thief = (state, action) => {
       break
     case 'SUBMIT':
       let used = FAILURE
-      if (action.choosen.role === state.statueHolder.role) {
+      if (state.choosen.role === state.statueHolder.role) {
         used = SUCCESS
         statueHolder = tools.getCardByRole(state.cards, 'thief')
       }
@@ -607,15 +620,16 @@ let shaman = (state, action) => {
 let indiansKill = (state, action) => {
   let s = Object.assign({}, state)
   let statueHolder = state.statueHolder
+  let gotStatue = FAILURE
   switch (action.type) {
     case 'MENU':
       return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
-
       if (state.choosen.role === state.statueHolder.role) {
         statueHolder = tools.getFactionMembers('indians', state)[0]
+        gotStatue = SUCCESS
       }
       s = {
         ...tools.killByRole(state.choosen.role, {...s,
@@ -631,7 +645,7 @@ let indiansKill = (state, action) => {
     default:
       s = state
   }
-  let order = orderIndiansKill(s)
+  let order = orderIndiansKill(s, gotStatue)
   let next = nextSubstep(s, order)
   return next
 }
@@ -691,6 +705,46 @@ let coyote = (state, action) => {
   return next
 }
 
+let warrior = (state, action) => {
+  let s = state
+  switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
+    case 'NEXT':
+      break
+    case 'SUBMIT':
+      let used = FAILURE
+      let statueHolder = state.statueHolder
+      if (state.choosen.role === state.statueHolder.role) {
+        used = SUCCESS
+        statueHolder = tools.getCardByRole(state.cards, 'warrior')
+      }
+      s = {
+        ...tools.killByRole(state.choosen.role, state),
+        statueHolder: statueHolder,
+        used: used
+      }
+      break
+    case 'CHOICE':
+      s = {
+        ...s,
+        useNow: action.choice
+      }
+      break
+    case 'SELECT':
+      s = {
+        ...s,
+        choosen: action.choosen,
+      }
+      return s
+    default:
+      s = state
+  }
+  let order = orderWarrior(s)
+  let next = nextSubstep(s, order)
+  return next
+}
+
 let indiansSleep = (state, action) => {
   let order = orderIndiansSleep(state)
   let next = nextSubstep(state, order)
@@ -734,6 +788,8 @@ export const night = (state, action) => {
       return indiansWithStatue(state, action)
     case 'COYOTE':
       return coyote(state, action)
+    case 'WARRIOR':
+      return warrior(state, action)
     case 'INDIANS_SLEEP':
       return indiansSleep(state, action)
     default:
