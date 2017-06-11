@@ -20,7 +20,7 @@ let search = (state, action) => {
 }
 
 let getDuelWinner = (participant1, participant2, chosenFromTwo, state) => {
-  return [chosenFromTwo]
+  return chosenFromTwo
 }
 
 let duel = (state, action) => {
@@ -58,18 +58,18 @@ let duel = (state, action) => {
         choosen: action.choosen
       }
     case 'CHOSE_FROM_TWO':
-      let chosenFromTwo = getDuelWinner(state.participant1, state.participant2, action.chosen_from_two, state)
+      let chosenFromTwo = getDuelWinner(state.participant1, state.participant2, action.chosenFromTwo, state)
       let text = ''
       if(chosenFromTwo.length === 0){
         text = 'Remis. Nikt nie ginie'
       }
       else if (chosenFromTwo.length === 2) {
         text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
-         + ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
+          ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
       }
       else{
-        text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
-         + ')'
+        text = 'Remis. Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+          ')'
       }
       return {
         ...state,
