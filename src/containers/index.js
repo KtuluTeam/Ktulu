@@ -91,6 +91,6 @@ export const viewMap = {
     }
   },
   'DAY': {
-// TODO    'START_OF_DAY': () => { return (<StartOfDay />) }
+     'START_OF_DAY': () => { return (<StartOfDay />) }
   }
 }

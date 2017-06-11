@@ -1,15 +1,25 @@
-import { setup, night } from './stages'
+import { setup, night, day } from './stages'
 
 const initialState = setup.initialSetupState
 
+const checkWinConditions = (state) => {
+  return state
+  //todo
+}
+
 export const mainReducer = (state = initialState, action) => {
-  switch (state.stage) {
+  let newState = checkWinConditions(state)
+  switch (newState.stage) {
     case 'SETUP':
       return setup.setup(state, action)
     case 'NIGHT':
       return night.night(state, action)
+    case 'DAY':
+      return day.day(state, action)
+    case 'GAME_OVER':
+      return newState
     default:
-      return state
+      return newState
   }
 }
 
