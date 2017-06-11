@@ -85,11 +85,7 @@ export let getMenu = (state) => {
 export let menu = (state, action) => {
   switch (action.type) {
     case 'RETURN':
-      return {
-        ...state,
-        step: state.last_step,
-        substep: state.last_substep
-      }
+      return state.last_state
     default:
       return state
   }

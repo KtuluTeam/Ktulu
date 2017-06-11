@@ -4,7 +4,7 @@ import { DisplayFactionView } from '../components/DisplayFactionView'
 let mapStateToProps = ({text, statueHolder, who}) => {
   return {
     text: text,
-    statueHolder: statueHolder,
+    statueHolder: null,
     who: who
   }
 }
