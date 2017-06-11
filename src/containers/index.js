@@ -15,68 +15,66 @@ import { DisplayFaction } from './DisplayFaction'
 import { WakeUpByRole } from './WakeUpByRole'
 import { WakeUpByName } from './WakeUpByName'
 
-
 export const tools = {
-  'INSTRUCTION': () => { return (<Instruction />)},
-  'SELECTION': () => { return (<Selection />)},
-  'CHOICE': () => { return (<Choice />)},
-  'DISPLAY_CARD': () => { return (<DisplayCard />)},
-  'DISPLAY_FACTION': () => { return (<DisplayFaction />)},
-  'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />)},
-  'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />)}
+  'INSTRUCTION': () => { return (<Instruction />) },
+  'SELECTION': () => { return (<Selection />) },
+  'CHOICE': () => { return (<Choice />) },
+  'DISPLAY_CARD': () => { return (<DisplayCard />) },
+  'DISPLAY_FACTION': () => { return (<DisplayFaction />) },
+  'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />) },
+  'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />) }
 }
-
 
 export const viewMap = {
   'SETUP': {
     'NUMBER_PLAYERS': () => { return (<NumberPlayers />) },
     'FACTION_SIZES': () => { return (<FactionSizes />) },
     'FACTION_CARDS': () => { return (<CardSelection />) },
-    'HIDDEN_CARD' : () => { return (<HiddenCard />) },
-    'SHOW_CARD' :  () => { return (<ShowCard />) }
+    'HIDDEN_CARD': () => { return (<HiddenCard />) },
+    'SHOW_CARD': () => { return (<ShowCard />) }
   },
   'NIGHT': {
-    'START_OF_NIGHT' : () => { return (<StartOfNight />) },
-    'START_OF_GAME' : () => { return (<StartOfGame />) },
-    'MENU' : () => { return (<Menu />) },
-    'WHORE' : {
+    'START_OF_NIGHT': () => { return (<StartOfNight />) },
+    'START_OF_GAME': () => { return (<StartOfGame />) },
+    'MENU': () => { return (<Menu />) },
+    'WHORE': {
       ...tools,
       hasSubsteps: true
     },
-    'SHERIFF' : {
+    'SHERIFF': {
       ...tools,
       hasSubsteps: true
     },
-    'PASTOR' : {
+    'PASTOR': {
       ...tools,
       hasSubsteps: true
     },
-    'BANDITS' : {
+    'BANDITS': {
       ...tools,
       hasSubsteps: true
     },
-    'AVENGER' : {
+    'AVENGER': {
       ...tools,
       hasSubsteps: true
     },
-    'THIEF' : {
+    'THIEF': {
       ...tools,
       hasSubsteps: true
     },
-    'INDIANS_WAKEUP' : {
+    'INDIANS_WAKEUP': {
       ...tools,
       hasSubsteps: true
     },
-    'SHAMAN' : {
+    'SHAMAN': {
       ...tools,
       hasSubsteps: true
     },
-    'INDIANS_SLEEP' : {
+    'INDIANS_SLEEP': {
       ...tools,
       hasSubsteps: true
-    },
+    }
   },
   'DAY': {
-    'START_OF_DAY' : () => { return (<StartOfDay />) },
+// TODO    'START_OF_DAY': () => { return (<StartOfDay />) }
   }
 }

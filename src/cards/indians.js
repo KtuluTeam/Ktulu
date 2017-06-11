@@ -1,14 +1,13 @@
 import { cardFactory } from './card'
 
-indianFactory = (name, imageFileName) => {
-  return cardFactory("indian", name, imageFileName);
+let indianFactory = (name, imageFileName) => {
+  return cardFactory('indian', name, imageFileName)
 }
 
-name = "Indianie"
+let name = 'Indianie'
 
-
-solitaryCoyote = indianFactory("Samotny Kojot", require("../../img/kartasamotnykojot.jpg"))
-warrior = indianFactory("Wojownik", require("../../img/kartawojownik.jpg"))
-shaman = indianFactory("Szaman", require("../../img/kartaszaman.jpg"))
+let solitaryCoyote = indianFactory('Samotny Kojot', require('../../img/kartasamotnykojot.jpg'))
+let warrior = indianFactory('Wojownik', require('../../img/kartawojownik.jpg'))
+let shaman = indianFactory('Szaman', require('../../img/kartaszaman.jpg'))
 
 export { solitaryCoyote, warrior, shaman, name }

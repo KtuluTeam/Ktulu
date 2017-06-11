@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { WakeUpByNameView } from '../components/WakeUpByNameView'
 
-mapStateToProps = ({text, statueHolder, who}) => {
+let mapStateToProps = ({text, statueHolder, who}) => {
   return {
     text: text,
     statueHolder: statueHolder,
@@ -9,7 +9,7 @@ mapStateToProps = ({text, statueHolder, who}) => {
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'NEXT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }
