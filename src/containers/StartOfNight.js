@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
 import { StartOfNightView } from '../components/StartOfNightView'
 
-mapStateToProps = ({statueHolder}) => {
+let mapStateToProps = ({statueHolder}) => {
   return {
     statueHolder: statueHolder
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'NEXT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }
