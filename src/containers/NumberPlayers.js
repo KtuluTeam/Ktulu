@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
 import { NumberPlayersView } from '../components/NumberPlayersView'
 
-mapStateToProps = ({number}) => {
+let mapStateToProps = ({number}) => {
   return {
     number: number
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'SUBMIT' }) }
   }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { SelectionView } from '../components/SelectionView'
 
-mapStateToProps = ({from, statueHolder, choosen, text}) => {
+let mapStateToProps = ({from, statueHolder, choosen, text}) => {
   return {
     chooseFrom: from,
     statueHolder: statueHolder,
@@ -10,11 +10,11 @@ mapStateToProps = ({from, statueHolder, choosen, text}) => {
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'SUBMIT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) },
-    onSelection: (choosen) => { dispatch({ type: 'SELECT', choosen: choosen}) }
+    onSelection: (choosen) => { dispatch({type: 'SELECT', choosen: choosen}) }
   }
 }
 

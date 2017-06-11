@@ -9,7 +9,12 @@
     "generator-star-spacing": 0,
     "no-duplicate-imports": 0,
     "import/no-duplicates": 2,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "space-before-function-paren": ["error", {
+        "anonymous": "ignore",
+        "named": "ignore",
+        "asyncArrow": "ignore"
+    }],
   },
   "globals": {
     "fetch": false
@@ -18,4 +23,3 @@
     "mocha": true
   }
 }
-

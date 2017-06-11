@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import { HiddenCardView } from '../components/HiddenCardView'
 
-mapStateToProps = ({index, number}) => {
+let mapStateToProps = ({index, number}) => {
   return {
     index: index,
     number: number
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'SUBMIT' }) }
   }

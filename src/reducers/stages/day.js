@@ -1,4 +1,6 @@
+// TODO remove useless imports
 import { nextNightState } from './night'
+import * as tools from './tools'
 
 export const nextDayState = (state) => {
   return {
@@ -12,16 +14,15 @@ export const nextDayState = (state) => {
 let startOfDay = (state, action) => {
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state);
+      return tools.getMenu(state)
     case 'NEXT':
       return {
         ...state
       }
     default:
-      return state;
+      return state
   }
 }
-
 
 export const day = (state, action) => {
   switch (state.step) {

@@ -5,37 +5,36 @@ export const initialSetupState = {
   number: 12
 }
 
-initialFactionSizesState = {
+let initialFactionSizesState = {
   step: 'FACTION_SIZES',
   citizens: 5,
   bandits: 4,
   indians: 3
 }
 
-initialFactionCardsState = {
+let initialFactionCardsState = {
   step: 'FACTION_CARDS',
   citizens: [
-    { role: 'whore', faction: 'citizens', used: 0, alive: true, name:'dziwka_' },
-    { role: 'sheriff', faction: 'citizens', used: 0, alive: true, name:'szeryf_' },
-    { role: 'pastor', faction: 'citizens', used: 0, alive: true, name:'pastor_' },
-    { role: 'goodGunslinger', faction: 'citizens', used: 0 , alive: true, name:'dobryrev_' },
-    { role: 'insuranceAgent', faction: 'citizens', used: 0 , alive: true, name:'agent_' }
+    { role: 'whore', faction: 'citizens', used: 0, alive: true, name: 'dziwka_' },
+    { role: 'sheriff', faction: 'citizens', used: 0, alive: true, name: 'szeryf_' },
+    { role: 'pastor', faction: 'citizens', used: 0, alive: true, name: 'pastor_' },
+    { role: 'goodGunslinger', faction: 'citizens', used: 0, alive: true, name: 'dobryrev_' },
+    { role: 'insuranceAgent', faction: 'citizens', used: 0, alive: true, name: 'agent_' }
   ],
   bandits: [
-    { role: 'evilGunslinger', faction: 'bandits', used: 0 , alive: true, name:'zlyrev_' },
-    { role: 'avenger', faction: 'bandits', used: 0 , alive: true, name:'msciciel_' },
-    { role: 'thief', faction: 'bandits', used: 0 , alive: true, name:'zlodziej_' },
-    { role: 'banditLeader', faction: 'bandits', used: 0, alive: true, name:'herszt_' }
+    { role: 'evilGunslinger', faction: 'bandits', used: 0, alive: true, name: 'zlyrev_' },
+    { role: 'avenger', faction: 'bandits', used: 0, alive: true, name: 'msciciel_' },
+    { role: 'thief', faction: 'bandits', used: 0, alive: true, name: 'zlodziej_' },
+    { role: 'banditLeader', faction: 'bandits', used: 0, alive: true, name: 'herszt_' }
   ],
   indians: [
-    { role: 'solitaryCoyote', faction: 'indians', used: 0 , alive: true, name:'kojot_' },
-    { role: 'warrior', faction: 'indians', used: 0, alive: true, name:'wojownik_'  },
-    { role: 'shaman', faction: 'indians', used: 0, alive: true, name:'szaman_'  }
+    { role: 'solitaryCoyote', faction: 'indians', used: 0, alive: true, name: 'kojot_' },
+    { role: 'warrior', faction: 'indians', used: 0, alive: true, name: 'wojownik_' },
+    { role: 'shaman', faction: 'indians', used: 0, alive: true, name: 'szaman_' }
   ]
 }
 
-
-numberPlayers = (state, action) => {
+let numberPlayers = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       return {
@@ -47,7 +46,7 @@ numberPlayers = (state, action) => {
   }
 }
 
-factionSizes = (state, action) => {
+let factionSizes = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       return {
@@ -59,15 +58,15 @@ factionSizes = (state, action) => {
   }
 }
 
-shuffle = (a) => {
+let shuffle = (a) => {
   for (let i = a.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    let j = Math.floor(Math.random() * i);
+    [a[i - 1], a[j]] = [a[j], a[i - 1]]
   }
   return a
 }
 
-initialHiddenCardState = (state) => {
+let initialHiddenCardState = (state) => {
   let cards = shuffle(state.citizens.concat(state.bandits).concat(state.indians))
   console.log(cards)
   return {
@@ -78,7 +77,7 @@ initialHiddenCardState = (state) => {
   }
 }
 
-factionCards = (state, action) => {
+let factionCards = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       return initialHiddenCardState(state)
@@ -87,13 +86,12 @@ factionCards = (state, action) => {
   }
 }
 
-hiddenCard = (state, action) => {
+let hiddenCard = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
-      if (state.index === state.number){
+      if (state.index === state.number) {
         return initialNightState(state)
-      }
-      else{
+      } else {
         return {
           ...state,
           step: 'SHOW_CARD'
@@ -104,12 +102,12 @@ hiddenCard = (state, action) => {
   }
 }
 
-showCard = (state, action) => {
+let showCard = (state, action) => {
   switch (action.type) {
     case 'SUBMIT':
       return {
         ...state,
-        //index: state.index + 1,
+        // index: state.index + 1,
         index: 12,
         step: 'HIDDEN_CARD'
       }
@@ -127,7 +125,6 @@ showCard = (state, action) => {
       return state
   }
 }
-
 
 export const setup = (state, action) => {
   switch (state.step) {

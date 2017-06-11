@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import * as cards from '../cards'
 
-FactionCards = ({faction, cardsSelection}) => {
+let FactionCards = ({faction, cardsSelection}) => {
   return (
     <View>
       <Text>
@@ -14,16 +14,16 @@ FactionCards = ({faction, cardsSelection}) => {
       </Text>
       <View>
         { cardsSelection.map((cardSelection) => {
-            return (
-              <View key={cards[faction][cardSelection.role].name}>
-                <Text>
-                  {cards[faction][cardSelection.role].name}
-                </Text>
-              </View>
-            )
-          }) }
+          return (
+            <View key={cards[faction][cardSelection.role].name}>
+              <Text>
+                {cards[faction][cardSelection.role].name}
+              </Text>
+            </View>
+          )
+        }) }
       </View>
-  </View>
+    </View>
   )
 }
 
@@ -31,18 +31,18 @@ export const CardSelectionView = ({citizens, bandits,
   indians, onSubmit}) => {
   return (
     <View>
-    <Text>Karty poszczególnych frakcji </Text>
-      <FactionCards faction="citizens"
+      <Text>Karty poszczególnych frakcji </Text>
+      <FactionCards faction='citizens'
         cardsSelection={citizens} />
-        <Text>______________
+      <Text>______________
         </Text>
-      <FactionCards faction="bandits"
+      <FactionCards faction='bandits'
         cardsSelection={bandits} />
-        <Text>______________
+      <Text>______________
         </Text>
-      <FactionCards faction="indians"
+      <FactionCards faction='indians'
         cardsSelection={indians} />
-        <Button title="Zatwierdź" onPress={onSubmit} />
+      <Button title='Zatwierdź' onPress={onSubmit} />
     </View>
   )
 }
