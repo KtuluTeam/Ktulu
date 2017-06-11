@@ -8,10 +8,11 @@ import {
 import { Top } from './index'
 
 export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
-  onSelection, choosen, text}) => {
+  onSelection, choosen, text, instruction}) => {
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
+      <Text> {instruction} </Text>
       <Text> {text} </Text>
       <Picker
         selectedValue={choosen}

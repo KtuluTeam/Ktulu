@@ -104,7 +104,6 @@ export let selectFromWakeableExcept = (except, state) => {
   return state.cards.filter((card) => {
     return isCardWakeable(card, state) && !isInExcept(card.role, except)
   })
-  // return selectFrom;
 }
 
 export let getCardByRole = (cards, role) => {

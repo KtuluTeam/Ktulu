@@ -14,6 +14,8 @@ import { DisplayCard } from './DisplayCard'
 import { DisplayFaction } from './DisplayFaction'
 import { WakeUpByRole } from './WakeUpByRole'
 import { WakeUpByName } from './WakeUpByName'
+import { StartDay } from './StartDay'
+import { ChoiceFromTwo } from './ChoiceFromTwo'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />) },
@@ -22,7 +24,8 @@ export const tools = {
   'DISPLAY_CARD': () => { return (<DisplayCard />) },
   'DISPLAY_FACTION': () => { return (<DisplayFaction />) },
   'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />) },
-  'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />) }
+  'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />) },
+  'CHOICE_FROM_TWO': () => { return (<ChoiceFromTwo />) }
 }
 
 export const viewMap = {
@@ -91,6 +94,14 @@ export const viewMap = {
     }
   },
   'DAY': {
-// TODO    'START_OF_DAY': () => { return (<StartOfDay />) }
+     'START_OF_DAY': () => { return (<StartDay />) },
+     'DUEL': {
+       ...tools,
+       hasSubsteps: true
+     },
+     'SEARCH': {
+       ...tools,
+       hasSubsteps: true
+     },
   }
 }
