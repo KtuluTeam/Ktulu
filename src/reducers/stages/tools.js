@@ -1,10 +1,12 @@
 let SUCCESS = 1;
 let FAILURE = -1;
 let UNUSED = 0;
+let USED = 1;
 
 export { SUCCESS };
 export { FAILURE };
 export { UNUSED };
+export { USED };
 
 isAlive = (character, state) => {
   for(let card of state.cards){
@@ -24,7 +26,6 @@ isWakeable = (character, state) => {
 export { isWakeable }
 
 isCardWakeable = (card, state) => {
-  console.log('isWakeable', card, state.inPrison)
   return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role);
 }
 
@@ -131,7 +132,7 @@ export { menu }
 
 let isInExcept = (character, except) => {
   for(let e of except){
-    if(e === character){
+    if(e.role === character){
       return true;
     }
   }
@@ -141,16 +142,10 @@ let isInExcept = (character, except) => {
 export { isInExcept }
 
 let selectFromWakeableExcept = (except, state) => {
-  console.log('except', except)
-  let selectFrom = []
-  for(let card of state.cards){
-    console.log('card', card)
-    if(isCardWakeable(card, state) && !isInExcept(card.role, except)){
-      console.log('accepted', card)
-      selectFrom.push(card)
-    }
-  }
-  return selectFrom;
+  return state.cards.filter((card) => {
+    return isCardWakeable(card, state) && !isInExcept(card.role, except);
+  });
+  //return selectFrom;
 }
 
 export { selectFromWakeableExcept }
@@ -164,3 +159,18 @@ let getCardByRole = (cards, role) => {
 }
 
 export { getCardByRole }
+
+let killByRole = (role, state) => {
+  let cards = state.cards;
+  for(let card of cards){
+    if(card.role === role){
+      card.alive = false;
+    }
+  }
+  return {
+    ...state,
+    cards: cards
+  }
+}
+
+export { killByRole }

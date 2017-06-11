@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { viewMap } from '../containers'
 
 let GameView = ({stage, step, substep}) => {
-  console.log('gameview', stage, step, substep)
   if(viewMap[stage][step].hasSubsteps === undefined){
     return viewMap[stage][step]()
   }

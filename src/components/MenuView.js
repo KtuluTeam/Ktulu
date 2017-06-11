@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 
 export const MenuView = ({onSubmit}) => {
-  console.log("rendering MenuView")
   return (
     <View>
     <Text>

@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 
 export const HiddenCardView = ({number, index, onSubmit}) => {
-  console.log("rendering HiddenCardView")
   let text = ''
   let buttonTitle = ''
   if (number === index){

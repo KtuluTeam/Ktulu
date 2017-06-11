@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 
 export const NumberPlayersView = ({number, onSubmit}) => {
-  console.log("rendering NumberPlayersView")
   return (
     <View>
     <Text>Liczba graczy</Text>

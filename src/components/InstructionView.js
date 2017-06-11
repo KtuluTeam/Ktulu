@@ -7,8 +7,6 @@ import {
 import { Top } from './index'
 
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
-  console.log("rendering StartOfNightView")
-    console.log(statueHolder)
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>

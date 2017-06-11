@@ -7,8 +7,6 @@ import {
 import { Top } from './index'
 
 export const StartOfGameView = ({statueHolder, onSubmit, onMenu}) => {
-  console.log("rendering StartOfNightView")
-    console.log(statueHolder)
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
