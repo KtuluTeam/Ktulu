@@ -366,9 +366,14 @@ let orderWarrior = (state) => {
 }
 
 let orderIndiansSleep = (state) => {
-  let order = [
-    {substep: 'INSTRUCTION', instruction: '', text: 'Indianie idą spać'}
-  ]
+  let indians = tools.getFactionMembers('indians', state)
+  let order = []
+  if (state.statueHolder === null || state.statueHolder.faction === 'indians') {
+    order.push({substep: 'SELECTION', from: indians, text: 'Indianie wybierają kto będzie miał posążek.', choosen: indians[0]})
+  } else {
+    order.push({none: true})
+  }
+  order.push({substep: 'INSTRUCTION', instruction: '', text: 'Indianie idą spać'})
   return order
 }
 
@@ -746,16 +751,27 @@ let warrior = (state, action) => {
 }
 
 let indiansSleep = (state, action) => {
-  let order = orderIndiansSleep(state)
-  let next = nextSubstep(state, order)
+  let s = state
   switch (action.type) {
     case 'MENU':
       return tools.getMenu(state)
     case 'NEXT':
-      return next
+      break
+    case 'SUBMIT':
+      s = {
+        ...next,
+        statueHolder: state.choosen
+      }
+    case 'SELECT':
+      return {
+        ...state,
+        choosen: action.choosen
+      }
     default:
-      return state
+      break
   }
+  let order = orderIndiansSleep(s)
+  return nextSubstep(state, order)
 }
 
 export const night = (state, action) => {
