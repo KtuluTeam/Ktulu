@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   nextOpacity: {width: 400},
   handbookImage: {width: 80, height: 80, left: 10},
   menuOpacity: {width: 100},
-  header: {height: 80, flexDirection: 'row'},
-  statueHolderView: {height: 80, flexDirection: 'col'},
-  statueHolderText: {fontSize: 14}
+  header: {height: 130, flexDirection: 'row', top: 20},
+  statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10},
+  statueHolderText: {fontSize: 16}
 })

@@ -17,7 +17,7 @@ export const StatueHolder = ({statueHolder}) => {
   return (
     <View style={styles.statueHolderView}>
       <Text style={styles.statueHolderText} >
-        'Posążek posiada:'
+        Posążek posiada:
       </Text>
       <Text style={styles.statueHolderText} >
         {'Postać: ' + cards[statueHolder.faction][statueHolder.role].name}
