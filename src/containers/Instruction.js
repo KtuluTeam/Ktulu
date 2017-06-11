@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { InstructionView } from '../components/InstructionView'
 
-mapStateToProps = ({text, statueHolder, instruction}) => {
+let mapStateToProps = ({text, statueHolder, instruction}) => {
   return {
     text: text,
     statueHolder: statueHolder,
@@ -9,7 +9,7 @@ mapStateToProps = ({text, statueHolder, instruction}) => {
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'NEXT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }

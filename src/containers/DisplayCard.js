@@ -1,16 +1,15 @@
 import { connect } from 'react-redux'
 import { DisplayCardView } from '../components/DisplayCardView'
 
-
-mapStateToProps = ({text, statueHolder, who}) => {
+let mapStateToProps = ({text, statueHolder, who}) => {
   return {
     text: text,
-    statueHolder: statueHolder,
+    statueHolder: null,
     who: who
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'NEXT' }) },
     onMenu: () => { dispatch({ type: 'MENU' }) }

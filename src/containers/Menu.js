@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import { MenuView } from '../components/MenuView'
 
-mapStateToProps = () => {
+let mapStateToProps = () => {
   return {
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'RETURN' }) }
   }

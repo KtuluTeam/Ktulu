@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { ShowCardView } from '../components/ShowCardView'
 
-mapStateToProps = ({index, number, cards}) => {
+let mapStateToProps = ({index, number, cards}) => {
   return {
     index: index,
     number: number,
@@ -9,10 +9,10 @@ mapStateToProps = ({index, number, cards}) => {
   }
 }
 
-mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: () => { dispatch({ type: 'SUBMIT' }) },
-    onChangeName: (name) => { dispatch({ type: 'NAME_INPUT', name: name}) }
+    onChangeName: (name) => { dispatch({type: 'NAME_INPUT', name: name}) }
   }
 }
 

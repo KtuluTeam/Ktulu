@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
   View
 } from 'react-native'
-import { createStore, combineReducers } from 'redux'
+import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { mainReducer } from './src/reducers/main'
 import { Game } from './src/containers/Game'
 
-store = createStore(mainReducer)
+let store = createStore(mainReducer)
 
 export default class Ktulu extends Component {
   render() {
@@ -23,8 +21,5 @@ export default class Ktulu extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-})
 
 AppRegistry.registerComponent('Ktulu', () => Ktulu)

@@ -8,12 +8,12 @@ import {
 export const MenuView = ({onSubmit}) => {
   return (
     <View>
-    <Text>
+      <Text>
     Tu bedzie menu
     </Text>
-      <Button title="Wróć" onPress={onSubmit} />
+      <Button title='Wróć' onPress={onSubmit} />
     </View>
-  );
+  )
 }
 
 export default MenuView

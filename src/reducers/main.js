@@ -1,5 +1,4 @@
-import { setup } from './stages'
-import { night } from './stages'
+import { setup, night } from './stages'
 
 const initialState = setup.initialSetupState
 

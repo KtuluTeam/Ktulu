@@ -10,13 +10,13 @@ import * as cards from '../cards'
 export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-    <Top statueHolder={statueHolder} onMenu={onMenu}/>
-    <Text> {text} </Text>
-    <Text> {who.name} </Text>
-    <Text> Frakcja: {cards[who.faction].name} </Text>
-    <Button title="OK"  onPress={onSubmit} />
+      <Top statueHolder={statueHolder} onMenu={onMenu} />
+      <Text> {text} </Text>
+      <Text> {who.name} </Text>
+      <Text> Frakcja: {cards[who.faction].name} </Text>
+      <Button title='OK' onPress={onSubmit} />
     </View>
-  );
+  )
 }
 
 export default DisplayFactionView

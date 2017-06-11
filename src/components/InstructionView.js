@@ -9,12 +9,12 @@ import { Top } from './index'
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
   return (
     <View>
-    <Top statueHolder={statueHolder} onMenu={onMenu}/>
-    <Text> {instruction} </Text>
-    <Text> {text} </Text>
-    <Button title="OK"  onPress={onSubmit} />
+      <Top statueHolder={statueHolder} onMenu={onMenu} />
+      <Text> {instruction} </Text>
+      <Text> {text} </Text>
+      <Button title='OK' onPress={onSubmit} />
     </View>
-  );
+  )
 }
 
 export default InstructionView
