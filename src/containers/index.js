@@ -91,6 +91,14 @@ export const viewMap = {
     }
   },
   'DAY': {
-     'START_OF_DAY': () => { return (<StartOfDay />) }
+     'START_OF_DAY': () => { return (<StartOfDay />) },
+     'DUEL': {
+       ...tools,
+       hasSubsteps: true
+     },
+     'SEARCH': {
+       ...tools,
+       hasSubsteps: true
+     },
   }
 }
