@@ -161,12 +161,6 @@ let getCardByRole = (cards, role) => {
 export { getCardByRole }
 
 let killByRole = (role, state) => {
-  /*let cards = Object.assign({}, state.cards);
-  for(let card of cards){
-    if(card.role === role){
-      card.alive = false;
-    }
-  }*/
   return {
     ...state,
     cards: state.cards.map((card) => {
