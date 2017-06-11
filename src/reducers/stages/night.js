@@ -103,7 +103,7 @@ let nextNight = (state) => {
       }
     }
   }
-  return initialDayState
+  return nextDayState
 }
 
 let startOfGame = (state, action) => {
@@ -739,7 +739,7 @@ let warrior = (state, action) => {
     case 'SELECT':
       s = {
         ...s,
-        choosen: action.choosen,
+        choosen: action.choosen
       }
       return s
     default:
@@ -751,7 +751,7 @@ let warrior = (state, action) => {
 }
 
 let indiansSleep = (state, action) => {
-  let s = state
+  let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
       return tools.getMenu(state)
@@ -759,9 +759,10 @@ let indiansSleep = (state, action) => {
       break
     case 'SUBMIT':
       s = {
-        ...next,
+        ...s,
         statueHolder: state.choosen
       }
+      break
     case 'SELECT':
       return {
         ...state,
