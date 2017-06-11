@@ -8,8 +8,6 @@ import { Top } from './index'
 import * as cards from '../cards'
 
 export const WakeUpByRoleView = ({text, onMenu, statueHolder, onSubmit, who}) => {
-  console.log("rendering WakeUpByRoleView")
-    console.log("statue holder WakeUpByRoleView", statueHolder)
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>

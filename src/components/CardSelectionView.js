@@ -6,11 +6,7 @@ import {
 } from 'react-native'
 import * as cards from '../cards'
 
-console.log("CARDS: ", cards)
-
 FactionCards = ({faction, cardsSelection}) => {
-  console.log("rendering", faction, cardsSelection)
-  console.log("cards:", cards[faction])
   return (
     <View>
       <Text>
