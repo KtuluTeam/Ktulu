@@ -7,12 +7,16 @@ import {
 } from 'react-native'
 import { Top } from './index'
 
+let yesImg = require("../../img/yes.png")
+
 export const ChoiceView = ({onMenu, statueHolder, onYes, onNo, text}) => {
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
     <Text> {text} </Text>
-    <Button title="TAK"  onPress={onYes} />
+    <TouchableOpacity onPress={onYes}>
+      <Image source={yesImg} style={{width:200, height:200}} />
+    </TouchableOpacity>
     <Button title="NIE"  onPress={onNo} />
     </View>
   );
