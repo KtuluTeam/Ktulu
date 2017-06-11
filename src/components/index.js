@@ -5,6 +5,10 @@ import {
   Button
 } from 'react-native'
 import * as cards from '../cards'
+import { styles } from '../styles/styles'
+
+let handbookImg = require('../../img/icons/handbook.png')
+
 
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
@@ -22,8 +26,10 @@ export const StatueHolder = ({statueHolder}) => {
 
 export const Top = ({statueHolder, onMenu}) => {
   return (
-    <View>
-      <Button title='Menu' onPress={onMenu} />
+    <View style={styles.header} >
+      <TouchableOpacity onPress={onMenu} style={styles.menuOpacity} >
+        <Image source={handbookImg} style={styles.handbookImage} />
+      </TouchableOpacity>
       <StatueHolder statueHolder={statueHolder} />
     </View>
   )

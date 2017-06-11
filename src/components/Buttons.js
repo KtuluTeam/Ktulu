@@ -21,3 +21,4 @@ export const ChoiceFooter = ({onYes, onNo}) => {
     </View>
   )
 }
+
