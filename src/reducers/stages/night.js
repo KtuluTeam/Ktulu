@@ -468,8 +468,7 @@ let avenger = (state, action) => {
   let s = state
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -513,8 +512,7 @@ let thief = (state, action) => {
   let statueHolder = state.statueHolder
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -572,8 +570,7 @@ let shaman = (state, action) => {
   let useNow = action.choice
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -612,8 +609,7 @@ let indiansKill = (state, action) => {
   let statueHolder = state.statueHolder
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -644,8 +640,7 @@ let indiansWithStatue = (state, action) => {
   let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -670,8 +665,7 @@ let coyote = (state, action) => {
   let statueHolder = state.statueHolder
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':

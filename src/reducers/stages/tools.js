@@ -107,7 +107,7 @@ let getMenu = (state) => {
   return {
     ...state,
     step: 'MENU',
-    last_state: state;
+    last_state: state
   }
 }
 
