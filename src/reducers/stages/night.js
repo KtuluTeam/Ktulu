@@ -4,6 +4,7 @@ import { SUCCESS } from './tools'
 import { FAILURE } from './tools'
 import { UNUSED } from './tools'
 import { USED } from './tools'
+import * as cards from '../../cards'
 
 
 export const initialNightState = (state) => {
@@ -32,12 +33,12 @@ banditsReqs = (alive, state) => {
 }
 
 thiefReqs = (alive, state) => {
-  thief = tools.getCardByRole(state.cards, 'thief')
+  let thief = tools.getCardByRole(state.cards, 'thief')
   return thief.alive && thief.used != SUCCESS && state.statueHolder.faction !== 'bandits';
 }
 
 avengerReqs = (alive, state) => {
-  avenger = tools.getCardByRole(state.cards, 'avenger')
+  let avenger = tools.getCardByRole(state.cards, 'avenger')
   return avenger.alive && avenger.used == UNUSED;
 }
 
@@ -77,7 +78,7 @@ nextNight = (state) => {
   //  {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
     //{step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
     {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
-    /*{step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},*/
+    {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
     {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
     {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman},
@@ -219,7 +220,7 @@ let orderAvenger = (state) => {
   ]
   if(state.useNow){
     order.push({substep: 'SELECTION', from: notBandits, text: 'Kogo mściciel chce zabić?', choosen: notBandits[0]});
-    order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś', text: 'Mściciel zabija ' + state.choosen});
+    order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś', text: 'Mściciel zabija ' + state.choosen.name + ', jego rola to: ' +  cards[state.choosen.faction][state.choosen.role].name});
   }
   else{
     order.push({substep: 'INSTRUCTION', instruction: 'Ogłoś',
@@ -232,7 +233,7 @@ let orderAvenger = (state) => {
   else{
     order.push({none: true});
   }
-  order.push({substep: 'INSTRUCTION', text: 'Złodziej idzie spać'})
+  order.push({substep: 'INSTRUCTION', text: 'Mściciel idzie spać'})
   return order
 }
 
@@ -490,7 +491,7 @@ let avenger = (state, action) => {
       break;
     case 'SUBMIT':
       s = {
-        ...tools.killByRole(state.choosen.role, next),
+        ...tools.killByRole(state.choosen.role, state),
         statueHolder: state.choosen
       };
       break;
