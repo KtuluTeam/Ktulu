@@ -31,18 +31,20 @@ let duel = (state, action) => {
       if(state.duelSelection === 1){
         return {
           ...state,
+          participant1: state.choosen,
           step: 'DUEL',
           substep: 'SELECTION',
           instruction: 'Wybierz wyzywanego na pojedynek',
           text: '',
           duelSelection: 2,
-          from: tools.selectFromWakeableExcept([state.participant1], state),
-          choosen: tools.selectFromWakeableExcept([state.participant1], state)[0]
+          from: tools.selectFromWakeableExcept([state.choosen], state),
+          choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
         }
       }
       else{
         return{
           ...state,
+          participant2: state.choosen,
           step: 'DUEL',
           substep: 'CHOICE_FROM_TWO',
           instruction: 'Przeprowadź dyskusję i głosowanie',
@@ -51,18 +53,9 @@ let duel = (state, action) => {
         }
       }
     case 'SELECT':
-      let choosen = action.choosen
-      if(state.duelSelection === 1){
-        return {
-          ...state,
-          participant1: choosen
-        }
-      }
-      else{
-        return {
-          ...state,
-          participant2: choosen
-        }
+      return{
+        ...state,
+        choosen: action.choosen
       }
     case 'CHOSE_FROM_TWO':
       let chosenFromTwo = getDuelWinner(state.participant1, state.participant2, action.chosen_from_two, state)
