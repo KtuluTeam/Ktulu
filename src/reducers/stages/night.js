@@ -103,7 +103,7 @@ let nextNight = (state) => {
       }
     }
   }
-  return nextDayState
+  return nextDayState(state)
 }
 
 let startOfGame = (state, action) => {
