@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import { mainReducer } from './src/reducers/main'
 import { Game } from './src/containers/Game'
 
-store = createStore(mainReducer)
+let store = createStore(mainReducer)
 
 export default class Ktulu extends Component {
   render() {
