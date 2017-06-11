@@ -13,11 +13,11 @@ let handbookImg = require('../../img/icons/handbook.png')
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
   if (statueHolder !== null) {
-    pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ', ' + statueHolder.name + ']'
+    pos = 'Posążek posiada ' + cards[statueHolder.faction][statueHolder.role].name + ' o imieniu ' + statueHolder.name
   }
   return (
     <View>
-      <Text>
+      <Text style={styles.statueHolderText} >
         {pos}
       </Text>
     </View>
