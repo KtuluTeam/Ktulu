@@ -1,126 +1,163 @@
-export let SUCCESS = 1
-export let FAILURE = -1
-export let UNUSED = 0
-export let USED = 1
+let SUCCESS = 1;
+let FAILURE = -1;
+let UNUSED = 0;
+let USED = 1;
 
-export let isAlive = (character, state) => {
-  for (let card of state.cards) {
-    if (card.role === character) {
-      return card.alive
+export { SUCCESS };
+export { FAILURE };
+export { UNUSED };
+export { USED };
+
+isAlive = (character, state) => {
+  for(let card of state.cards){
+    if(card.role === character){
+      return card.alive;
     }
   }
-  return false
+  return false;
 }
 
-export let isWakeable = (character, state) => {
-  return isAlive(character, state) && (state.inPrison === undefined || state.inPrison.role !== character)
+export { isAlive }
+
+isWakeable = (character, state) => {
+  return isAlive(character, state) && (state.inPrison === undefined || state.inPrison.role !== character);
 }
 
-export let isCardWakeable = (card, state) => {
-  return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role)
+export { isWakeable }
+
+isCardWakeable = (card, state) => {
+  return card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role);
 }
 
-export let factionMembersAlive = (faction, state) => {
-  let counter = 0
-  for (let card of state.cards) {
-    if (card.faction === faction && card.alive) {
-      counter++
+export { isCardWakeable }
+
+factionMembersAlive = (faction, state) => {
+  let counter = 0;
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive){
+      counter++;
     }
   }
-  return counter
+  return counter;
 }
 
-export let factionMembersWakeable = (faction, state) => {
-  let counter = 0
-  for (let card of state.cards) {
-    if (card.faction === faction && card.alive && state.inPrison !== card.role) {
-      counter++
+export { factionMembersAlive }
+
+factionMembersWakeable = (faction, state) => {
+  let counter = 0;
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive && state.inPrison !== card.role){
+      counter++;
     }
   }
-  return counter
+  return counter;
 }
 
-export let banditsAlive = (state) => {
-  return factionMembersAlive('bandits', state)
+export { factionMembersWakeable }
+
+banditsAlive = (state) => {
+  return factionMembersAlive('bandits', state);
 }
 
-export let indiansAlive = (state) => {
-  return factionMembersAlive('indians', state)
+export { banditsAlive }
+
+indiansAlive = (state) => {
+  return factionMembersAlive('indians', state);
 }
 
-export let citizensAlive = (state) => {
-  return factionMembersAlive('citizens', state)
+export { indiansAlive }
+
+citizensAlive = (state) => {
+  return factionMembersAlive('citizens', state);
 }
 
-export let banditsWakeable = (state) => {
-  return factionMembersWakeable('bandits', state)
+export { citizensAlive }
+
+banditsWakeable = (state) => {
+  return factionMembersWakeable('bandits', state);
 }
 
-export let indiansWakeable = (state) => {
-  return factionMembersWakeable('indians', state)
+export { banditsWakeable }
+
+indiansWakeable = (state) => {
+  return factionMembersWakeable('indians', state);
 }
 
-export let citizensWakeable = (state) => {
-  return factionMembersWakeable('citizens', state)
+export { indiansWakeable }
+
+citizensWakeable = (state) => {
+  return factionMembersWakeable('citizens', state);
 }
 
-export let getFactionMembers = (faction, state) => {
+export { citizensWakeable }
+
+getFactionMembers = (faction, state) => {
   let array = []
-  for (let card of state.cards) {
-    if (card.faction === faction && card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role)) {
-      array.push(card)
+  for(let card of state.cards){
+    if(card.faction === faction && card.alive && (state.inPrison === undefined || state.inPrison.role !== card.role)){
+      array.push(card);
     }
   }
-  return array
+  return array;
 }
 
-export let getMenu = (state) => {
+export { getFactionMembers }
+
+let getMenu = (state) => {
   return {
     ...state,
     step: 'MENU',
-    last_step: state.step,
-    last_substep: state.substep
+    last_state: state;
   }
 }
 
-export let menu = (state, action) => {
+export { getMenu }
+
+let menu = (state, action) => {
   switch (action.type) {
     case 'RETURN':
       return {
-        ...state,
-        step: state.last_step,
-        substep: state.last_substep
+        ...state.last_state
       }
     default:
       return state
   }
 }
 
-export let isInExcept = (character, except) => {
-  for (let e of except) {
-    if (e.role === character) {
-      return true
+export { menu }
+
+
+let isInExcept = (character, except) => {
+  for(let e of except){
+    if(e.role === character){
+      return true;
     }
   }
-  return false
+  return false;
 }
 
-export let selectFromWakeableExcept = (except, state) => {
+export { isInExcept }
+
+let selectFromWakeableExcept = (except, state) => {
   return state.cards.filter((card) => {
-    return isCardWakeable(card, state) && !isInExcept(card.role, except)
-  })
-  // return selectFrom;
+    return isCardWakeable(card, state) && !isInExcept(card.role, except);
+  });
+  //return selectFrom;
 }
 
-export let getCardByRole = (cards, role) => {
-  for (let card of cards) {
-    if (card.role === role) {
-      return card
+export { selectFromWakeableExcept }
+
+let getCardByRole = (cards, role) => {
+  for(let card of cards){
+    if(card.role === role){
+      return card;
     }
   }
 }
 
-export let killByRole = (role, state) => {
+export { getCardByRole }
+
+let killByRole = (role, state) => {
   return {
     ...state,
     cards: state.cards.map((card) => {
@@ -135,3 +172,5 @@ export let killByRole = (role, state) => {
     })
   }
 }
+
+export { killByRole }
