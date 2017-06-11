@@ -2,10 +2,10 @@ import React from 'react'
 import {
   Text,
   View,
-  Button,
   Picker
 } from 'react-native'
 import { Top } from './index'
+import { NextFooter } from './Buttons'
 
 export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
   onSelection, choosen, text}) => {
@@ -22,7 +22,7 @@ export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
           )
         }) }
       </Picker>
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }

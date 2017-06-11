@@ -21,3 +21,15 @@ export const ChoiceFooter = ({onYes, onNo}) => {
     </View>
   )
 }
+
+let nextImg = require('../../img/icons/right.png')
+
+export const NextFooter = ({onPress}) => {
+  return (
+    <View style={styles.footer} >
+      <TouchableOpacity onPress={onPress} style={styles.nextOpacity} >
+        <Image source={nextImg} style={styles.nextImage} />
+      </TouchableOpacity>
+    </View>
+  )
+}
