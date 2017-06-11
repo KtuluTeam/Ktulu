@@ -19,7 +19,7 @@ let search = (state, action) => {
   return state
 }
 
-let getDuelWinner = (participant1, participant2, chosenFromTwo, state) => {
+let getDuelLoser = (participant1, participant2, chosenFromTwo, state) => {
   return chosenFromTwo
 }
 
@@ -58,21 +58,31 @@ let duel = (state, action) => {
         choosen: action.choosen
       }
     case 'CHOSE_FROM_TWO':
-      let chosenFromTwo = getDuelWinner(state.participant1, state.participant2, action.chosenFromTwo, state)
+      let chosenFromTwo = getDuelLoser(state.participant1, state.participant2, action.chosenFromTwo, state)
       let text = ''
+      let s = Object.assign({}, state)
       if(chosenFromTwo.length === 0){
         text = 'Remis. Nikt nie ginie'
       }
       else if (chosenFromTwo.length === 2) {
         text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
+          s = tools.killByRole(chosenFromTwo[0].role, s)
+          s = tools.killByRole(chosenFromTwo[1].role, s)
+          if(s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role){
+            s = {
+              ...s,
+              statueHolder: undefined
+            }
+          }
       }
       else{
-        text = 'Remis. Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+        text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ')'
+        s = tools.killByRole(chosenFromTwo[0].role, s)
       }
       return {
-        ...state,
+        ...s,
         chosenFromTwo: chosenFromTwo,
         substep: 'INSTRUCTION',
         instruction: 'Ogłoś kto ginie',
