@@ -132,7 +132,7 @@ export { menu }
 
 let isInExcept = (character, except) => {
   for(let e of except){
-    if(e === character){
+    if(e.role === character){
       return true;
     }
   }
@@ -142,13 +142,18 @@ let isInExcept = (character, except) => {
 export { isInExcept }
 
 let selectFromWakeableExcept = (except, state) => {
+  /*
   let selectFrom = []
   for(let card of state.cards){
     if(isCardWakeable(card, state) && !isInExcept(card.role, except)){
       selectFrom.push(card)
     }
   }
-  return selectFrom;
+  */
+  return state.cards.filter((card) => {
+    return isCardWakeable(card, state) && !isInExcept(card.role, except);
+  });
+  //return selectFrom;
 }
 
 export { selectFromWakeableExcept }

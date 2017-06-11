@@ -260,7 +260,7 @@ let orderThief = (state) => {
     text: 'Czy złodziej chce użyć swojej umiejętności?'});
   }
   if(thief.used === UNUSED && state.useNow){
-    order.push({substep: 'SELECTION', from: bandits, text: 'Kogo złodziej chce okraść?', choosen: notBandits[0]});
+    order.push({substep: 'SELECTION', from: notBandits, text: 'Kogo złodziej chce okraść?', choosen: notBandits[0]});
   }
   else{
     order.push({substep: 'INSTRUCTION', instruction: 'Złodziej już użył umiejętności lub nie chce użyć jej teraz. Zasymuluj wybór osoby.',
@@ -292,6 +292,7 @@ let orderShaman = (state) => {
     shaman.used = UNSUSED;
   }
   let choosen = state.choosen;
+  console.log("shaman choosen", choosen);
   let order = [
     {substep: 'INSTRUCTION', text: 'Działa szaman'}
   ]
@@ -303,7 +304,7 @@ let orderShaman = (state) => {
     text: 'Czy szaman chce użyć swojej umiejętności?'});
   }
   if(shaman.used === UNUSED && state.useNow === 1){
-    order.push({substep: 'SELECTION', from: bandits, text: 'Kogo szaman chce sprawdzić?', choosen: notIndians[0]});
+    order.push({substep: 'SELECTION', from: notIndians, text: 'Kogo szaman chce sprawdzić?', choosen: notIndians[0]});
   }
   else{
     order.push({substep: 'INSTRUCTION', instruction: 'Szaman już użył umiejętności lub nie chce użyć jej teraz. Zasymuluj wybór osoby.',
@@ -530,7 +531,7 @@ let avenger = (state, action) => {
         used: used,
         statueHolder: statueHolder
       };
-      break;
+      return s;
     default:
       s = state;
   }
@@ -576,7 +577,7 @@ let thief = (state, action) => {
         used: used,
         statueHolder: statueHolder
       };
-      break;
+      return s;
     default:
       s = state;
   }
@@ -600,7 +601,7 @@ let indiansWakeUp = (state, action) => {
 
 let shaman = (state, action) => {
   console.log(action);
-  let s = state;
+  let s = Object.assign({}, state);
   let useNow = action.choice;
   console.log('usenow', useNow);
   switch (action.type) {
@@ -611,10 +612,23 @@ let shaman = (state, action) => {
       s = s;
       break;
     case 'SUBMIT':
+      s.cards = s.cards.map((card) => {
+        if (card.role === 'shaman') {
+          return {
+            ...card,
+            used: USED
+          }
+        } else {
+          return card;
+        }
+      })
+      /*
       s = {
         ...s,
-        statueHolder: state.choosen
+        choosen: action.choosen,
+        used: USED
       };
+      */
       break;
     case 'CHOICE':
     console.log('choice');
@@ -624,12 +638,10 @@ let shaman = (state, action) => {
       };
       break;
     case 'SELECT':
-      s = {
+      return {
         ...s,
-        choosen: useNow,
-        used: USED
+        choosen: action.choosen
       };
-      break;
     default:
       s = state;
   }
