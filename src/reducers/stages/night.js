@@ -48,7 +48,7 @@ let indiansWithStatueReqs = (alive, state) => {
 }
 
 coyoteReqs = (alive, state) => {
-  return tools.isAlive('solitaryCoyote', state) //&& tools.indiansAlive(state) === 1;
+  return tools.isAlive('solitaryCoyote', state) && tools.indiansAlive(state) === 1
 }
 
 let whoreReqs = (alive, state) => {
