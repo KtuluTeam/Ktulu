@@ -13,7 +13,7 @@ export const ChoiceView = ({onMenu, statueHolder, onYes, onNo, text}) => {
     <Top statueHolder={statueHolder} onMenu={onMenu}/>
     <Text> {text} </Text>
     <Button title="TAK"  onPress={onYes} />
-    <Button title="NIE"  onPress={onNO} />
+    <Button title="NIE"  onPress={onNo} />
     </View>
   );
 }

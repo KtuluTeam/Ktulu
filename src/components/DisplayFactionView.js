@@ -8,8 +8,6 @@ import { Top } from './index'
 import * as cards from '../cards'
 
 export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
-  console.log("rendering DisplayCardView")
-    console.log(statueHolder)
   return (
     <View>
     <Top statueHolder={statueHolder} onMenu={onMenu}/>

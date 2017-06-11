@@ -55,9 +55,28 @@ export const viewMap = {
       ...tools,
       hasSubsteps: true
     },
+    'AVENGER' : {
+      ...tools,
+      hasSubsteps: true
+    },
     'THIEF' : {
       ...tools,
       hasSubsteps: true
-    }
+    },
+    'INDIANS_WAKEUP' : {
+      ...tools,
+      hasSubsteps: true
+    },
+    'SHAMAN' : {
+      ...tools,
+      hasSubsteps: true
+    },
+    'INDIANS_SLEEP' : {
+      ...tools,
+      hasSubsteps: true
+    },
+  },
+  'DAY': {
+    'START_OF_DAY' : () => { return (<StartOfDay />) },
   }
 }
