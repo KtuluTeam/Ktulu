@@ -498,18 +498,22 @@ let avenger = (state, action) => {
   switch (action.type) {
     case 'MENU':
       s = tools.getMenu(state);
+      break;
     case 'NEXT':
       s = s;
+      break;
     case 'SUBMIT':
       s = {
         ...tools.killByRole(state.choosen.role, next),
         statueHolder: state.choosen
       };
+      break;
     case 'CHOICE':
       s = {
         ...s,
         useNow: action.choice
       };
+      break;
     case 'SELECT':
     let used = '';
     let statueHolder = state.statueHolder;
@@ -526,6 +530,7 @@ let avenger = (state, action) => {
         used: used,
         statueHolder: statueHolder
       };
+      break;
     default:
       s = state;
   }
@@ -539,18 +544,22 @@ let thief = (state, action) => {
   switch (action.type) {
     case 'MENU':
       s = tools.getMenu(state);
+      break;
     case 'NEXT':
-      s = next;
+      s = s;
+      break;
     case 'SUBMIT':
       s = {
         ...s,
         statueHolder: state.choosen
       };
+      break;
     case 'CHOICE':
       s = {
         ...s,
         useNow: action.choice
       };
+      break;
     case 'SELECT':
     let used = '';
     let statueHolder = state.statueHolder;
@@ -567,6 +576,7 @@ let thief = (state, action) => {
         used: used,
         statueHolder: statueHolder
       };
+      break;
     default:
       s = state;
   }
@@ -596,25 +606,30 @@ let shaman = (state, action) => {
   switch (action.type) {
     case 'MENU':
       s = tools.getMenu(state);
+      break;
     case 'NEXT':
-      s = next;
+      s = s;
+      break;
     case 'SUBMIT':
       s = {
         ...s,
         statueHolder: state.choosen
       };
+      break;
     case 'CHOICE':
     console.log('choice');
       s = {
         ...s,
         useNow: useNow
       };
+      break;
     case 'SELECT':
       s = {
         ...s,
         choosen: useNow,
         used: USED
       };
+      break;
     default:
       s = state;
   }
