@@ -8,7 +8,7 @@ import {
 export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
   return (
     <View>
-    <Text>Liczebność poszczególnych frakcji </Text>
+      <Text>Liczebność poszczególnych frakcji </Text>
       <Text>
         Miastowych: {citizens}
       </Text>
@@ -19,7 +19,7 @@ export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
         Indian: {indians}
       </Text>
 
-      <Button title="Zatwierdź" onPress={onSubmit} />
+      <Button title='Zatwierdź' onPress={onSubmit} />
     </View>
   )
 }

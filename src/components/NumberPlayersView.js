@@ -8,13 +8,13 @@ import {
 export const NumberPlayersView = ({number, onSubmit}) => {
   return (
     <View>
-    <Text>Liczba graczy</Text>
+      <Text>Liczba graczy</Text>
       <Text>
         {number}
       </Text>
-      <Button title="Zatwierdź" onPress={onSubmit} />
+      <Button title='Zatwierdź' onPress={onSubmit} />
     </View>
-  );
+  )
 }
 
 export default NumberPlayersView
