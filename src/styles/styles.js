@@ -2,6 +2,8 @@ import { StyleSheet, Dimensions } from 'react-native'
 
 const backOpacityHeight = 140
 const viewHeight = Dimensions.get('window').height - 24
+const textField = {margin: 20, padding: 10, backgroundColor: '#fff1c1'}
+const text = {textAlign: 'center', textAlignVertical: 'center'}
 
 export const styles = StyleSheet.create({
   footer: {height: 100, flexDirection: 'row', position: 'absolute', top: 550},
@@ -22,6 +24,7 @@ export const styles = StyleSheet.create({
   dayBG: { backgroundColor: '#fff1c1', height: viewHeight },
   nightBG: { backgroundColor: '#505575', height: viewHeight },
   setupBG: { backgroundColor: '#f7f5ed', height: viewHeight },
+  endBG: { backgroundColor: '#ff0000', height: viewHeight },
 
   backImage: {width: 100, height: 100, left: 150},
   backOpacity: {width: 400, height: backOpacityHeight, top: 20},
@@ -29,9 +32,9 @@ export const styles = StyleSheet.create({
   handbookScrollView: {height: viewHeight - backOpacityHeight, padding: 5},
   handbookText: { fontSize: 18, color: '#cf0000' },
 
-  readLoud: {borderWidth: 1, margin: 5},
-  readLoudText: {fontSize: 20},
+  readLoud: {borderWidth: 3, ...textField},
+  readLoudText: {fontSize: 20, fontWeight: 'bold', ...text},
 
-  manitouInfo: {margin: 5},
-  manitouInfoText: {fontSize: 16, fontStyle: 'italic'},
+  manitouInfo: {borderWidth: 1, ...textField},
+  manitouInfoText: {fontSize: 14, fontStyle: 'italic', ...text},
 })
