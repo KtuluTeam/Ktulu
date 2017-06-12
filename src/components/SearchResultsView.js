@@ -7,7 +7,7 @@ import {
 import { Top } from './index'
 
 export const Result = ({participant, result}) => {
-  if(result){}
+  if(result){
     return (
       <View>
         <Text>

@@ -9,7 +9,7 @@ export const initialNightState = (state) => {
     ...state,
     stage: 'NIGHT',
     step: 'START_OF_GAME',
-    statueHolder: null,
+    statueHolder: NO_STATUE_HOLDER,
     tableIndex: -1,
     day: 0
   }
@@ -188,7 +188,7 @@ let orderBandits = (state) => {
   let order = [
     {substep: 'INSTRUCTION', text: 'Obudź bandytów: "Wstają bandyci"'}
   ]
-  if (state.statueHolder !== null && state.statueHolder.faction !== 'bandits') {
+  if (state.statueHolder !== NO_STATUE_HOLDER && state.statueHolder.faction !== 'bandits') {
     order.push({substep: 'SELECTION', from: selectFrom, text: 'Bandyci wybierają kogo chcą przeszukać', choosen: selectFrom[0]})
   } else {
     order.push({none: true})
@@ -198,7 +198,7 @@ let orderBandits = (state) => {
   } else {
     order.push({none: true})
   }
-  if (state.statueHolder === null || state.statueHolder.faction === 'bandits') {
+  if (state.statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
     order.push({substep: 'SELECTION', from: bandits, text: 'Wybieją kto będzie miał posążek.', choosen: bandits[0]})
   } else {
     order.push({none: true})
@@ -368,7 +368,7 @@ let orderWarrior = (state) => {
 let orderIndiansSleep = (state) => {
   let indians = tools.getFactionMembers('indians', state)
   let order = []
-  if (state.statueHolder === null || state.statueHolder.faction === 'indians') {
+  if (state.statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'indians') {
     order.push({substep: 'SELECTION', from: indians, text: 'Indianie wybierają kto będzie miał posążek.', choosen: indians[0]})
   } else {
     order.push({none: true})

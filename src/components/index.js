@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native'
 import * as cards from '../cards'
+import { NO_STATUE_HOLDER } from '../reducers/stages/tools'
 
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
