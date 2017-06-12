@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native'
 
 const backOpacityHeight = 140
 const viewHeight = Dimensions.get('window').height - 24
-const textField = {margin: 20, padding: 10, borderRadius: 5}
+const textField = {margin: 10, padding: 10, borderRadius: 5}
 const text = {textAlign: 'center', textAlignVertical: 'center'}
 
 export const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
   handbookScrollView: {height: viewHeight - backOpacityHeight, padding: 5},
   handbookText: { fontSize: 18, color: '#cf0000' },
 
-  readLoud: {borderWidth: 5, backgroundColor: '#d3eaab', ...textField},
+  readLoud: {borderWidth: 4, backgroundColor: '#d3eaab', ...textField},
   readLoudText: {fontSize: 20, fontWeight: 'bold', ...text},
 
   manitouInfo: {borderWidth: 1, backgroundColor: '#f9aeb6', ...textField},
