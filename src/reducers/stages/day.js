@@ -38,7 +38,7 @@ let search = (state, action) => {
         let statueHolder = state.statueHolder
         let participant2 = state.choosen
         if(state.statueHolder.role === state.participant1.role || state.statueHolder.role === participant2.role){
-          statueHolder = undefined
+          statueHolder = NO_STATUE_HOLDER
         }
         return{
           ...state,
