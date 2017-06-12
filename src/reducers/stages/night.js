@@ -505,11 +505,10 @@ let banditsWakeAndSearch = (state, action) => {
       }
       break
     case 'SELECT':
-      s = {
+      return {
         ...s,
         choosen: action.choosen
       }
-      break
     default:
       break
   }
@@ -533,11 +532,10 @@ let banditsChooseAndSleep = (state, action) => {
       }
       break
     case 'SELECT':
-      s = {
+      return {
         ...s,
         choosen: action.choosen
       }
-      break
     default:
       break
   }
