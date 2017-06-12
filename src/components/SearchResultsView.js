@@ -29,7 +29,7 @@ export const Result = ({participant, result}) => {
 }
 
 
-export const InstructionView = ({statueHolder, instruction, participant1, participant2, searchResult1, searchResult2}) => {
+export const SearchResultsView = ({statueHolder, instruction, participant1, participant2, searchResult1, searchResult2}) => {
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
@@ -41,4 +41,4 @@ export const InstructionView = ({statueHolder, instruction, participant1, partic
   )
 }
 
-export default InstructionView
+export default SearchResultsView
