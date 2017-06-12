@@ -31,7 +31,7 @@ let banditsReqs = (alive, state) => {
 
 let thiefReqs = (alive, state) => {
   let thief = tools.getCardByRole(state.cards, 'thief')
-  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits'  && (state.day > 0)
+  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits' && (state.day > 0)
 }
 
 let avengerReqs = (alive, state) => {
@@ -486,13 +486,12 @@ let bandits = (state, action) => {
       break
     case 'SUBMIT':
       let statueHolder = state.statueHolder
-      if(statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits'){
+      if (statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
         statueHolder = state.choosen
         banditsStole = false
-      }
-      else{
+      }      else {
         let banditsStole = state.choosen.role === statueHolder.role
-        if(banditsStole){
+        if (banditsStole) {
           statueHolder = NO_STATUE_HOLDER
         }
       }

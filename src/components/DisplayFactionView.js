@@ -1,11 +1,11 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 import { Top } from './index'
 import * as cards from '../cards'
+import { NextFooter } from './Buttons'
 
 export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
   return (
@@ -14,7 +14,7 @@ export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) 
       <Text> {text} </Text>
       <Text> {who.name} </Text>
       <Text> Frakcja: {cards[who.faction].name} </Text>
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter onPress={onSubmit} />
     </View>
   )
 }
