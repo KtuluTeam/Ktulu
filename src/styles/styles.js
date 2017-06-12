@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   header: {height: 120, flexDirection: 'row', top: 20},
   menuOpacity: {width: 100},
   handbookImage: {width: 80, height: 80, left: 10},
-  statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10},
+  statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10, borderWidth: 1, backgroundColor: '#ffffff', borderRadius: 5},
   statueHolderText: {fontSize: 16, fontWeight: 'bold'},
 
   // Background colors
