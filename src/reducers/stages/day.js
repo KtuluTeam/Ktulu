@@ -145,6 +145,12 @@ let duel = (state, action) => {
         text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ')'
         s = tools.killByRole(chosenFromTwo[0].role, s)
+        if(s.statueHolder.role === chosenFromTwo[0].role){
+          s = {
+            ...s,
+            statueHolder: undefined
+          }
+        }
       }
       return {
         ...s,
