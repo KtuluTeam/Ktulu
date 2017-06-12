@@ -6,25 +6,20 @@ import {
 } from 'react-native'
 import { Top } from './index'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const Result = ({participant, result}) => {
   if(!result){
     return (
       <View>
-        <Text>
-          {participant.name}: nie posiada posążka
-        </Text>
+        <ReadLoud text={participant.name + ': nie posiada posążka'} />
       </View>
     )
   }
   return (
     <View>
-      <Text>
-        {participant.name}: posiada posążek
-      </Text>
-      <Text>
-        Jego rola to: {cards[participant.faction][participant.role].name}
-      </Text>
+      <ReadLoud text={participant.name + ': posiada posążek\nJego rola to: '
+      + cards[participant.faction][participant.role].name} />
     </View>
   )
 }
@@ -34,7 +29,7 @@ export const SearchResultsView = ({statueHolder, instruction, participant1, part
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {instruction} </Text>
+      <ManitouInfo text={instruction} />
       <Result participant={participant1} result={searchResult1} />
       <Result participant={participant2} result={searchResult2} />
       <Button title='OK' onPress={onSubmit} />

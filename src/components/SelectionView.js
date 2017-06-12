@@ -5,6 +5,7 @@ import {
   Picker
 } from 'react-native'
 import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
 
 export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
@@ -12,8 +13,8 @@ export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {instruction} </Text>
-      <Text> {text} </Text>
+      <ReadLoud text={text} />
+      <ManitouInfo text={instruction} />
       <Picker
         selectedValue={choosen}
         onValueChange={onSelection} mode='dropdown'>
