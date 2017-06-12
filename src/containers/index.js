@@ -16,6 +16,8 @@ import { WakeUpByRole } from './WakeUpByRole'
 import { WakeUpByName } from './WakeUpByName'
 import { StartDay } from './StartDay'
 import { ChoiceFromTwo } from './ChoiceFromTwo'
+import { SearchResults } from './SearchResults'
+import { GameOver } from './GameOver'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />) },
@@ -25,7 +27,8 @@ export const tools = {
   'DISPLAY_FACTION': () => { return (<DisplayFaction />) },
   'WAKE_UP_BY_ROLE': () => { return (<WakeUpByRole />) },
   'WAKE_UP_BY_NAME': () => { return (<WakeUpByName />) },
-  'CHOICE_FROM_TWO': () => { return (<ChoiceFromTwo />) }
+  'CHOICE_FROM_TWO': () => { return (<ChoiceFromTwo />) },
+  'SEARCH_RESULTS': () => { return (<SearchResults />) }
 }
 
 export const viewMap = {
@@ -103,5 +106,12 @@ export const viewMap = {
        ...tools,
        hasSubsteps: true
      },
+     'HANGING': {
+       ...tools,
+       hasSubsteps: true
+     },
+  },
+  'GAME_OVER': {
+    'GAME_OVER': () => { return (<GameOver />) }
   }
 }
