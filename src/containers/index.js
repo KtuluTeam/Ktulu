@@ -33,6 +33,7 @@ export const tools = {
 
 export const viewMap = {
   'SETUP': {
+    'MENU': () => { return (<Menu />) },
     'NUMBER_PLAYERS': () => { return (<NumberPlayers />) },
     'FACTION_SIZES': () => { return (<FactionSizes />) },
     'FACTION_CARDS': () => { return (<CardSelection />) },

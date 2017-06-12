@@ -4,7 +4,6 @@ import {
   View,
   Image
 } from 'react-native'
-import { Top } from './index'
 import * as cards from '../cards'
 import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
@@ -12,7 +11,6 @@ import { NextFooter } from './Buttons'
 export const DisplayCardView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
       <ReadLoud text={who.name + '\n' + cards[who.faction][who.role].name} />
       <ManitouInfo text={instruction} />
       <Image source={cards[who.faction][who.role].image} style={{height: 450, width: 300}} />
