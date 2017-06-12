@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   menuOpacity: {width: 100},
   handbookImage: {width: 80, height: 80, left: 10},
   statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10},
-  statueHolderText: {fontSize: 16},
+  statueHolderText: {fontSize: 16, fontWeight: 'bold'},
 
   // Background colors
   dayBG: { backgroundColor: '#fff1c1', height: viewHeight },
