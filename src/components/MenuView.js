@@ -1,5 +1,4 @@
 import React from 'react'
-import Pdf from 'react-native-pdf';
 import {
   Text,
   View,
@@ -9,7 +8,7 @@ import {
 import { styles } from '../styles/styles'
 
 let backImg = require('../../img/icons/left.png')
-let pdfFile = require('../../resources/handbook.pdf')
+let pdfFile = loadPlainTextFile('../../resources/handbook.txt')
 
 export const MenuView = ({onSubmit}) => {
   return (
@@ -17,7 +16,9 @@ export const MenuView = ({onSubmit}) => {
       <TouchableOpacity onPress={onSubmit} style={styles.backOpacity} >
         <Image source={backImg} style={styles.backImage} />
       </TouchableOpacity>
-      <Pdf source={pdfFile} />
+      <Text>
+        {pdfFile}
+      </Text>
     </View>
   )
 }
