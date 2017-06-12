@@ -2,7 +2,7 @@ import { nextNightState } from './night'
 import * as tools from './tools'
 import * as cards from '../../cards'
 
-let { SUCCESS, FAILURE, UNUSED, USED } = tools
+let { SUCCESS, FAILURE, UNUSED, USED, NO_STATUE_HOLDER } = tools
 
 export const nextDayState = (state) => {
   return {
@@ -137,7 +137,7 @@ let duel = (state, action) => {
           if(s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role){
             s = {
               ...s,
-              statueHolder: undefined
+              statueHolder: NO_STATUE_HOLDER
             }
           }
       }
@@ -148,7 +148,7 @@ let duel = (state, action) => {
         if(s.statueHolder.role === chosenFromTwo[0].role){
           s = {
             ...s,
-            statueHolder: undefined
+            statueHolder: NO_STATUE_HOLDER
           }
         }
       }

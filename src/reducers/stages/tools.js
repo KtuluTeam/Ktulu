@@ -2,6 +2,7 @@ export let SUCCESS = 1
 export let FAILURE = -1
 export let UNUSED = 0
 export let USED = 1
+export let NO_STATUE_HOLDER = 0
 
 export let isAlive = (character, state) => {
   for (let card of state.cards) {

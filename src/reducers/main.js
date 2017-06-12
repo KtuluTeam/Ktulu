@@ -1,5 +1,6 @@
 import { setup, night, day } from './stages'
 import * as tools from './stages/tools'
+let { SUCCESS, FAILURE, UNUSED, USED, NO_STATUE_HOLDER } = tools
 
 const initialState = setup.initialSetupState
 
@@ -8,7 +9,7 @@ const checkWinConditions = (state) => {
   if(state.stage === 'SETUP'){
     return state
   }
-  if(state.stage === 'DAY' && state.statueHolder === undefined){
+  if(state.stage === 'DAY' && state.statueHolder === NO_STATUE_HOLDER){
     return {
       ...state,
       stage: 'GAME_OVER',

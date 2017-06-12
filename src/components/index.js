@@ -8,7 +8,7 @@ import * as cards from '../cards'
 
 export const StatueHolder = ({statueHolder}) => {
   let pos = ''
-  if (statueHolder !== null) {
+  if (statueHolder !== NO_STATUE_HOLDER) {
     pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ', ' + statueHolder.name + ']'
   }
   return (

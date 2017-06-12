@@ -2,7 +2,7 @@ import { nextDayState } from './day'
 import * as tools from './tools'
 import * as cards from '../../cards'
 
-let { SUCCESS, FAILURE, UNUSED, USED } = tools
+let { SUCCESS, FAILURE, UNUSED, USED, NO_STATUE_HOLDER } = tools
 
 export const initialNightState = (state) => {
   return {
