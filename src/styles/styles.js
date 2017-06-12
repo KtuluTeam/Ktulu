@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+
+const viewHeight = Dimensions.get('window').height - 24
 
 export const styles = StyleSheet.create({
   footer: {height: 100, flexDirection: 'row', position: 'absolute', top: 550},
@@ -13,9 +15,9 @@ export const styles = StyleSheet.create({
   statueHolderText: {fontSize: 16},
 
   // Background colors
-  dayBG: { backgroundColor: '#fff1c1', height: 1000 },
-  nightBG: { backgroundColor: '#505575', height: 1000 },
-  setupBG: { backgroundColor: '#f7f5ed', height: 1000 },
+  dayBG: { backgroundColor: '#fff1c1', height: viewHeight },
+  nightBG: { backgroundColor: '#505575', height: viewHeight },
+  setupBG: { backgroundColor: '#f7f5ed', height: viewHeight },
 
   backImage: {width: 100, height: 100, left: 150},
   backOpacity: {width: 400, height: 120, top: 20},

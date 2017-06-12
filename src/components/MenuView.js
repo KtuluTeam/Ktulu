@@ -3,7 +3,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  ScrollView
 } from 'react-native'
 import { styles } from '../styles/styles'
 import { handbookContent } from '../../resources/handbook'
@@ -16,9 +17,11 @@ export const MenuView = ({onSubmit}) => {
       <TouchableOpacity onPress={onSubmit} style={styles.backOpacity} >
         <Image source={backImg} style={styles.backImage} />
       </TouchableOpacity>
-      <Text>
-        {handbookContent}
-      </Text>
+      <ScrollView>
+        <Text>
+          {handbookContent}
+        </Text>
+      </ScrollView>
     </View>
   )
 }
