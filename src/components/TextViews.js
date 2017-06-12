@@ -10,7 +10,7 @@ import { styles } from '../styles/styles'
 
 export const ReadLoud = ({text}) => {
   if (text === '')
-    return (<View\>)
+    return (<View />)
 
   return (
     <View style={styles.readLoud}>
@@ -23,7 +23,7 @@ export const ReadLoud = ({text}) => {
 
 export const ManitouInfo = ({text}) => {
   if (text === '')
-    return (<View\>)
+    return (<View />)
 
   return (
     <View style={styles.manitouInfo}>
