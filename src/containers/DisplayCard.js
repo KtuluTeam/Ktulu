@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { DisplayCardView } from '../components/DisplayCardView'
+import { NO_STATUE_HOLDER } from '../reducers/stages/tools'
 
 let mapStateToProps = ({text, statueHolder, who}) => {
   return {

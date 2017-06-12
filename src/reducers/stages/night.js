@@ -31,16 +31,20 @@ let banditsReqs = (alive, state) => {
 
 let thiefReqs = (alive, state) => {
   let thief = tools.getCardByRole(state.cards, 'thief')
-  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits'
+  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits'  && (state.day > 0)
 }
 
 let avengerReqs = (alive, state) => {
   let avenger = tools.getCardByRole(state.cards, 'avenger')
-  return avenger.alive && avenger.used === UNUSED
+  return avenger.alive && avenger.used === UNUSED && (state.day > 0)
 }
 
 let indiansReqs = (alive, state) => {
   return tools.indiansWakeable(state) > 0
+}
+
+let indiansKillReqs = (alive, state) => {
+  return tools.indiansWakeable(state) > 0 && (state.day > 0)
 }
 
 let indiansWithStatueReqs = (alive, state) => {
@@ -50,7 +54,7 @@ let indiansWithStatueReqs = (alive, state) => {
 
 let coyoteReqs = (alive, state) => {
   return tools.isAlive('solitaryCoyote', state) &&
-    tools.indiansAlive(state) === 1
+    tools.indiansAlive(state) === 1 && (state.day > 0)
 }
 
 let whoreReqs = (alive, state) => {
@@ -59,6 +63,16 @@ let whoreReqs = (alive, state) => {
 
 let sheriffReqs = (alive, state) => {
   return tools.isAlive('sheriff', state)
+}
+
+let shamanReqs = (alive, state) => {
+  let shaman = tools.getCardByRole(state.cards, 'shaman')
+  return shaman.alive && (state.day > 0)
+}
+
+let warriorReqs = (alive, state) => {
+  let warrior = tools.getCardByRole(state.cards, 'warrior')
+  return warrior.alive && (state.day > 0)
 }
 
 let areWakeable = (group, state) => {
@@ -73,18 +87,18 @@ let areWakeable = (group, state) => {
 let nextNight = (state) => {
   let tableIndex = state.tableIndex
   let order = [
-    // {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
-  //  {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
-    // {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
+    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
+    {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
+    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
     {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
-  /*  {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
-    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief}, */
+    {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
+    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
-  /*  {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman}, */
-    {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
+    {step: 'SHAMAN', alive: [], reqs: shamanReqs, stepOrder: orderShaman},
+    {step: 'INDIANS_KILL', alive: [], reqs: indiansKillReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
-    {step: 'WARRIOR', alive: ['warrior'], reqs: areWakeable, stepOrder: orderWarrior},
+    {step: 'WARRIOR', alive: [], reqs: warriorReqs, stepOrder: orderWarrior},
     {step: 'INDIANS_SLEEP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansSleep}
   ]
   while (tableIndex < (order.length - 1)) {
@@ -139,8 +153,8 @@ let startOfNight = (state, action) => {
 }
 
 let orderWhore = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['whore'], state)
   let whore = tools.getCardByRole(state.cards, 'whore')
+  let selectFrom = tools.selectFromWakeableExcept([whore], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
@@ -169,8 +183,8 @@ let orderSheriff = (state) => {
 }
 
 let orderPastor = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state)
   let pastor = tools.getCardByRole(state.cards, 'pastor')
+  let selectFrom = tools.selectFromWakeableExcept([pastor], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
@@ -463,26 +477,43 @@ let pastor = (state, action) => {
 }
 
 let bandits = (state, action) => {
-  let order = orderBandits(state)
-  let next = nextSubstep(state, order)
+  let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state)
+      s = tools.getMenu(state)
+      break
     case 'NEXT':
-      return next
+      break
     case 'SUBMIT':
-      return {
-        ...next,
-        statueHolder: state.choosen
+      let statueHolder = state.statueHolder
+      if(statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits'){
+        statueHolder = state.choosen
+        banditsStole = false
       }
+      else{
+        let banditsStole = state.choosen.role === statueHolder.role
+        if(banditsStole){
+          statueHolder = NO_STATUE_HOLDER
+        }
+      }
+      s = {
+        ...s,
+        statueHolder: statueHolder,
+        banditsStole: banditsStole
+      }
+      break
     case 'SELECT':
-      return {
-        ...state,
+      s = {
+        ...s,
         choosen: action.choosen
       }
+      break
     default:
-      return state
+      break
   }
+  let order = orderBandits(s)
+  let next = nextSubstep(s, order)
+  return next
 }
 
 let avenger = (state, action) => {
