@@ -29,6 +29,3 @@ export const ManitouInfo = ({text}) => {
     </View>
   )
 }
-
-export default { ReadLoud }
-export default { ManitouInfo }
