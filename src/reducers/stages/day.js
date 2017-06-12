@@ -20,7 +20,32 @@ let search = (state, action) => {
 }
 
 let getDuelLoser = (participant1, participant2, chosenFromTwo, state) => {
-  return chosenFromTwo
+  let diesFirst = false
+  let diesSecond = false
+  for (let participant of chosenFromTwo) {
+    if(participant.role === participant1.role){
+      diesFirst = true
+    }
+    else if(participant.role === participant2.role){
+      diesSecond = true
+    }
+  }
+  if((participant1.role === 'goodGunslinger' || participant1.role === 'evilGunslinger') && diesFirst){
+      diesFirst = !diesFirst
+      diesSecond = !diesSecond
+   }
+   if((participant2.role === 'goodGunslinger' || participant2.role === 'evilGunslinger') && diesSecond){
+      diesFirst = !diesFirst
+      diesSecond = !diesSecond
+   }
+  let losers = []
+  if(diesFirst){
+    losers.push(participant1)
+  }
+  if(diesSecond){
+    losers.push(participant2)
+  }
+  return losers
 }
 
 let duel = (state, action) => {
