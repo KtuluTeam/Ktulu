@@ -3,12 +3,13 @@ import {
   Text,
   View
 } from 'react-native'
+import { ReadLoud, ManitouInfo } from './TextViews'
 import { ChoiceFooter } from './Buttons'
 
 export const ChoiceView = ({onMenu, statueHolder, onYes, onNo, text}) => {
   return (
     <View>
-      <Text> {text} </Text>
+      <ReadLoud text={text} />
       <ChoiceFooter onYes={onYes} onNo={onNo} />
     </View>
   )

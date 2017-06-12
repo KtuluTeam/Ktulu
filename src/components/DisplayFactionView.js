@@ -4,14 +4,15 @@ import {
   View
 } from 'react-native'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
 
-export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
+
+export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <Text> {text} </Text>
-      <Text> {who.name} </Text>
-      <Text> Frakcja: {cards[who.faction].name} </Text>
+      <ManitouInfo text={instruction} />
+      <ReadLoud text={who.name + '\nFrakcja: ' + cards[who.faction].name} />
       <NextFooter onPress={onSubmit} />
     </View>
   )

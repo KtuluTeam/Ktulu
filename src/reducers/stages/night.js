@@ -163,7 +163,7 @@ let orderWhore = (state) => {
       text: 'Dziwka wybiera z kim chce spędzić noc',
       choosen: selectFrom[0]},
     {substep: 'WAKE_UP_BY_NAME', text: '', who: choosen},
-    {substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę dziwce'},
+    {substep: 'DISPLAY_CARD', who: choosen, instruction: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
   ]
   return order
@@ -189,7 +189,7 @@ let orderPastor = (state) => {
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
     {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'DISPLAY_FACTION', who: choosen, instruction: 'Pokaż frakcję pastorowi'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
   ]
   return order
@@ -312,7 +312,7 @@ let orderShaman = (state) => {
       text: 'Kogo szaman chce sprawdzić?'})
   }
   if (shaman.used === USED && state.useNow === 1) {
-    order.push({substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę szamanowi'})
+    order.push({substep: 'DISPLAY_CARD', who: choosen, instruction: 'Pokaż kartę szamanowi'})
   } else {
     order.push({none: true})
   }

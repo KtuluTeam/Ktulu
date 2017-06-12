@@ -4,16 +4,15 @@ import {
   View,
   Button
 } from 'react-native'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const GameOverView = ({onMenu, statueHolder, winner, onNewGame}) => {
   return (
     <View>
-      <Text> Koniec gry. </Text>
-      <Text> Wygrali {winner}! </Text>
+      <ReadLoud text={'Koniec gry.\nWygrali ' + winner + '!'} />
       <Button title="Nowa gra" onPress={onNewGame} />
     </View>
   )
 }
 
 export default GameOverView
-

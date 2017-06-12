@@ -4,7 +4,9 @@ import {
   View
 } from 'react-native'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
+
 
 let FactionCards = ({faction, cardsSelection}) => {
   return (

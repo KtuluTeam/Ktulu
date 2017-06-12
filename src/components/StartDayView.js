@@ -4,6 +4,7 @@ import {
   View,
   Button
 } from 'react-native'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const StartDayView = ({onMenu, statueHolder, onDuel, onSearch, duels}) => {
   return (
