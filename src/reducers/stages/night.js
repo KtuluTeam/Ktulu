@@ -486,7 +486,7 @@ let bandits = (state, action) => {
       break
     case 'SUBMIT':
       let statueHolder = state.statueHolder
-      if(statueHolder === NO_STATUE_HOLDER){
+      if(statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits'){
         statueHolder = state.choosen
         banditsStole = false
       }
