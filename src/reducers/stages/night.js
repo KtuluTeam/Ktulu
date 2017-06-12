@@ -489,8 +489,7 @@ let banditsWakeAndSearch = (state, action) => {
   let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
@@ -521,8 +520,7 @@ let banditsChooseAndSleep = (state, action) => {
   let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
-      s = tools.getMenu(state)
-      break
+      return tools.getMenu(state)
     case 'NEXT':
       break
     case 'SUBMIT':
