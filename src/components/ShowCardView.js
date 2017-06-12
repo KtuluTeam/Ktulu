@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import * as cardInfo from '../cards'
 import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const ShowCardView = ({number, index, cards, onSubmit, onChangeName}) => {
   let card = cards[index]
@@ -23,7 +24,7 @@ export const ShowCardView = ({number, index, cards, onSubmit, onChangeName}) => 
       <TextInput
         value={card.name}
         onChangeText={onChangeName} />
-      <Button title='Zatwierdź i ukryj kartę' onPress={onSubmit} />
+      <NextFooter title='Zatwierdź i ukryj kartę' onPress={onSubmit} />
     </View>
   )
 }

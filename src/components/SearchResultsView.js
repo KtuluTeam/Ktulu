@@ -9,7 +9,7 @@ import * as cards from '../cards'
 import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const Result = ({participant, result}) => {
-  if(!result){
+  if (!result) {
     return (
       <View>
         <ReadLoud text={participant.name + ': nie posiada posążka'} />
@@ -18,12 +18,11 @@ export const Result = ({participant, result}) => {
   }
   return (
     <View>
-      <ReadLoud text={participant.name + ': posiada posążek\nJego rola to: '
-      + cards[participant.faction][participant.role].name} />
+      <ReadLoud text={participant.name + ': posiada posążek\nJego rola to: ' +
+      cards[participant.faction][participant.role].name} />
     </View>
   )
 }
-
 
 export const SearchResultsView = ({statueHolder, instruction, participant1, participant2, searchResult1, searchResult2, onMenu, onSubmit}) => {
   return (

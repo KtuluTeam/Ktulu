@@ -8,7 +8,6 @@ import {
 import * as cards from '../cards'
 import { styles } from '../styles/styles'
 
-
 export const ReadLoud = ({text}) => {
   return (
     <View style={styles.readLoud}>
@@ -18,7 +17,6 @@ export const ReadLoud = ({text}) => {
     </View>
   )
 }
-
 
 export const ManitouInfo = ({text}) => {
   return (
