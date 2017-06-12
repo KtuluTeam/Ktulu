@@ -60,7 +60,8 @@ let search = (state, action) => {
     case 'NEXT':
       return{
         ...state,
-        step: 'HANGING'
+        step: 'HANGING',
+        substep: 'CHOICE'
       }
   }
 }
@@ -170,7 +171,82 @@ let duel = (state, action) => {
 
 
 let hanging = (state, action) => {
-  return state
+  switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
+    case 'SUBMIT':
+      if(state.duelSelection === 1){
+        return {
+          ...state,
+          participant1: state.choosen,
+          step: 'DUEL',
+          substep: 'SELECTION',
+          instruction: 'Wybierz wyzywanego na pojedynek',
+          text: '',
+          duelSelection: 2,
+          from: tools.selectFromWakeableExcept([state.choosen], state),
+          choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
+        }
+      }
+      else{
+        return{
+          ...state,
+          participant2: state.choosen,
+          step: 'DUEL',
+          substep: 'CHOICE_FROM_TWO',
+          instruction: 'Przeprowadź dyskusję i głosowanie',
+          text: 'Kto przegrał pojedynek?',
+
+        }
+      }
+    case 'SELECT':
+      return{
+        ...state,
+        choosen: action.choosen
+      }
+    case 'CHOSE_FROM_TWO':
+      let chosenFromTwo = getDuelLoser(state.participant1, state.participant2, action.chosenFromTwo, state)
+      let text = ''
+      let s = Object.assign({}, state)
+      if(chosenFromTwo.length === 0){
+        text = 'Remis. Nikt nie ginie'
+      }
+      else if (chosenFromTwo.length === 2) {
+        text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+          ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
+          s = tools.killByRole(chosenFromTwo[0].role, s)
+          s = tools.killByRole(chosenFromTwo[1].role, s)
+          if(s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role){
+            s = {
+              ...s,
+              statueHolder: NO_STATUE_HOLDER
+            }
+          }
+      }
+      else{
+        text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
+          ')'
+        s = tools.killByRole(chosenFromTwo[0].role, s)
+        if(s.statueHolder.role === chosenFromTwo[0].role){
+          s = {
+            ...s,
+            statueHolder: NO_STATUE_HOLDER
+          }
+        }
+      }
+      return {
+        ...s,
+        chosenFromTwo: chosenFromTwo,
+        substep: 'INSTRUCTION',
+        instruction: 'Ogłoś kto ginie',
+        text: text
+      }
+    case 'NEXT':
+      return{
+        ...state,
+        step: 'START_OF_DAY'
+      }
+  }
 }
 
 

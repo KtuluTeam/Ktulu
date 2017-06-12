@@ -8,7 +8,7 @@ import { Top } from './index'
 import * as cards from '../cards'
 
 export const Result = ({participant, result}) => {
-  if(result){
+  if(!result){
     return (
       <View>
         <Text>
