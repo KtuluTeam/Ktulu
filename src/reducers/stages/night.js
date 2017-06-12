@@ -40,6 +40,10 @@ let avengerReqs = (alive, state) => {
 }
 
 let indiansReqs = (alive, state) => {
+  return tools.indiansWakeable(state) > 0
+}
+
+let indiansKillReqs = (alive, state) => {
   return tools.indiansWakeable(state) > 0 && (state.day > 0)
 }
 
@@ -91,7 +95,7 @@ let nextNight = (state) => {
     {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
     {step: 'SHAMAN', alive: [], reqs: shamanReqs, stepOrder: orderShaman},
-    {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
+    {step: 'INDIANS_KILL', alive: [], reqs: indiansKillReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
     {step: 'WARRIOR', alive: [], reqs: warriorReqs, stepOrder: orderWarrior},
