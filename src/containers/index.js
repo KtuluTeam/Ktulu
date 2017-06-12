@@ -17,6 +17,7 @@ import { WakeUpByName } from './WakeUpByName'
 import { StartDay } from './StartDay'
 import { ChoiceFromTwo } from './ChoiceFromTwo'
 import { SearchResults } from './SearchResults'
+import { GameOver } from './GameOver'
 
 export const tools = {
   'INSTRUCTION': () => { return (<Instruction />) },
@@ -109,5 +110,8 @@ export const viewMap = {
        ...tools,
        hasSubsteps: true
      },
+  },
+  'GAME_OVER': {
+    'GAME_OVER': () => { return (<GameOver />) }
   }
 }

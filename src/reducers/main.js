@@ -35,6 +35,15 @@ const checkWinConditions = (state) => {
   return state
 }
 
+const gameOver = (state, action) => {
+  switch(action.type) {
+    case 'NEW_GAME':
+      return initialState
+    default:
+      return state
+  }
+}
+
 export const mainReducer = (state = initialState, action) => {
   let newState = checkWinConditions(state)
   switch (newState.stage) {
@@ -45,7 +54,7 @@ export const mainReducer = (state = initialState, action) => {
     case 'DAY':
       return day.day(state, action)
     case 'GAME_OVER':
-      return newState
+      return gameOver(newState, action)
     default:
       return newState
   }
