@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native'
 import { Top } from './index'
+import * as cards from '../cards'
 
 export const Result = ({participant, result}) => {
   if(result){
@@ -22,7 +23,7 @@ export const Result = ({participant, result}) => {
         {participant.name}: posiada posążek
       </Text>
       <Text>
-        Jego rola to: {cards[who.faction][who.role].name}
+        Jego rola to: {cards[participant.faction][participant.role].name}
       </Text>
     </View>
   )
