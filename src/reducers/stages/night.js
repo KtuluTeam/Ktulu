@@ -73,14 +73,14 @@ let areWakeable = (group, state) => {
 let nextNight = (state) => {
   let tableIndex = state.tableIndex
   let order = [
-    // {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
-  //  {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
-    // {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
+    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
+    {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
+    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
     {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
-  /*  {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
-    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief}, */
+    {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
+    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
-  /*  {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman}, */
+    {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman},
     {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
