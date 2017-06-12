@@ -5,13 +5,14 @@ import {
   Button
 } from 'react-native'
 import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const WakeUpByNameView = ({text, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {text} </Text>
-      <Text> Obudź uczestnika: {who.name} poprzez dotknięcie</Text>
+      <ReadLoud text={text} />
+      <ManitouInfo text={'Obudź uczestnika: ' + who.name + 'POPRZEZ DOTKNIĘCIE'} />
       <Button title='OK' onPress={onSubmit} />
     </View>
   )

@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native'
 import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const ChoiceView = ({onMenu, statueHolder, onYes, onNo, text}) => {
   return (

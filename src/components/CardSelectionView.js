@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 let FactionCards = ({faction, cardsSelection}) => {
   return (

@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { Top } from './index'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (

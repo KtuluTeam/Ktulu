@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native'
 import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const ChoiceFromTwoView = ({onMenu, statueHolder, participant1, participant2,
   onSelect, text, instruction}) => {

@@ -7,6 +7,7 @@ import {
   Image
 } from 'react-native'
 import * as cardInfo from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const ShowCardView = ({number, index, cards, onSubmit, onChangeName}) => {
   let card = cards[index]
