@@ -477,26 +477,31 @@ let pastor = (state, action) => {
 }
 
 let bandits = (state, action) => {
-  let order = orderBandits(state)
-  let next = nextSubstep(state, order)
+  let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
-      return tools.getMenu(state)
+      s = tools.getMenu(state)
+      break
     case 'NEXT':
-      return next
+      break
     case 'SUBMIT':
-      return {
-        ...next,
+      s = {
+        ...s,
         statueHolder: state.choosen
       }
+      break
     case 'SELECT':
-      return {
-        ...state,
+      s = {
+        ...s,
         choosen: action.choosen
       }
+      break
     default:
-      return state
+      break
   }
+  let order = orderBandits(s)
+  let next = nextSubstep(s, order)
+  return next
 }
 
 let avenger = (state, action) => {
