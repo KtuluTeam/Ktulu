@@ -11,8 +11,8 @@ import { NextFooter } from './Buttons'
 export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <ManitouInfo text={instruction} />
       <ReadLoud text={who.name + '\nFrakcja: ' + cards[who.faction].name} />
+      <ManitouInfo text={instruction} />
       <NextFooter onPress={onSubmit} />
     </View>
   )

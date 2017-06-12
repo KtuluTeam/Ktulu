@@ -11,7 +11,7 @@ export const WakeUpByNameView = ({text, onMenu, statueHolder, onSubmit, who}) =>
   return (
     <View>
       <ReadLoud text={text} />
-      <ManitouInfo text={'Obudź uczestnika: ' + who.name + 'POPRZEZ DOTKNIĘCIE'} />
+      <ManitouInfo text={'Obudź uczestnika: ' + who.name + ' POPRZEZ DOTKNIĘCIE'} />
       <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
