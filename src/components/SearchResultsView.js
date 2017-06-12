@@ -6,26 +6,28 @@ import {
 } from 'react-native'
 import { Top } from './index'
 
-export const Result = ({statueHolder}) => {
-  let pos = ''
-  if (statueHolder !== null) {
-    pos = 'Posążek: [' + cards[statueHolder.faction][statueHolder.role].name + ', ' + statueHolder.name + ']'
+export const Result = ({participant, result}) => {
+  if(result){}
+    return (
+      <View>
+        <Text>
+          {participant.name}: nie posiada posążka
+        </Text>
+      </View>
+    )
   }
   return (
     <View>
       <Text>
-        {pos}
+        {participant.name}: posiada posążek
+      </Text>
+      <Text>
+        Jego rola to: {cards[who.faction][who.role].name}
       </Text>
     </View>
   )
 }
 
-let getText = (participant, result) => {
-  if(result){
-    return <Text> pariticipant.name + ": posiada posążek."</Text>
-  }
-  return <Text> pariticipant.name + ": nie posiada posążka"</Text>
-}
 
 export const InstructionView = ({statueHolder, instruction, participant1, participant2, searchResult1, searchResult2}) => {
   return (
