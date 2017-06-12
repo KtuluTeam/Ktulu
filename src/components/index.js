@@ -8,6 +8,7 @@ import {
 import * as cards from '../cards'
 import { NO_STATUE_HOLDER } from '../reducers/stages/tools'
 import { styles } from '../styles/styles'
+import { connect } from 'react-redux'
 
 let handbookImg = require('../../img/icons/handbook.png')
 
@@ -30,7 +31,7 @@ export const StatueHolder = ({statueHolder}) => {
   )
 }
 
-export const Top = ({statueHolder, onMenu}) => {
+const TopView = ({statueHolder, onMenu}) => {
   return (
     <View style={styles.header} >
       <TouchableOpacity onPress={onMenu} style={styles.menuOpacity} >
@@ -40,5 +41,10 @@ export const Top = ({statueHolder, onMenu}) => {
     </View>
   )
 }
+
+export const Top = connect(
+  ({statueHolder}) => { return { statueHolder } },
+  (dispatch) => { return { onMenu: () => { dispatch({ type: 'MENU' }) } } }
+)(TopView)
 
 export default { Top }

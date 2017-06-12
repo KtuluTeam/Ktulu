@@ -4,13 +4,11 @@ import {
   View,
   Button
 } from 'react-native'
-import { Top } from './index'
 
 export const ChoiceFromTwoView = ({onMenu, statueHolder, participant1, participant2,
   onSelect, text, instruction}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
       <Text> {instruction} </Text>
       <Text> {text} </Text>
       <Button title={participant1.name} onPress={() => onSelect([participant1])} />

@@ -36,7 +36,13 @@ const checkWinConditions = (state) => {
 }
 
 const gameOver = (state, action) => {
+  if (state.step === 'MENU') {
+    return tools.menu(state, action)
+  }
+
   switch(action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'NEW_GAME':
       return initialState
     default:

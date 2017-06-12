@@ -4,14 +4,12 @@ import {
   View,
   Image
 } from 'react-native'
-import { Top } from './index'
 import * as cards from '../cards'
 import { NextFooter } from './Buttons'
 
 export const DisplayCardView = ({text, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
       <Text> {text} </Text>
       <Text> {who.name} </Text>
       <Text> {cards[who.faction][who.role].name} </Text>
