@@ -4,7 +4,7 @@ import { DisplayCardView } from '../components/DisplayCardView'
 let mapStateToProps = ({text, statueHolder, who}) => {
   return {
     text: text,
-    statueHolder: null,
+    statueHolder: NO_STATUE_HOLDER,
     who: who
   }
 }
