@@ -15,5 +15,8 @@ export const styles = StyleSheet.create({
   // Background colors
   dayBG: { backgroundColor: '#fff1c1', height: 1000 },
   nightBG: { backgroundColor: '#505575', height: 1000 },
-  setupBG: { backgroundColor: '#f7f5ed', height: 1000 }
+  setupBG: { backgroundColor: '#f7f5ed', height: 1000 },
+
+  backImage: {width: 100, height: 100, left: 150},
+  backOpacity: {width: 400, height: 120, top: 20},
 })
