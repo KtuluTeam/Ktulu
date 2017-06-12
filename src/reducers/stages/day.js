@@ -61,7 +61,9 @@ let search = (state, action) => {
       return{
         ...state,
         step: 'HANGING',
-        substep: 'CHOICE'
+        substep: 'CHOICE',
+        instruction: 'Zapytaj',
+        text: 'Czy miasto chce wieszać?'
       }
   }
 }
@@ -115,8 +117,7 @@ let duel = (state, action) => {
           step: 'DUEL',
           substep: 'CHOICE_FROM_TWO',
           instruction: 'Przeprowadź dyskusję i głosowanie',
-          text: 'Kto przegrał pojedynek?',
-
+          text: 'Kto przegrał pojedynek?'
         }
       }
     case 'SELECT':
@@ -174,38 +175,21 @@ let hanging = (state, action) => {
   switch (action.type) {
     case 'MENU':
       return tools.getMenu(state)
-    case 'SUBMIT':
-      if(state.duelSelection === 1){
+    case 'CHOICE':
+      let hanging = action.choice
+      if(hanging){
         return {
           ...state,
-          participant1: state.choosen,
-          step: 'DUEL',
-          substep: 'SELECTION',
-          instruction: 'Wybierz wyzywanego na pojedynek',
-          text: '',
-          duelSelection: 2,
-          from: tools.selectFromWakeableExcept([state.choosen], state),
-          choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
+          substep: 'CHOICE_FROM_TWO',
+          instruction: 'Przeprowadź dyskusję i głosowanie',
+          text: 'Kogo chce powiesić miasto?'
         }
       }
       else{
-        return{
-          ...state,
-          participant2: state.choosen,
-          step: 'DUEL',
-          substep: 'CHOICE_FROM_TWO',
-          instruction: 'Przeprowadź dyskusję i głosowanie',
-          text: 'Kto przegrał pojedynek?',
-
-        }
-      }
-    case 'SELECT':
-      return{
-        ...state,
-        choosen: action.choosen
+        return nextNightState(state)
       }
     case 'CHOSE_FROM_TWO':
-      let chosenFromTwo = getDuelLoser(state.participant1, state.participant2, action.chosenFromTwo, state)
+      let chosenFromTwo = action.chosenFromTwo
       let text = ''
       let s = Object.assign({}, state)
       if(chosenFromTwo.length === 0){
@@ -216,36 +200,13 @@ let hanging = (state, action) => {
           ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
           s = tools.killByRole(chosenFromTwo[0].role, s)
           s = tools.killByRole(chosenFromTwo[1].role, s)
-          if(s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role){
-            s = {
-              ...s,
-              statueHolder: NO_STATUE_HOLDER
-            }
-          }
       }
       else{
         text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ')'
         s = tools.killByRole(chosenFromTwo[0].role, s)
-        if(s.statueHolder.role === chosenFromTwo[0].role){
-          s = {
-            ...s,
-            statueHolder: NO_STATUE_HOLDER
-          }
-        }
       }
-      return {
-        ...s,
-        chosenFromTwo: chosenFromTwo,
-        substep: 'INSTRUCTION',
-        instruction: 'Ogłoś kto ginie',
-        text: text
-      }
-    case 'NEXT':
-      return{
-        ...state,
-        step: 'START_OF_DAY'
-      }
+      return nextNightState(state)
   }
 }
 
