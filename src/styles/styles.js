@@ -10,5 +10,10 @@ export const styles = StyleSheet.create({
   menuOpacity: {width: 100},
   header: {height: 130, flexDirection: 'row', top: 20},
   statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10},
-  statueHolderText: {fontSize: 16}
+  statueHolderText: {fontSize: 16},
+
+  // Background colors
+  dayBG: { backgroundColor: '#fff1c1', height: 1000 },
+  nightBG: { backgroundColor: '#505575', height: 1000 },
+  setupBG: { backgroundColor: '#f7f5ed', height: 1000 }
 })
