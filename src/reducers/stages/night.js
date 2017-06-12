@@ -139,8 +139,8 @@ let startOfNight = (state, action) => {
 }
 
 let orderWhore = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['whore'], state)
   let whore = tools.getCardByRole(state.cards, 'whore')
+  let selectFrom = tools.selectFromWakeableExcept([whore], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
@@ -169,8 +169,8 @@ let orderSheriff = (state) => {
 }
 
 let orderPastor = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state)
   let pastor = tools.getCardByRole(state.cards, 'pastor')
+  let selectFrom = tools.selectFromWakeableExcept([pastor], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
