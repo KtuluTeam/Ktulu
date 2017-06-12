@@ -772,7 +772,7 @@ let indiansSleep = (state, action) => {
       break
   }
   let order = orderIndiansSleep(s)
-  return nextSubstep(state, order)
+  return nextSubstep(s, order)
 }
 
 export const night = (state, action) => {

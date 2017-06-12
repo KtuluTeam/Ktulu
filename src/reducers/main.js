@@ -1,10 +1,35 @@
 import { setup, night, day } from './stages'
+import * as tools from './stages/tools'
 
 const initialState = setup.initialSetupState
 
 const checkWinConditions = (state) => {
+  console.log('check win', state)
+  if(state.stage === 'SETUP'){
+    return state
+  }
+  if(state.stage === 'DAY' && state.statueHolder === undefined){
+    return {
+      ...state,
+      stage: 'GAME_OVER',
+      step: 'CITIZENS_WON'
+    }
+  }
+  if(tools.indiansAlive(state) > 0 && (tools.banditsAlive(state) + tools.citizensAlive(state)) === 0){
+    return {
+      ...state,
+      stage: 'GAME_OVER',
+      step: 'INDIANS_WON'
+    }
+  }
+  if(state.day >= 3 && state.stage === 'DAY' && state.statueHolder.faction === 'bandits'){
+    return {
+      ...state,
+      stage: 'GAME_OVER',
+      step: 'BANDITS_WON'
+    }
+  }
   return state
-  //todo
 }
 
 export const mainReducer = (state = initialState, action) => {
