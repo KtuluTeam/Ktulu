@@ -4,7 +4,6 @@ import {
   View,
   Picker
 } from 'react-native'
-import { Top } from './index'
 import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
 
@@ -12,7 +11,6 @@ export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
   onSelection, choosen, text, instruction}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
       <ReadLoud text={text} />
       <ManitouInfo text={instruction} />
       <Picker

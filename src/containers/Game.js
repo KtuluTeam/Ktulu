@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux'
 import { viewMap } from '../containers'
 import { styles } from '../styles/styles'
+import { Top } from '../components'
 
 let GameView = ({stage, step, substep}) => {
   let GameScreen
@@ -23,6 +24,7 @@ let GameView = ({stage, step, substep}) => {
   }
   return (
     <View style={stageStyle}>
+      <Top />
       <GameScreen />
     </View>
   )

@@ -33,6 +33,7 @@ export const tools = {
 
 export const viewMap = {
   'SETUP': {
+    'MENU': () => { return (<Menu />) },
     'NUMBER_PLAYERS': () => { return (<NumberPlayers />) },
     'FACTION_SIZES': () => { return (<FactionSizes />) },
     'FACTION_CARDS': () => { return (<CardSelection />) },
@@ -55,7 +56,11 @@ export const viewMap = {
       ...tools,
       hasSubsteps: true
     },
-    'BANDITS': {
+    'BANDITS_WAKE_AND_SEARCH': {
+      ...tools,
+      hasSubsteps: true
+    },
+    'BANDITS_CHOOSE_AND_SLEEP': {
       ...tools,
       hasSubsteps: true
     },

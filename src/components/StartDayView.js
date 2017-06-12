@@ -4,13 +4,11 @@ import {
   View,
   Button
 } from 'react-native'
-import { Top } from './index'
 import { ReadLoud, ManitouInfo } from './TextViews'
 
 export const StartDayView = ({onMenu, statueHolder, onDuel, onSearch, duels}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
       <Button title='Przejdź do pojedynku' onPress={onDuel} />
       <Button title='Przejdź do przeszukiwania' onPress={onSearch} />
     </View>
