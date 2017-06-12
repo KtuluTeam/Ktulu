@@ -7,13 +7,12 @@ import {
 import { Top } from './index'
 import * as cards from '../cards'
 
-export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
+export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {text} </Text>
-      <Text> {who.name} </Text>
-      <Text> Frakcja: {cards[who.faction].name} </Text>
+      <ManitouInfo text={instruction} />
+      <ReadLoud text={who.name + '\nFrakcja: ' + cards[who.faction].name} />
       <Button title='OK' onPress={onSubmit} />
     </View>
   )

@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import { DisplayCardView } from '../components/DisplayCardView'
 
-let mapStateToProps = ({text, statueHolder, who}) => {
+let mapStateToProps = ({instruction, statueHolder, who}) => {
   return {
-    text: text,
+    instruction: instruction,
     statueHolder: NO_STATUE_HOLDER,
     who: who
   }

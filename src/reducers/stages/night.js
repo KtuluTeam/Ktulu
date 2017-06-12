@@ -159,7 +159,7 @@ let orderWhore = (state) => {
       text: 'Dziwka wybiera z kim chce spędzić noc',
       choosen: selectFrom[0]},
     {substep: 'WAKE_UP_BY_NAME', text: '', who: choosen},
-    {substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę dziwce'},
+    {substep: 'DISPLAY_CARD', who: choosen, instruction: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
   ]
   return order
