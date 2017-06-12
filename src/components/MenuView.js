@@ -6,9 +6,9 @@ import {
   Image
 } from 'react-native'
 import { styles } from '../styles/styles'
+import { handbookContent } from '../../resources/handbook'
 
 let backImg = require('../../img/icons/left.png')
-let pdfFile = loadPlainTextFile('../../resources/handbook.txt')
 
 export const MenuView = ({onSubmit}) => {
   return (
@@ -17,7 +17,7 @@ export const MenuView = ({onSubmit}) => {
         <Image source={backImg} style={styles.backImage} />
       </TouchableOpacity>
       <Text>
-        {pdfFile}
+        {handbookContent}
       </Text>
     </View>
   )

@@ -1,7 +1,4 @@
-Wyelka Xięga Ktulu
-będąca opisaniem y rozważaniem na temat principiów y
-prowadzenia tej szlachetnej gry
-Wstęp
+export const handbookContent = 'Wstęp
 Ktulu powstało już całkiem dawno temu, zdołało się szeroko rozprzestrzenić i nabyć wiele wariantów, bowiem
 w każdym środowisku, do którego dotarło preferowany był inny styl gry, inny typ zasad, zasady były też
 urozmaicane lub zmieniane. Ta Xięga stara się zaprezentować dość klasyczną (tj. bliską oryginału) wersję tej
@@ -305,4 +302,4 @@ Opój Złodziej Indianie przekazują posążek Ufoki przekazują posążek
 Szuler Indianie idą spać Ufoki nadają sygnał
 Cicha stopa Ufoki idą spać
 Lornecie oko
-Szamanka
+Szamanka'
