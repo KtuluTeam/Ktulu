@@ -17,8 +17,8 @@ export const MenuView = ({onSubmit}) => {
       <TouchableOpacity onPress={onSubmit} style={styles.backOpacity} >
         <Image source={backImg} style={styles.backImage} />
       </TouchableOpacity>
-      <ScrollView>
-        <Text>
+      <ScrollView style={styles.handbookScrollView} >
+        <Text style={styles.handbookText}>
           {handbookContent}
         </Text>
       </ScrollView>
