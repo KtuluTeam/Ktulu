@@ -11,4 +11,6 @@ export const styles = StyleSheet.create({
   header: {height: 130, flexDirection: 'row', top: 20},
   statueHolderView: {height: 80, flexDirection: 'column', top: 5, left: 10},
   statueHolderText: {fontSize: 16}
+  backImage: {width: 100, height: 100, left: 150},
+  backOpacity: {width: 400, height: 120, top: 20},
 })

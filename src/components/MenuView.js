@@ -1,17 +1,22 @@
 import React from 'react'
+import ReactPDF from 'react-pdf'
 import {
   Text,
   View,
-  Button
+  TouchableOpacity,
+  Image
 } from 'react-native'
+import { styles } from '../styles/styles'
+
+let backImg = require('../../img/icons/left.png')
 
 export const MenuView = ({onSubmit}) => {
   return (
     <View>
-      <Text>
-    Tu bedzie menu
-    </Text>
-      <Button title='Wróć' onPress={onSubmit} />
+      <TouchableOpacity onPress={onSubmit} style={styles.backOpacity} >
+        <Image source={backImg} style={styles.backImage} />
+      </TouchableOpacity>
+      <ReactPDF file="../../resources/handbook.pdf" />
     </View>
   )
 }
