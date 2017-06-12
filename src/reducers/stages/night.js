@@ -31,7 +31,7 @@ let banditsReqs = (alive, state) => {
 
 let thiefReqs = (alive, state) => {
   let thief = tools.getCardByRole(state.cards, 'thief')
-  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits'  && (state.day > 0)
+  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits' && (state.day > 0)
 }
 
 let avengerReqs = (alive, state) => {
@@ -40,6 +40,10 @@ let avengerReqs = (alive, state) => {
 }
 
 let indiansReqs = (alive, state) => {
+  return tools.indiansWakeable(state) > 0
+}
+
+let indiansKillReqs = (alive, state) => {
   return tools.indiansWakeable(state) > 0 && (state.day > 0)
 }
 
@@ -91,7 +95,7 @@ let nextNight = (state) => {
     {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
     {step: 'SHAMAN', alive: [], reqs: shamanReqs, stepOrder: orderShaman},
-    {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
+    {step: 'INDIANS_KILL', alive: [], reqs: indiansKillReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
     {step: 'WARRIOR', alive: [], reqs: warriorReqs, stepOrder: orderWarrior},
@@ -482,13 +486,12 @@ let bandits = (state, action) => {
       break
     case 'SUBMIT':
       let statueHolder = state.statueHolder
-      if(statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits'){
+      if (statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
         statueHolder = state.choosen
         banditsStole = false
-      }
-      else{
+      }      else {
         let banditsStole = state.choosen.role === statueHolder.role
-        if(banditsStole){
+        if (banditsStole) {
           statueHolder = NO_STATUE_HOLDER
         }
       }

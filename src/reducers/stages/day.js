@@ -239,7 +239,7 @@ let startOfDay = (state, action) => {
         choosen: tools.selectFromWakeableExcept([], state)[0]
       }
     default:
-      return state;
+      return state
   }
 }
 
@@ -247,6 +247,8 @@ export const day = (state, action) => {
   switch (state.step) {
     case 'START_OF_DAY':
       return startOfDay(state, action)
+    case 'MENU':
+      return tools.menu(state, action)
     case 'DUEL':
       return duel(state, action)
     case 'SEARCH':

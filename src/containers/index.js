@@ -98,6 +98,7 @@ export const viewMap = {
   },
   'DAY': {
      'START_OF_DAY': () => { return (<StartDay />) },
+     'MENU': () => { return (<Menu />) },
      'DUEL': {
        ...tools,
        hasSubsteps: true
@@ -109,9 +110,10 @@ export const viewMap = {
      'HANGING': {
        ...tools,
        hasSubsteps: true
-     },
+     }
   },
   'GAME_OVER': {
-    'GAME_OVER': () => { return (<GameOver />) }
+    'GAME_OVER': () => { return (<GameOver />) },
+    'MENU': () => { return (<Menu />) }
   }
 }

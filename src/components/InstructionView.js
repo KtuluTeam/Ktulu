@@ -1,11 +1,11 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 import { Top } from './index'
 import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
   return (
@@ -13,7 +13,7 @@ export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instructi
       <Top statueHolder={statueHolder} onMenu={onMenu} />
       <ManitouInfo text={instruction} />
       <ReadLoud text={text} />
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }

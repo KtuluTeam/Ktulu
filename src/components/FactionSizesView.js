@@ -1,9 +1,9 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
+import { NextFooter } from './Buttons'
 
 export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
   return (
@@ -19,7 +19,7 @@ export const FactionSizesView = ({citizens, bandits, indians, onSubmit}) => {
         Indian: {indians}
       </Text>
 
-      <Button title='Zatwierdź' onPress={onSubmit} />
+      <NextFooter title='Zatwierdź' onPress={onSubmit} />
     </View>
   )
 }

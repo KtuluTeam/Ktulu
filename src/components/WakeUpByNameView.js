@@ -1,11 +1,12 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 import { Top } from './index'
 import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
+
 
 export const WakeUpByNameView = ({text, onMenu, statueHolder, onSubmit, who}) => {
   return (
@@ -13,7 +14,7 @@ export const WakeUpByNameView = ({text, onMenu, statueHolder, onSubmit, who}) =>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
       <ReadLoud text={text} />
       <ManitouInfo text={'Obudź uczestnika: ' + who.name + 'POPRZEZ DOTKNIĘCIE'} />
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }
