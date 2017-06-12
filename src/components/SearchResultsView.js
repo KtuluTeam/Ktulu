@@ -7,6 +7,7 @@ import {
 import { Top } from './index'
 import * as cards from '../cards'
 import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const Result = ({participant, result}) => {
   if (!result) {
@@ -31,7 +32,7 @@ export const SearchResultsView = ({statueHolder, instruction, participant1, part
       <ManitouInfo text={instruction} />
       <Result participant={participant1} result={searchResult1} />
       <Result participant={participant2} result={searchResult2} />
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }
