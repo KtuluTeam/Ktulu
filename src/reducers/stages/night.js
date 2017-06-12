@@ -481,9 +481,15 @@ let bandits = (state, action) => {
     case 'NEXT':
       break
     case 'SUBMIT':
+      let statueHolder = state.statueHolder
+      let banditsStole = state.choosen.role === statueHolder.role
+      if(banditsStole){
+        statueHolder = NO_STATUE_HOLDER
+      }
       s = {
         ...s,
-        statueHolder: state.choosen
+        statueHolder: statueHolder,
+        banditsStole: banditsStole
       }
       break
     case 'SELECT':
