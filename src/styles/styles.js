@@ -21,4 +21,9 @@ export const styles = StyleSheet.create({
 
   backImage: {width: 100, height: 100, left: 150},
   backOpacity: {width: 400, height: 120, top: 20},
+
+  readLoud: {borderWidth: 1, margin: 5},
+  readLoudText: {fontSize: 20},
+  manitouInfo: {margin: 5},
+  manitouInfoText: {fontSize: 16, fontStyle: 'italic'},
 })
