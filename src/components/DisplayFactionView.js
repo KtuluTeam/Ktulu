@@ -13,8 +13,8 @@ export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit,
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <ManitouInfo text={instruction} />
       <ReadLoud text={who.name + '\nFrakcja: ' + cards[who.faction].name} />
+      <ManitouInfo text={instruction} />
       <NextFooter onPress={onSubmit} />
     </View>
   )

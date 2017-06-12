@@ -55,7 +55,11 @@ export const viewMap = {
       ...tools,
       hasSubsteps: true
     },
-    'BANDITS': {
+    'BANDITS_WAKE_AND_SEARCH': {
+      ...tools,
+      hasSubsteps: true
+    },
+    'BANDITS_CHOOSE_AND_SLEEP': {
       ...tools,
       hasSubsteps: true
     },

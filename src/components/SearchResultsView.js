@@ -29,9 +29,9 @@ export const SearchResultsView = ({statueHolder, instruction, participant1, part
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <ManitouInfo text={instruction} />
       <Result participant={participant1} result={searchResult1} />
       <Result participant={participant2} result={searchResult2} />
+      <ManitouInfo text={instruction} />
       <Button title='OK' onPress={onSubmit} />
     </View>
   )

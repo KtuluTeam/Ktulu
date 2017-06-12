@@ -90,7 +90,8 @@ let nextNight = (state) => {
     {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
     {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
     {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
-    {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
+    {step: 'BANDITS_WAKE_AND_SEARCH', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
+    {step: 'BANDITS_CHOOSE_AND_SLEEP', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
     {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
     {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
@@ -195,7 +196,7 @@ let orderPastor = (state) => {
   return order
 }
 
-let orderBandits = (state) => {
+let orderBanditsWakeAndSearch = (state) => {
   let selectFrom = tools.selectFromWakeableExcept(tools.getFactionMembers('bandits', state), state)
   let bandits = tools.getFactionMembers('bandits', state)
   let choosen = state.choosen
@@ -212,6 +213,14 @@ let orderBandits = (state) => {
   } else {
     order.push({none: true})
   }
+  return order
+}
+
+let orderBanditsChooseAndSleep = (state) => {
+  let selectFrom = tools.selectFromWakeableExcept(tools.getFactionMembers('bandits', state), state)
+  let bandits = tools.getFactionMembers('bandits', state)
+  let choosen = state.choosen
+  let order = []
   if (state.statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
     order.push({substep: 'SELECTION', from: bandits, text: 'Wybieją kto będzie miał posążek.', choosen: bandits[0]})
   } else {
@@ -476,7 +485,7 @@ let pastor = (state, action) => {
   }
 }
 
-let bandits = (state, action) => {
+let banditsWakeAndSearch = (state, action) => {
   let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
@@ -485,15 +494,9 @@ let bandits = (state, action) => {
     case 'NEXT':
       break
     case 'SUBMIT':
-      let statueHolder = state.statueHolder
-      if (statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
-        statueHolder = state.choosen
-        banditsStole = false
-      }      else {
-        let banditsStole = state.choosen.role === statueHolder.role
-        if (banditsStole) {
-          statueHolder = NO_STATUE_HOLDER
-        }
+      let banditsStole = state.choosen.role === statueHolder.role
+      if (banditsStole) {
+        statueHolder = NO_STATUE_HOLDER
       }
       s = {
         ...s,
@@ -510,7 +513,35 @@ let bandits = (state, action) => {
     default:
       break
   }
-  let order = orderBandits(s)
+  let order = orderBanditsWakeAndSearch(s)
+  let next = nextSubstep(s, order)
+  return next
+}
+
+let banditsChooseAndSleep = (state, action) => {
+  let s = Object.assign({}, state)
+  switch (action.type) {
+    case 'MENU':
+      s = tools.getMenu(state)
+      break
+    case 'NEXT':
+      break
+    case 'SUBMIT':
+      s = {
+        ...s,
+        statueHolder: state.choosen
+      }
+      break
+    case 'SELECT':
+      s = {
+        ...s,
+        choosen: action.choosen
+      }
+      break
+    default:
+      break
+  }
+  let order = orderBanditsChooseAndSleep(s)
   let next = nextSubstep(s, order)
   return next
 }
@@ -819,8 +850,10 @@ export const night = (state, action) => {
       return sheriff(state, action)
     case 'PASTOR':
       return pastor(state, action)
-    case 'BANDITS':
-      return bandits(state, action)
+    case 'BANDITS_WAKE_AND_SEARCH':
+      return banditsWakeAndSearch(state, action)
+    case 'BANDITS_CHOOSE_AND_SLEEP':
+      return banditsChooseAndSleep(state, action)
     case 'AVENGER':
       return avenger(state, action)
     case 'THIEF':

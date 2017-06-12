@@ -11,8 +11,8 @@ export const StartOfNightView = ({statueHolder, onSubmit, onMenu}) => {
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <ManitouInfo text={'Ogłoś'} />
       <ReadLoud text={'Wszyscy idą spać'} />
+      <ManitouInfo text={'Ogłoś'} />
       <Button title='Rozpocznij noc' onPress={onSubmit} />
     </View>
   )

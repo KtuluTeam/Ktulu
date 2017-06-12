@@ -13,8 +13,8 @@ export const DisplayCardView = ({instruction, onMenu, statueHolder, onSubmit, wh
   return (
     <View>
       <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <ManitouInfo text={instruction} />
       <ReadLoud text={who.name + '\n' + cards[who.faction][who.role].name} />
+      <ManitouInfo text={instruction} />
       <Image source={cards[who.faction][who.role].image} style={{height: 450, width: 300}} />
       <NextFooter onPress={onSubmit} />
     </View>
