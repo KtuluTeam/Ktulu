@@ -23,7 +23,7 @@ export let isCardWakeable = (card, state) => {
 export let factionMembersAlive = (faction, state) => {
   let counter = 0
   for (let card of state.cards) {
-    if (card.faction === faction && card.alive) {
+    if ((card.faction === faction) && card.alive) {
       counter++
     }
   }

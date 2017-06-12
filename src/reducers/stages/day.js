@@ -11,12 +11,61 @@ export const nextDayState = (state) => {
     step: 'START_OF_DAY',
     tableIndex: 0,
     duels: 0,
-    inPrison: undefined
+    inPrison: undefined,
+    day: state.day + 1
   }
 }
 
 let search = (state, action) => {
-  return state
+  switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
+    case 'SUBMIT':
+      if(state.searchSelection === 1){
+        return {
+          ...state,
+          participant1: state.choosen,
+          step: 'SEARCH',
+          substep: 'SELECTION',
+          instruction: 'Wybierz drugą osobę do przeszukania',
+          text: '',
+          searchSelection: 2,
+          from: tools.selectFromWakeableExcept([state.choosen], state),
+          choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
+        }
+      }
+      else{
+        let statueHolder = state.statueHolder
+        if(state.statueHolder.role === participant1.role || state.statueHolder.role === participant2.role){
+          statueHolder = undefined
+        }
+        return{
+          ...state,
+          participant2: state.choosen,
+          step: 'SEARCH',
+          substep: 'SEARCH_RESULTS',
+          instruction: 'Ogłoś wyniki przeszukania',
+          text: 'Kto przegrał pojedynek?',
+          searchResult1: state.statueHolder.role === participant1.role,
+          searchResult2: state.statueHolder.role === participant2.role,
+          statueHolder: statueHolder
+        }
+      }
+    case 'SELECT':
+      return{
+        ...state,
+        choosen: action.choosen
+      }
+    case 'NEXT':
+      return{
+        ...state,
+        step: 'HANGING'
+      }
+  }
+}
+
+let isGunslinger = (card) => {
+  return card.role === 'goodGunslinger' || card.role === 'evilGunslinger'
 }
 
 let getDuelLoser = (participant1, participant2, chosenFromTwo, state) => {
@@ -30,22 +79,13 @@ let getDuelLoser = (participant1, participant2, chosenFromTwo, state) => {
       diesSecond = true
     }
   }
-  if((participant1.role === 'goodGunslinger' || participant1.role === 'evilGunslinger') && diesFirst){
-      diesFirst = !diesFirst
-      diesSecond = !diesSecond
-   }
-   if((participant2.role === 'goodGunslinger' || participant2.role === 'evilGunslinger') && diesSecond){
-      diesFirst = !diesFirst
-      diesSecond = !diesSecond
-   }
-  let losers = []
-  if(diesFirst){
-    losers.push(participant1)
+  if(isGunslinger(participant1) && !isGunslinger(participant2) && diesFirst){
+    return [participant2]
   }
-  if(diesSecond){
-    losers.push(participant2)
+  else if(isGunslinger(participant2) && !isGunslinger(participant1) && diesSecond){
+    return [participant1]
   }
-  return losers
+  return chosenFromTwo
 }
 
 let duel = (state, action) => {
@@ -122,6 +162,11 @@ let duel = (state, action) => {
 }
 
 
+let hanging = (state, action) => {
+  return state
+}
+
+
 let startOfDay = (state, action) => {
   switch (action.type) {
     case 'MENU':
@@ -130,7 +175,12 @@ let startOfDay = (state, action) => {
       return {
         ...state,
         step: 'SEARCH',
-        substep: 'NUMBER_SEARCHED'
+        substep: 'SELECTION',
+        instruction: 'Wybierz pierwszą osobę do przeszukania',
+        text: '',
+        searchSelection: 1,
+        from: tools.selectFromWakeableExcept([], state),
+        choosen: tools.selectFromWakeableExcept([], state)[0]
       }
     case 'TO_DUEL':
       return {
@@ -157,6 +207,8 @@ export const day = (state, action) => {
       return duel(state, action)
     case 'SEARCH':
       return search(state, action)
+    case 'HANGING':
+      return hanging(state, action)
     default:
       return state
   }
