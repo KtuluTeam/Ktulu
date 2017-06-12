@@ -36,7 +36,8 @@ let search = (state, action) => {
       }
       else{
         let statueHolder = state.statueHolder
-        if(state.statueHolder.role === participant1.role || state.statueHolder.role === participant2.role){
+        let participant2 = state.choosen
+        if(state.statueHolder.role === state.participant1.role || state.statueHolder.role === participant2.role){
           statueHolder = undefined
         }
         return{
@@ -46,7 +47,7 @@ let search = (state, action) => {
           substep: 'SEARCH_RESULTS',
           instruction: 'Ogłoś wyniki przeszukania',
           text: 'Kto przegrał pojedynek?',
-          searchResult1: state.statueHolder.role === participant1.role,
+          searchResult1: state.statueHolder.role === state.participant1.role,
           searchResult2: state.statueHolder.role === participant2.role,
           statueHolder: statueHolder
         }
