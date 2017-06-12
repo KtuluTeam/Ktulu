@@ -1,9 +1,9 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
+import { NextFooter } from './Buttons'
 
 export const NumberPlayersView = ({number, onSubmit}) => {
   return (
@@ -12,7 +12,7 @@ export const NumberPlayersView = ({number, onSubmit}) => {
       <Text>
         {number}
       </Text>
-      <Button title='Zatwierdź' onPress={onSubmit} />
+      <NextFooter title='Zatwierdź' onPress={onSubmit} />
     </View>
   )
 }

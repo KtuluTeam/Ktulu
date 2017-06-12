@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 import { Top } from './index'
+import { NextFooter } from './Buttons'
 
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
   return (
@@ -12,7 +12,7 @@ export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instructi
       <Top statueHolder={statueHolder} onMenu={onMenu} />
       <Text> {instruction} </Text>
       <Text> {text} </Text>
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }

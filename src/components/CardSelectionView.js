@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 import * as cards from '../cards'
+import { NextFooter } from './Buttons'
 
 let FactionCards = ({faction, cardsSelection}) => {
   return (
@@ -42,7 +42,7 @@ export const CardSelectionView = ({citizens, bandits,
         </Text>
       <FactionCards faction='indians'
         cardsSelection={indians} />
-      <Button title='Zatwierdź' onPress={onSubmit} />
+      <NextFooter onPress={onSubmit} />
     </View>
   )
 }
