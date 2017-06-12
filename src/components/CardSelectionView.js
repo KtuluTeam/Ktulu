@@ -9,14 +9,16 @@ import * as cards from '../cards'
 let FactionCards = ({faction, cardsSelection}) => {
   return (
     <View>
-      <ReadLoud
-        text={cards[faction].name + ':'}/>
+      <Text>
+        {cards[faction].name}:
+      </Text>
       <View>
         { cardsSelection.map((cardSelection) => {
           return (
             <View key={cards[faction][cardSelection.role].name}>
-              <ReadLoud
-                text={cards[faction][cardSelection.role].name}/>
+              <Text>
+                {cards[faction][cardSelection.role].name}
+              </Text>
             </View>
           )
         }) }
