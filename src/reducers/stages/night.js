@@ -21,7 +21,7 @@ export const nextNightState = (state) => {
     stage: 'NIGHT',
     step: 'START_OF_NIGHT',
     tableIndex: -1,
-    day: state.day + 1
+    day: state.day
   }
 }
 
