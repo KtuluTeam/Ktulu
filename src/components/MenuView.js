@@ -19,7 +19,7 @@ export const MenuView = ({onSubmit}) => {
       </TouchableOpacity>
       <ScrollView style={styles.handbookScrollView} >
         <Text style={styles.handbookText}>
-          {handbookContent}
+          {handbookContent + '\n'}
         </Text>
       </ScrollView>
     </View>

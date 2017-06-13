@@ -12,9 +12,12 @@ export const ChoiceFromTwoView = ({onMenu, statueHolder, participant1, participa
     <View>
       <ReadLoud text={text} />
       <ManitouInfo text={instruction} />
+      <View style={{height: 296}} />
       <Button title={participant1.name} onPress={() => onSelect([participant1])} />
+      <View style={{height: 2}} />
       <Button title={participant2.name} onPress={() => onSelect([participant2])} />
-      <Button title='Remis' onPress={() => onSelect([participant1, participant2]) } />
+      <View style={{height: 2}} />
+      <Button title='Remis' onPress={() => onSelect([participant1, participant2])} />
     </View>
   )
 }

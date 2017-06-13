@@ -21,7 +21,7 @@ let search = (state, action) => {
     case 'MENU':
       return tools.getMenu(state)
     case 'SUBMIT':
-      if(state.searchSelection === 1){
+      if (state.searchSelection === 1) {
         return {
           ...state,
           participant1: state.choosen,
@@ -33,14 +33,13 @@ let search = (state, action) => {
           from: tools.selectFromWakeableExcept([state.choosen], state),
           choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
         }
-      }
-      else{
+      } else {
         let statueHolder = state.statueHolder
         let participant2 = state.choosen
-        if(state.statueHolder.role === state.participant1.role || state.statueHolder.role === participant2.role){
+        if (state.statueHolder.role === state.participant1.role || state.statueHolder.role === participant2.role) {
           statueHolder = NO_STATUE_HOLDER
         }
-        return{
+        return {
           ...state,
           participant2: state.choosen,
           step: 'SEARCH',
@@ -53,12 +52,12 @@ let search = (state, action) => {
         }
       }
     case 'SELECT':
-      return{
+      return {
         ...state,
         choosen: action.choosen
       }
     case 'NEXT':
-      return{
+      return {
         ...state,
         step: 'HANGING',
         substep: 'CHOICE',
@@ -76,17 +75,15 @@ let getDuelLoser = (participant1, participant2, chosenFromTwo, state) => {
   let diesFirst = false
   let diesSecond = false
   for (let participant of chosenFromTwo) {
-    if(participant.role === participant1.role){
+    if (participant.role === participant1.role) {
       diesFirst = true
-    }
-    else if(participant.role === participant2.role){
+    } else if (participant.role === participant2.role) {
       diesSecond = true
     }
   }
-  if(isGunslinger(participant1) && !isGunslinger(participant2) && diesFirst){
+  if (isGunslinger(participant1) && !isGunslinger(participant2) && diesFirst) {
     return [participant2]
-  }
-  else if(isGunslinger(participant2) && !isGunslinger(participant1) && diesSecond){
+  } else if (isGunslinger(participant2) && !isGunslinger(participant1) && diesSecond) {
     return [participant1]
   }
   return chosenFromTwo
@@ -97,7 +94,7 @@ let duel = (state, action) => {
     case 'MENU':
       return tools.getMenu(state)
     case 'SUBMIT':
-      if(state.duelSelection === 1){
+      if (state.duelSelection === 1) {
         return {
           ...state,
           participant1: state.choosen,
@@ -109,9 +106,8 @@ let duel = (state, action) => {
           from: tools.selectFromWakeableExcept([state.choosen], state),
           choosen: tools.selectFromWakeableExcept([state.choosen], state)[0]
         }
-      }
-      else{
-        return{
+      } else {
+        return {
           ...state,
           participant2: state.choosen,
           step: 'DUEL',
@@ -121,7 +117,7 @@ let duel = (state, action) => {
         }
       }
     case 'SELECT':
-      return{
+      return {
         ...state,
         choosen: action.choosen
       }
@@ -129,26 +125,24 @@ let duel = (state, action) => {
       let chosenFromTwo = getDuelLoser(state.participant1, state.participant2, action.chosenFromTwo, state)
       let text = ''
       let s = Object.assign({}, state)
-      if(chosenFromTwo.length === 0){
+      if (chosenFromTwo.length === 0) {
         text = 'Remis. Nikt nie ginie'
-      }
-      else if (chosenFromTwo.length === 2) {
+      } else if (chosenFromTwo.length === 2) {
         text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
-          s = tools.killByRole(chosenFromTwo[0].role, s)
-          s = tools.killByRole(chosenFromTwo[1].role, s)
-          if(s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role){
-            s = {
-              ...s,
-              statueHolder: NO_STATUE_HOLDER
-            }
+        s = tools.killByRole(chosenFromTwo[0].role, s)
+        s = tools.killByRole(chosenFromTwo[1].role, s)
+        if (s.statueHolder.role === chosenFromTwo[0].role || s.statueHolder.role === chosenFromTwo[1].role) {
+          s = {
+            ...s,
+            statueHolder: NO_STATUE_HOLDER
           }
-      }
-      else{
+        }
+      } else {
         text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ')'
         s = tools.killByRole(chosenFromTwo[0].role, s)
-        if(s.statueHolder.role === chosenFromTwo[0].role){
+        if (s.statueHolder.role === chosenFromTwo[0].role) {
           s = {
             ...s,
             statueHolder: NO_STATUE_HOLDER
@@ -163,13 +157,12 @@ let duel = (state, action) => {
         text: text
       }
     case 'NEXT':
-      return{
+      return {
         ...state,
         step: 'START_OF_DAY'
       }
   }
 }
-
 
 let hanging = (state, action) => {
   switch (action.type) {
@@ -177,31 +170,28 @@ let hanging = (state, action) => {
       return tools.getMenu(state)
     case 'CHOICE':
       let hanging = action.choice
-      if(hanging){
+      if (hanging) {
         return {
           ...state,
           substep: 'CHOICE_FROM_TWO',
           instruction: 'Przeprowadź dyskusję i głosowanie',
           text: 'Kogo chce powiesić miasto?'
         }
-      }
-      else{
+      } else {
         return nextNightState(state)
       }
     case 'CHOSE_FROM_TWO':
       let chosenFromTwo = action.chosenFromTwo
       let text = ''
       let s = Object.assign({}, state)
-      if(chosenFromTwo.length === 0){
+      if (chosenFromTwo.length === 0) {
         text = 'Remis. Nikt nie ginie'
-      }
-      else if (chosenFromTwo.length === 2) {
+      } else if (chosenFromTwo.length === 2) {
         text = 'Remis. Giną ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ') oraz ' + chosenFromTwo[1].name + '(' + cards[chosenFromTwo[1].faction][chosenFromTwo[1].role].name + ')'
-          s = tools.killByRole(chosenFromTwo[0].role, s)
-          s = tools.killByRole(chosenFromTwo[1].role, s)
-      }
-      else{
+        s = tools.killByRole(chosenFromTwo[0].role, s)
+        s = tools.killByRole(chosenFromTwo[1].role, s)
+      } else {
         text = 'Ginie ' + chosenFromTwo[0].name + '(' + cards[chosenFromTwo[0].faction][chosenFromTwo[0].role].name +
           ')'
         s = tools.killByRole(chosenFromTwo[0].role, s)
@@ -209,7 +199,6 @@ let hanging = (state, action) => {
       return nextNightState(state)
   }
 }
-
 
 let startOfDay = (state, action) => {
   switch (action.type) {

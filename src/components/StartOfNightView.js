@@ -5,13 +5,14 @@ import {
   Button
 } from 'react-native'
 import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const StartOfNightView = ({statueHolder, onSubmit, onMenu}) => {
   return (
     <View>
       <ReadLoud text={'Wszyscy idą spać'} />
       <ManitouInfo text={'Ogłoś'} />
-      <Button title='Rozpocznij noc' onPress={onSubmit} />
+      <NextFooter title='Rozpocznij noc' onPress={onSubmit} />
     </View>
   )
 }

@@ -13,7 +13,7 @@ export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
     <View>
       <ReadLoud text={text} />
       <ManitouInfo text={instruction} />
-      <Picker
+      <Picker style={{color: '#cf0000', margin: 10}}
         selectedValue={choosen}
         onValueChange={onSelection} mode='dropdown'>
         { chooseFrom.map((choice) => {

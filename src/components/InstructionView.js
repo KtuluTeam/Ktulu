@@ -9,8 +9,8 @@ import { NextFooter } from './Buttons'
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
   return (
     <View>
-      <ManitouInfo text={instruction} />
       <ReadLoud text={text} />
+      <ManitouInfo text={instruction} />
       <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )

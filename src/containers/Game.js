@@ -19,6 +19,8 @@ let GameView = ({stage, step, substep}) => {
     stageStyle = styles.dayBG
   } else if (stage === 'SETUP') {
     stageStyle = styles.setupBG
+  } else if (stage === 'GAME_OVER') {
+    stageStyle = styles.endBG
   }
   return (
     <View style={stageStyle}>
