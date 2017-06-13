@@ -6,19 +6,19 @@ import {
 import * as cards from '../cards'
 import { ReadLoud, ManitouInfo } from './TextViews'
 import { NextFooter } from './Buttons'
-
+import { styles } from '../styles/styles'
 
 let FactionCards = ({faction, cardsSelection}) => {
   return (
     <View>
-      <Text>
+      <Text style={[styles.setupTex, {left: 5}]}>
         {cards[faction].name}:
       </Text>
       <View>
         { cardsSelection.map((cardSelection) => {
           return (
             <View key={cards[faction][cardSelection.role].name}>
-              <Text>
+              <Text style={{fontSize: 15, left: 10}}>
                 {cards[faction][cardSelection.role].name}
               </Text>
             </View>
@@ -33,14 +33,14 @@ export const CardSelectionView = ({citizens, bandits,
   indians, onSubmit}) => {
   return (
     <View>
-      <Text>Karty poszczególnych frakcji </Text>
+      <Text style={styles.setupText}>Karty poszczególnych frakcji </Text>
       <FactionCards faction='citizens'
         cardsSelection={citizens} />
-      <Text>______________
+      <Text style={styles.setupText}>______________
         </Text>
       <FactionCards faction='bandits'
         cardsSelection={bandits} />
-      <Text>______________
+      <Text style={styles.setupText}>______________
         </Text>
       <FactionCards faction='indians'
         cardsSelection={indians} />

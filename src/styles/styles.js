@@ -4,9 +4,12 @@ const backOpacityHeight = 140
 const viewHeight = Dimensions.get('window').height - 24
 const textField = {margin: 10, padding: 10, borderRadius: 5}
 const text = {textAlign: 'center', textAlignVertical: 'center'}
+const headerHeight = 110
 
 export const styles = StyleSheet.create({
   footer: {height: 100, flexDirection: 'row', position: 'absolute', top: 435},
+
+  setupText: {fontSize: 15, margin: 5},
 
   choiceImage: {width: 100, height: 100, left: 50},
   choiceOpacity: {width: 200},
@@ -14,7 +17,7 @@ export const styles = StyleSheet.create({
   nextImage: {width: 100, height: 100, left: 150},
   nextOpacity: {width: 400},
 
-  header: {height: 110, flexDirection: 'row', top: 20},
+  header: {height: headerHeight, flexDirection: 'row', top: 20},
   menuOpacity: {width: 100},
   handbookImage: {width: 80, height: 80, left: 10},
   statueHolderView: {height: 80, flexDirection: 'column', width: 290,
@@ -23,14 +26,14 @@ export const styles = StyleSheet.create({
 
   // Background colors
   dayBG: { backgroundColor: '#fff1c1', height: viewHeight },
-  nightBG: { backgroundColor: '#505575', height: viewHeight },
+  nightBG: { backgroundColor: '#1b2147', height: viewHeight },
   setupBG: { backgroundColor: '#e0ded5', height: viewHeight },
   endBG: { backgroundColor: '#ce1e2d', height: viewHeight },
 
   backImage: {width: 100, height: 100, left: 150},
   backOpacity: {width: 400, height: backOpacityHeight, top: 20},
 
-  handbookScrollView: {height: viewHeight - backOpacityHeight, padding: 5},
+  handbookScrollView: {height: viewHeight - backOpacityHeight - headerHeight - 5, padding: 5},
   handbookText: { fontSize: 18, color: '#cf0000' },
 
   readLoud: {borderWidth: 4, backgroundColor: '#d3eaab', ...textField},

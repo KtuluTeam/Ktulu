@@ -4,12 +4,13 @@ import {
   View
 } from 'react-native'
 import { NextFooter } from './Buttons'
+import { styles } from '../styles/styles'
 
 export const NumberPlayersView = ({number, onSubmit}) => {
   return (
     <View>
-      <Text>Liczba graczy</Text>
-      <Text>
+      <Text style={styles.setupText}>Liczba graczy</Text>
+      <Text style={styles.setupText}>
         {number}
       </Text>
       <NextFooter title='Zatwierdź' onPress={onSubmit} />
