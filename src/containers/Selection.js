@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import { SelectionView } from '../components/SelectionView'
 
-let mapStateToProps = ({from, statueHolder, choosen, text}) => {
+let mapStateToProps = ({from, statueHolder, choosen, text, instruction}) => {
   return {
     chooseFrom: from,
     statueHolder: statueHolder,
     choosen: choosen,
-    text: text
+    text: text,
+    instruction
   }
 }
 

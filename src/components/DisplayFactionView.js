@@ -1,20 +1,19 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
-import { Top } from './index'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
-export const DisplayFactionView = ({text, onMenu, statueHolder, onSubmit, who}) => {
+
+export const DisplayFactionView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {text} </Text>
-      <Text> {who.name} </Text>
-      <Text> Frakcja: {cards[who.faction].name} </Text>
-      <Button title='OK' onPress={onSubmit} />
+      <ReadLoud text={who.name + '\nFrakcja: ' + cards[who.faction].name} />
+      <ManitouInfo text={instruction} />
+      <NextFooter onPress={onSubmit} />
     </View>
   )
 }

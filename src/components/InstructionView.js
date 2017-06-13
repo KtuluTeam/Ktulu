@@ -1,18 +1,17 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
-import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const InstructionView = ({text, onMenu, statueHolder, onSubmit, instruction}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {instruction} </Text>
-      <Text> {text} </Text>
-      <Button title='OK' onPress={onSubmit} />
+      <ReadLoud text={text} />
+      <ManitouInfo text={instruction} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }

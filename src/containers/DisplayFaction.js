@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
 import { DisplayFactionView } from '../components/DisplayFactionView'
+import { NO_STATUE_HOLDER } from '../reducers/stages/tools'
 
-let mapStateToProps = ({text, statueHolder, who}) => {
+let mapStateToProps = ({instruction, statueHolder, who}) => {
   return {
-    text: text,
-    statueHolder: null,
+    instruction: instruction,
+    statueHolder: NO_STATUE_HOLDER,
     who: who
   }
 }

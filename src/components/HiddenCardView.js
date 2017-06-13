@@ -1,9 +1,10 @@
 import React from 'react'
 import {
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
+import { NextFooter } from './Buttons'
+import { styles } from '../styles/styles'
 
 export const HiddenCardView = ({number, index, onSubmit}) => {
   let text = ''
@@ -17,10 +18,10 @@ export const HiddenCardView = ({number, index, onSubmit}) => {
   }
   return (
     <View>
-      <Text>
+      <Text style={styles.setupText}>
         {text}
       </Text>
-      <Button title={buttonTitle} onPress={onSubmit} />
+      <NextFooter title={buttonTitle} onPress={onSubmit} />
     </View>
   )
 }

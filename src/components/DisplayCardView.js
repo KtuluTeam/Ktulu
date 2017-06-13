@@ -2,21 +2,22 @@ import React from 'react'
 import {
   Text,
   View,
-  Button,
-  Image
+  Image,
+  ScrollView
 } from 'react-native'
-import { Top } from './index'
 import * as cards from '../cards'
+import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
-export const DisplayCardView = ({text, onMenu, statueHolder, onSubmit, who}) => {
+export const DisplayCardView = ({instruction, onMenu, statueHolder, onSubmit, who}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {text} </Text>
-      <Text> {who.name} </Text>
-      <Text> {cards[who.faction][who.role].name} </Text>
-      <Image source={cards[who.faction][who.role].image} style={{height: 450, width: 300}} />
-      <Button title='OK' onPress={onSubmit} />
+      <ReadLoud text={who.name + '\n' + cards[who.faction][who.role].name} />
+      <ManitouInfo text={instruction} />
+      <ScrollView style={{height: 250, width: 388, backgroundColor: '#ffffff', margin: 10, borderRadius: 5, left: 2}} >
+        <Image source={cards[who.faction][who.role].image} style={{height: 450, width: 300, left: 43}} />
+      </ScrollView>
+      <NextFooter onPress={onSubmit} />
     </View>
   )
 }

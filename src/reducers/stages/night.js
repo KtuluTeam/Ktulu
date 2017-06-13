@@ -2,14 +2,14 @@ import { nextDayState } from './day'
 import * as tools from './tools'
 import * as cards from '../../cards'
 
-let { SUCCESS, FAILURE, UNUSED, USED } = tools
+let { SUCCESS, FAILURE, UNUSED, USED, NO_STATUE_HOLDER } = tools
 
 export const initialNightState = (state) => {
   return {
     ...state,
     stage: 'NIGHT',
     step: 'START_OF_GAME',
-    statueHolder: null,
+    statueHolder: NO_STATUE_HOLDER,
     tableIndex: -1,
     day: 0
   }
@@ -31,16 +31,20 @@ let banditsReqs = (alive, state) => {
 
 let thiefReqs = (alive, state) => {
   let thief = tools.getCardByRole(state.cards, 'thief')
-  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits'
+  return thief.alive && thief.used !== SUCCESS && state.statueHolder.faction !== 'bandits' && (state.day > 0)
 }
 
 let avengerReqs = (alive, state) => {
   let avenger = tools.getCardByRole(state.cards, 'avenger')
-  return avenger.alive && avenger.used === UNUSED
+  return avenger.alive && avenger.used === UNUSED && (state.day > 0)
 }
 
 let indiansReqs = (alive, state) => {
   return tools.indiansWakeable(state) > 0
+}
+
+let indiansKillReqs = (alive, state) => {
+  return tools.indiansWakeable(state) > 0 && (state.day > 0)
 }
 
 let indiansWithStatueReqs = (alive, state) => {
@@ -50,7 +54,7 @@ let indiansWithStatueReqs = (alive, state) => {
 
 let coyoteReqs = (alive, state) => {
   return tools.isAlive('solitaryCoyote', state) &&
-    tools.indiansAlive(state) === 1
+    tools.indiansAlive(state) === 1 && (state.day > 0)
 }
 
 let whoreReqs = (alive, state) => {
@@ -59,6 +63,16 @@ let whoreReqs = (alive, state) => {
 
 let sheriffReqs = (alive, state) => {
   return tools.isAlive('sheriff', state)
+}
+
+let shamanReqs = (alive, state) => {
+  let shaman = tools.getCardByRole(state.cards, 'shaman')
+  return shaman.alive && (state.day > 0)
+}
+
+let warriorReqs = (alive, state) => {
+  let warrior = tools.getCardByRole(state.cards, 'warrior')
+  return warrior.alive && (state.day > 0)
 }
 
 let areWakeable = (group, state) => {
@@ -73,18 +87,19 @@ let areWakeable = (group, state) => {
 let nextNight = (state) => {
   let tableIndex = state.tableIndex
   let order = [
-    // {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
-  //  {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
-    // {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
-    {step: 'BANDITS', alive: [], reqs: banditsReqs, stepOrder: orderBandits},
-  /*  {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
-    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief}, */
+    {step: 'WHORE', alive: ['whore'], reqs: whoreReqs, stepOrder: orderWhore},
+    {step: 'SHERIFF', alive: [], reqs: sheriffReqs, stepOrder: orderSheriff},
+    {step: 'PASTOR', alive: ['pastor'], reqs: areWakeable, stepOrder: orderPastor},
+    {step: 'BANDITS_WAKE_AND_SEARCH', alive: [], reqs: banditsReqs, stepOrder: orderBanditsWakeAndSearch},
+    {step: 'BANDITS_CHOOSE_AND_SLEEP', alive: [], reqs: banditsReqs, stepOrder: orderBanditsChooseAndSleep},
+    {step: 'AVENGER', alive: ['avenger'], reqs: avengerReqs, stepOrder: orderAvenger},
+    {step: 'THIEF', alive: [], reqs: thiefReqs, stepOrder: orderThief},
     {step: 'INDIANS_WAKEUP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansWakeUp},
-  /*  {step: 'SHAMAN', alive: ['shaman'], reqs: areWakeable, stepOrder: orderShaman}, */
-    {step: 'INDIANS_KILL', alive: [], reqs: indiansReqs, stepOrder: orderIndiansKill},
+    {step: 'SHAMAN', alive: [], reqs: shamanReqs, stepOrder: orderShaman},
+    {step: 'INDIANS_KILL', alive: [], reqs: indiansKillReqs, stepOrder: orderIndiansKill},
     {step: 'INDIANS_WITH_STATUE', alive: [], reqs: indiansWithStatueReqs, stepOrder: orderIndiansWithStatue},
     {step: 'COYOTE', alive: [], reqs: coyoteReqs, stepOrder: orderCoyote},
-    {step: 'WARRIOR', alive: ['warrior'], reqs: areWakeable, stepOrder: orderWarrior},
+    {step: 'WARRIOR', alive: [], reqs: warriorReqs, stepOrder: orderWarrior},
     {step: 'INDIANS_SLEEP', alive: [], reqs: indiansReqs, stepOrder: orderIndiansSleep}
   ]
   while (tableIndex < (order.length - 1)) {
@@ -103,7 +118,7 @@ let nextNight = (state) => {
       }
     }
   }
-  return nextDayState
+  return nextDayState(state)
 }
 
 let startOfGame = (state, action) => {
@@ -139,8 +154,8 @@ let startOfNight = (state, action) => {
 }
 
 let orderWhore = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['whore'], state)
   let whore = tools.getCardByRole(state.cards, 'whore')
+  let selectFrom = tools.selectFromWakeableExcept([whore], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: whore},
@@ -149,7 +164,7 @@ let orderWhore = (state) => {
       text: 'Dziwka wybiera z kim chce spędzić noc',
       choosen: selectFrom[0]},
     {substep: 'WAKE_UP_BY_NAME', text: '', who: choosen},
-    {substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę dziwce'},
+    {substep: 'DISPLAY_CARD', who: choosen, instruction: 'Pokaż kartę dziwce'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
   ]
   return order
@@ -169,26 +184,26 @@ let orderSheriff = (state) => {
 }
 
 let orderPastor = (state) => {
-  let selectFrom = tools.selectFromWakeableExcept(['pastor'], state)
   let pastor = tools.getCardByRole(state.cards, 'pastor')
+  let selectFrom = tools.selectFromWakeableExcept([pastor], state)
   let choosen = state.choosen
   let order = [
     {substep: 'WAKE_UP_BY_ROLE', text: '', who: pastor},
     {substep: 'SELECTION', from: selectFrom, text: 'Pastor wybiera kogo chce wyspowiadać', choosen: selectFrom[0]},
-    {substep: 'DISPLAY_FACTION', who: choosen, text: 'Pokaż frakcję pastorowi'},
+    {substep: 'DISPLAY_FACTION', who: choosen, instruction: 'Pokaż frakcję pastorowi'},
     {substep: 'INSTRUCTION', text: 'Wszyscy idą spać'}
   ]
   return order
 }
 
-let orderBandits = (state) => {
+let orderBanditsWakeAndSearch = (state) => {
   let selectFrom = tools.selectFromWakeableExcept(tools.getFactionMembers('bandits', state), state)
   let bandits = tools.getFactionMembers('bandits', state)
   let choosen = state.choosen
   let order = [
     {substep: 'INSTRUCTION', text: 'Obudź bandytów: "Wstają bandyci"'}
   ]
-  if (state.statueHolder !== null && state.statueHolder.faction !== 'bandits') {
+  if (state.statueHolder !== NO_STATUE_HOLDER && state.statueHolder.faction !== 'bandits') {
     order.push({substep: 'SELECTION', from: selectFrom, text: 'Bandyci wybierają kogo chcą przeszukać', choosen: selectFrom[0]})
   } else {
     order.push({none: true})
@@ -198,7 +213,15 @@ let orderBandits = (state) => {
   } else {
     order.push({none: true})
   }
-  if (state.statueHolder === null || state.statueHolder.faction === 'bandits') {
+  return order
+}
+
+let orderBanditsChooseAndSleep = (state) => {
+  let selectFrom = tools.selectFromWakeableExcept(tools.getFactionMembers('bandits', state), state)
+  let bandits = tools.getFactionMembers('bandits', state)
+  let choosen = state.choosen
+  let order = []
+  if (state.statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'bandits') {
     order.push({substep: 'SELECTION', from: bandits, text: 'Wybieją kto będzie miał posążek.', choosen: bandits[0]})
   } else {
     order.push({none: true})
@@ -298,7 +321,7 @@ let orderShaman = (state) => {
       text: 'Kogo szaman chce sprawdzić?'})
   }
   if (shaman.used === USED && state.useNow === 1) {
-    order.push({substep: 'DISPLAY_CARD', who: choosen, text: 'Pokaż kartę szamanowi'})
+    order.push({substep: 'DISPLAY_CARD', who: choosen, instruction: 'Pokaż kartę szamanowi'})
   } else {
     order.push({none: true})
   }
@@ -368,7 +391,7 @@ let orderWarrior = (state) => {
 let orderIndiansSleep = (state) => {
   let indians = tools.getFactionMembers('indians', state)
   let order = []
-  if (state.statueHolder === null || state.statueHolder.faction === 'indians') {
+  if (state.statueHolder === NO_STATUE_HOLDER || state.statueHolder.faction === 'indians') {
     order.push({substep: 'SELECTION', from: indians, text: 'Indianie wybierają kto będzie miał posążek.', choosen: indians[0]})
   } else {
     order.push({none: true})
@@ -462,27 +485,62 @@ let pastor = (state, action) => {
   }
 }
 
-let bandits = (state, action) => {
-  let order = orderBandits(state)
-  let next = nextSubstep(state, order)
+let banditsWakeAndSearch = (state, action) => {
+  let s = Object.assign({}, state)
   switch (action.type) {
     case 'MENU':
       return tools.getMenu(state)
     case 'NEXT':
-      return next
+      break
     case 'SUBMIT':
-      return {
-        ...next,
-        statueHolder: state.choosen
+      let statueHolder = state.statueHolder
+      let banditsStole = state.choosen.role === statueHolder.role
+      if (banditsStole) {
+        statueHolder = NO_STATUE_HOLDER
       }
+      s = {
+        ...s,
+        statueHolder: statueHolder,
+        banditsStole: banditsStole
+      }
+      break
     case 'SELECT':
       return {
-        ...state,
+        ...s,
         choosen: action.choosen
       }
     default:
-      return state
+      break
   }
+  let order = orderBanditsWakeAndSearch(s)
+  let next = nextSubstep(s, order)
+  return next
+}
+
+let banditsChooseAndSleep = (state, action) => {
+  let s = Object.assign({}, state)
+  switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
+    case 'NEXT':
+      break
+    case 'SUBMIT':
+      s = {
+        ...s,
+        statueHolder: state.choosen
+      }
+      break
+    case 'SELECT':
+      return {
+        ...s,
+        choosen: action.choosen
+      }
+    default:
+      break
+  }
+  let order = orderBanditsChooseAndSleep(s)
+  let next = nextSubstep(s, order)
+  return next
 }
 
 let avenger = (state, action) => {
@@ -772,7 +830,7 @@ let indiansSleep = (state, action) => {
       break
   }
   let order = orderIndiansSleep(s)
-  return nextSubstep(state, order)
+  return nextSubstep(s, order)
 }
 
 export const night = (state, action) => {
@@ -789,8 +847,10 @@ export const night = (state, action) => {
       return sheriff(state, action)
     case 'PASTOR':
       return pastor(state, action)
-    case 'BANDITS':
-      return bandits(state, action)
+    case 'BANDITS_WAKE_AND_SEARCH':
+      return banditsWakeAndSearch(state, action)
+    case 'BANDITS_CHOOSE_AND_SLEEP':
+      return banditsChooseAndSleep(state, action)
     case 'AVENGER':
       return avenger(state, action)
     case 'THIEF':

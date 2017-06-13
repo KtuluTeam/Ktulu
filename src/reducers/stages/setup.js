@@ -1,8 +1,12 @@
 import { initialNightState } from './night'
+import * as tools from './tools'
+let { NO_STATUE_HOLDER } = tools
+
 export const initialSetupState = {
   stage: 'SETUP',
   step: 'NUMBER_PLAYERS',
-  number: 12
+  number: 12,
+  statueHolder: NO_STATUE_HOLDER
 }
 
 let initialFactionSizesState = {
@@ -36,6 +40,8 @@ let initialFactionCardsState = {
 
 let numberPlayers = (state, action) => {
   switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'SUBMIT':
       return {
         ...state,
@@ -48,6 +54,8 @@ let numberPlayers = (state, action) => {
 
 let factionSizes = (state, action) => {
   switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'SUBMIT':
       return {
         ...state,
@@ -79,6 +87,8 @@ let initialHiddenCardState = (state) => {
 
 let factionCards = (state, action) => {
   switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'SUBMIT':
       return initialHiddenCardState(state)
     default:
@@ -88,6 +98,8 @@ let factionCards = (state, action) => {
 
 let hiddenCard = (state, action) => {
   switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'SUBMIT':
       if (state.index === state.number) {
         return initialNightState(state)
@@ -104,11 +116,13 @@ let hiddenCard = (state, action) => {
 
 let showCard = (state, action) => {
   switch (action.type) {
+    case 'MENU':
+      return tools.getMenu(state)
     case 'SUBMIT':
       return {
         ...state,
-        // index: state.index + 1,
-        index: 12,
+        index: state.index + 1,
+        // index: 12,
         step: 'HIDDEN_CARD'
       }
     case 'NAME_INPUT':
@@ -128,6 +142,8 @@ let showCard = (state, action) => {
 
 export const setup = (state, action) => {
   switch (state.step) {
+    case 'MENU':
+      return tools.menu(state, action)
     case 'NUMBER_PLAYERS':
       return numberPlayers(state, action)
     case 'FACTION_SIZES':

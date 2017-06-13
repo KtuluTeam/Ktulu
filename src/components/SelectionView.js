@@ -2,18 +2,18 @@ import React from 'react'
 import {
   Text,
   View,
-  Button,
   Picker
 } from 'react-native'
-import { Top } from './index'
+import { ReadLoud, ManitouInfo } from './TextViews'
+import { NextFooter } from './Buttons'
 
 export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
-  onSelection, choosen, text}) => {
+  onSelection, choosen, text, instruction}) => {
   return (
     <View>
-      <Top statueHolder={statueHolder} onMenu={onMenu} />
-      <Text> {text} </Text>
-      <Picker
+      <ReadLoud text={text} />
+      <ManitouInfo text={instruction} />
+      <Picker style={{color: '#cf0000', margin: 10}}
         selectedValue={choosen}
         onValueChange={onSelection} mode='dropdown'>
         { chooseFrom.map((choice) => {
@@ -22,7 +22,7 @@ export const SelectionView = ({chooseFrom, onMenu, statueHolder, onSubmit,
           )
         }) }
       </Picker>
-      <Button title='OK' onPress={onSubmit} />
+      <NextFooter title='OK' onPress={onSubmit} />
     </View>
   )
 }
