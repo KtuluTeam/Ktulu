@@ -26,7 +26,7 @@ export const ShowCardView = ({number, index, cards, onSubmit, onChangeName}) => 
         {cardInfo[card.faction][card.role].name}
       </Text>
       <ScrollView style={{height: 300, width: 388, backgroundColor: '#ffffff', margin: 10, borderRadius: 5, left: 2}} >
-        <Image source={cardInfo[card.faction][card.role].image} style={{height: 450, width: 300, left: 50}} />
+        <Image source={cardInfo[card.faction][card.role].image} style={{height: 450, width: 300, left: 43}} />
       </ScrollView>
       <NextFooter title='Zatwierdź i ukryj kartę' onPress={onSubmit} />
     </View>
